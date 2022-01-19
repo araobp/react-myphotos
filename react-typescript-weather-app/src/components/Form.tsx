@@ -1,16 +1,17 @@
 
+import React from "react";
 import { isReturnStatement } from "typescript";
 
-type FormPropsType={
+type FormPropsType = {
     setCity: React.Dispatch<React.SetStateAction<string>>;
-    getWeather: (e: any) => void;
+    getWeather: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 
-const Form=(props: FormPropsType)=>{
-    return(
-        <form>
-            <input type="text" name="city" placeholder="City name" onChange={e => props.setCity(e.target.value)}/>
-            <button type="submit" onClick={props.getWeather}>Get Weather</button>
+const Form = (props: FormPropsType) => {
+    return (
+        <form onSubmit={props.getWeather}>
+            <input type="text" name="city" placeholder="City name" onChange={e => props.setCity(e.target.value)} />
+            <button type="submit">Get Weather</button>
         </form>
     );
 };
