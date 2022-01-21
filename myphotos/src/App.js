@@ -4,10 +4,10 @@ import Form from './components/Form';
 import Results from './components/Results';
 import './App.css';
 
-function App() {
 
-  const [city, setCity] = useState<string>("");  // array distruction
-  const [results, setResults] = useState<ResultsStateType>({
+function App() {
+  const [city, setCity] = useState("");  // array distruction
+  const [results, setResults] = useState({
     country: "",
     cityName: "",
     temperature: "",
@@ -15,15 +15,7 @@ function App() {
     icon: ""
   });
 
-  type ResultsStateType = {
-    country: string;
-    cityName: string;
-    temperature: string;
-    conditionText: string;
-    icon: string;
-  }
-
-  const getWeather = (e: React.FormEvent<HTMLFormElement>) => {
+  const getWeather = e => {
     e.preventDefault();
     fetch(`https://api.weatherapi.com/v1/current.json?key=97dd9644f14c4794aed13740221801&q=${city}&aqi=no`)
       .then(res => res.json())
@@ -39,12 +31,12 @@ function App() {
   }
 
   return (
-    <div className="wrapper">
-      <div className="container">
+    <div className="App">
+      <header className="App-header">
         <Title />
         <Form setCity={setCity} getWeather={getWeather} />
         <Results results={results} />
-      </div>
+      </header>
     </div>
   );
 }

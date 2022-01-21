@@ -1,8 +1,7 @@
 const Title=()=>{
 
     return(
-        <h1>World Weather</h1>
-
+        <h1>My Photos</h1>
     );
 };
 

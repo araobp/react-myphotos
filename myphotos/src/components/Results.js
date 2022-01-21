@@ -1,16 +1,4 @@
-import { prependListener } from "process";
-
-type ResultsPropsType = {
-    results: {
-        country: string,
-        cityName: string,
-        temperature: string,
-        conditionText: string,
-        icon: string
-    }
-}
-
-const Results = ({results}: ResultsPropsType) => {
+const Results = ({results}) => {
     const {cityName, country, temperature, conditionText, icon} = results;
     return (
         <div>
