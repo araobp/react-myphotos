@@ -1,11 +1,16 @@
 import React from "react";
 
-const Form = ({setCity, getWeather}) => {
+const Form = ({ setDateTime, getRecord, getRecords }) => {
     return (
-        <form onSubmit={getWeather}>
-            <input type="text" name="city" placeholder="City name" onChange={e => setCity(e.target.value)} />
-            <button type="submit">Get Weather</button>
-        </form>
+        <>
+            <form onSubmit={getRecord}>
+                <input type="text" name="record" placeholder="datetime" onChange={e => setDateTime(e.target.value)} />
+                <button type="submit">Get Record</button>
+            </form>
+            <form onSubmit={getRecords}>
+                <button type="submit">Get Records</button>
+            </form>
+        </>
     );
 };
 

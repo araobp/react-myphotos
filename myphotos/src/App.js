@@ -4,9 +4,18 @@ import Form from './components/Form';
 import Results from './components/Results';
 import './App.css';
 
+const BASE_URL = "https://myphotos1088001.herokuapp.com";
 
 function App() {
-  const [city, setCity] = useState("");  // array distruction
+  const [datetime, setDateTime] = useState("");
+  const [record, setRecord] = useState({
+    datetime: "",
+    place: "",
+    memo: "",
+    format: "",
+    image: null
+  });  // array distruction
+
   const [results, setResults] = useState({
     country: "",
     cityName: "",
@@ -14,27 +23,27 @@ function App() {
     conditionText: "",
     icon: ""
   });
+  const [records, setRecords] = useState([])
 
-  const getWeather = e => {
+  const getRecord = e => {
     e.preventDefault();
-    fetch(`https://api.weatherapi.com/v1/current.json?key=97dd9644f14c4794aed13740221801&q=${city}&aqi=no`)
+    fetch(`${BASE_URL}/records/${record}`)
       .then(res => res.json())
-      .then(data => {
-        setResults({
-          country: data.location.country,
-          cityName: data.location.name,
-          temperature: data.current.temp_c,
-          conditionText: data.current.condition.text,
-          icon: data.current.condition.icon
-        })
-      })
+      .then(data => setRecord(data));
+  }
+
+  const getRecords = e => {
+    e.preventDefault();
+    fetch(`${BASE_URL}/records`)
+      .then(res => res.json())
+      .then(data => setRecords(data));
   }
 
   return (
     <div className="App">
       <header className="App-header">
         <Title />
-        <Form setCity={setCity} getWeather={getWeather} />
+        <Form setDateTime={setDateTime} getRecord={getRecord} getRecords={getRecords}/>
         <Results results={results} />
       </header>
     </div>
