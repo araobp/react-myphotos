@@ -44,7 +44,7 @@ function App() {
       <header className="App-header">
         <Title />
         <Form setDateTime={setDateTime} getRecord={getRecord} getRecords={getRecords}/>
-        <Results results={results} />
+        <Results records={records} />
       </header>
     </div>
   );

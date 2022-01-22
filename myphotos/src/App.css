@@ -32,7 +32,27 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+table {
+  margin: 5px;
+  font-size: 0.6em;
+}
+
+table th {
+  text-align: center;
+  padding: 3px;
+  background-color: darkcyan;
+  color: honeydew;
+}
+
+table td {
+  text-align: left;
+  padding: 3px;
+  background-color: gainsboro;
+  color: dimgray;
 }
