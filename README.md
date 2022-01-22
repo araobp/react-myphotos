@@ -31,13 +31,6 @@ react-myphotos(frontend) --- REST API --- [heroku-myphotos(backend)](https://git
 
 Then, I am going to study three.js and WebRTC for 2D & 3D world wide web.
 
-## Relationship to my other project on GitHub
-
-```
-Client-side          Server-side
-react-myphotos ----- heroku-myphotos
-```
-
 ## References
 
 First, I have just started studying React by reading this e-book:
