@@ -20,6 +20,12 @@ Last year, I also studied low-code development platforms such as OutSystems or M
 
 react-myphotos(frontend) --- REST API --- [heroku-myphotos(backend)](https://github.com/araobp/heroku-myphotos)
 
+## Running the app locally
+
+```
+$ npm start
+```
+
 ## Project plan
 
 1. Study React basics
