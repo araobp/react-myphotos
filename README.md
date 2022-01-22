@@ -4,9 +4,6 @@
 
 I am really interested in Metaverse. This project is a starting point for me to study every technology required for Metaverse.
 
-First, I have just started studying React by reading this e-book:
-https://www.amazon.co.jp/gp/product/B094Z1R281/ref=ppx_yo_dt_b_d_asin_title_o00?ie=UTF8&psc=1
-
 ## Project plan
 
 1. Study React basics
@@ -24,3 +21,8 @@ Then, I am going to study three.js and WebRTC for 2D & 3D WWW.
 Client-side          Server-side
 react-myphotos ----- heroku-myphotos
 ```
+
+## References
+
+First, I have just started studying React by reading this e-book:
+https://www.amazon.co.jp/gp/product/B094Z1R281/ref=ppx_yo_dt_b_d_asin_title_o00?ie=UTF8&psc=1
