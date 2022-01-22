@@ -2,7 +2,17 @@
 
 (Work in progress)
 
+## Project goal
+
 I am really interested in Metaverse. This project is a starting point for me to study every technology required for Metaverse.
+
+## Background
+
+I have been using Unity over one and a half year for developing a number of 3D simulation demos. I have also developed a Metaverse-like demo. But I will not use Unity for 3D world wide web development because of its heavy overhead.
+
+[One sample 3D project "unity-sabae"](https://github.com/araobp/unity-sabae).
+
+Once I tried to bulid WebGL version of the project above, but it took forever and it did not run on my smart phone very well.
 
 ## Project plan
 
@@ -13,7 +23,7 @@ I am really interested in Metaverse. This project is a starting point for me to 
 5. Integrate them
 6. Migrate from js version to ts version
 
-Then, I am going to study three.js and WebRTC for 2D & 3D WWW.
+Then, I am going to study three.js and WebRTC for 2D & 3D world wide web.
 
 ## Relationship to my other project on GitHub
 
