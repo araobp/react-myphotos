@@ -7,23 +7,29 @@ import './App.css';
 const BASE_URL = "https://myphotos1088001.herokuapp.com";
 
 function App() {
-  const [datetime, setDateTime] = useState("");
-  const [record, setRecord] = useState({
-    datetime: "",
-    place: "",
-    memo: "",
-    format: "",
-    image: null
-  });  // array distruction
-
-  const [results, setResults] = useState({
-    country: "",
-    cityName: "",
-    temperature: "",
-    conditionText: "",
-    icon: ""
+  
+  const [id, setId] = useState({
+    id: 0 
   });
-  const [records, setRecords] = useState([])
+
+  const [record, setRecord] = useState({
+    record: {
+      datetime: "",
+      place: "",
+      memo: ""
+    }
+  });
+
+  const [records, setRecords] = useState([
+    {
+      id: 0,
+      record: {
+        datetime: "",
+        place: "",
+        memo: ""
+      }
+    }
+  ])
 
   const getRecord = e => {
     e.preventDefault();
@@ -43,7 +49,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <Title />
-        <Form setDateTime={setDateTime} getRecord={getRecord} getRecords={getRecords}/>
+        <Form setId={setId} getRecord={getRecord} getRecords={getRecords} />
         <Results records={records} />
       </header>
     </div>

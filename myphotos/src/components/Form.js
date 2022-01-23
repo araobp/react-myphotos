@@ -4,7 +4,7 @@ const Form = ({ setDateTime, getRecord, getRecords }) => {
     return (
         <>
             <form onSubmit={getRecord}>
-                <input type="text" name="record" placeholder="datetime" onChange={e => setDateTime(e.target.value)} />
+                <input type="text" name="record" placeholder="id" onChange={e => setDateTime(e.target.value)} />
                 <button type="submit">Get Record</button>
             </form>
             <form onSubmit={getRecords}>
