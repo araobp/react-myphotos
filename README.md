@@ -16,6 +16,16 @@ Once I tried to bulid WebGL version of the project above, but it took forever an
 
 Last year, I also studied low-code development platforms such as OutSystems or Mendix. I felt PaaSes are really nice for developing the server-side. This time I will use Heroku as a PaaS for the server-side.
 
+## Relationship to my other project on GitHub
+
+react-myphotos(frontend) --- REST API --- [heroku-myphotos(backend)](https://github.com/araobp/heroku-myphotos)
+
+## Running the app locally
+
+```
+$ npm start
+```
+
 ## Project plan
 
 1. Study React basics
@@ -26,13 +36,6 @@ Last year, I also studied low-code development platforms such as OutSystems or M
 6. Migrate from js version to ts version
 
 Then, I am going to study three.js and WebRTC for 2D & 3D world wide web.
-
-## Relationship to my other project on GitHub
-
-```
-Client-side          Server-side
-react-myphotos ----- heroku-myphotos
-```
 
 ## References
 
