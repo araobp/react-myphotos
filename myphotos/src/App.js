@@ -12,14 +12,6 @@ function App() {
     id: 0 
   });
 
-  const [record, setRecord] = useState({
-    record: {
-      datetime: "",
-      place: "",
-      memo: ""
-    }
-  });
-
   const [records, setRecords] = useState([
     {
       id: 0,
@@ -33,9 +25,9 @@ function App() {
 
   const getRecord = e => {
     e.preventDefault();
-    fetch(`${BASE_URL}/records/${record}`)
+    fetch(`${BASE_URL}/records/${id}`)
       .then(res => res.json())
-      .then(data => setRecord(data));
+      .then(data => setRecords([data]));
   }
 
   const getRecords = e => {
