@@ -34,7 +34,19 @@ function App() {
   const postRecord = e => {
     e.preventDefault();
     console.log(recordInput);
-    // TODO
+
+    // POST /records
+    const body = { place: recordInput.place, memo: recordInput.memo};
+    const method = "POST";
+    const headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
+    console.log(body);
+    fetch(`${BASE_URL}/records`, {method, headers, body})
+      .then(res => res.json())
+      .then(console.log)
+      .catch(console.error);
   }
 
   return (
