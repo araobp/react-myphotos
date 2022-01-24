@@ -7,6 +7,7 @@ const Form = ({ setId, getRecord, getRecords }) => {
                 <input type="text" name="id" placeholder="id" onChange={e => setId(e.target.value)} />
                 <button type="submit">Get Record</button>
             </form>
+            
             <form onSubmit={getRecords}>
                 <button type="submit">Get Records</button>
             </form>

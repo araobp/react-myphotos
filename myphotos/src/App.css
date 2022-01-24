@@ -1,5 +1,5 @@
 .App {
-  text-align: center;
+  text-align: left;
 }
 
 .App-logo {
@@ -54,5 +54,20 @@ table td {
   text-align: left;
   padding: 3px;
   background-color: gainsboro;
-  color: dimgray;
+  color: #333333;
+}
+
+form {
+  font-size: 0.6em;
+  padding: 3px;
+}
+
+form div {
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+
+form button {
+  margin-top: 3px;
+  margin-bottom: 3px;
 }

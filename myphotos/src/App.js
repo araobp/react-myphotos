@@ -2,6 +2,7 @@ import React, { useState } from "react";  // named export
 import Title from './components/Title';
 import Form from './components/Form';
 import Results from './components/Results';
+import File from './components/File';
 import './App.css';
 
 const BASE_URL = "https://myphotos1088001.herokuapp.com";
@@ -12,16 +13,9 @@ function App() {
     id: 0 
   });
 
-  const [records, setRecords] = useState([
-    /*{
-      id: 0,
-      record: {
-        datetime: "1970-01-01T00:00:00.000Z",
-        place: "",
-        memo: ""
-      }
-    }*/
-  ])
+  const [records, setRecords] = useState([]);
+
+  const [recordInput, setRecordInput] = useState({});
 
   const getRecord = e => {
     e.preventDefault();
@@ -37,12 +31,21 @@ function App() {
       .then(data => setRecords(data));
   }
 
+  const postRecord = e => {
+    e.preventDefault();
+    console.log(recordInput);
+    // TODO
+  }
+
   return (
     <div className="App">
       <header className="App-header">
         <Title />
+        
         <Form setId={setId} getRecord={getRecord} getRecords={getRecords} />
         <Results records={records} />
+
+        <File recordInput={recordInput} setRecordInput={setRecordInput} postRecord={postRecord} />
       </header>
     </div>
   );
