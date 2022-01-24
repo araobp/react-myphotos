@@ -20,6 +20,75 @@ Last year, I also studied low-code development platforms such as OutSystems or M
 
 react-myphotos(frontend) --- REST API --- [heroku-myphotos(backend, private project at the moment)](https://github.com/araobp/heroku-myphotos)
 
+```
+REST API
+
+BaseURL: https://myphotos1088001.herokuapp.com
+
+*** CREATE A RECORD ***
+POST /records
+{
+    "place": "string",
+    "memo": "string",
+    "format": "string"
+}
+
+Its response
+{
+    "id": "integer"
+}
+
+*** UPDATE A RECORD ***
+PUT /records/:id
+{
+    "place": "string",
+    "memo": "string",
+    "format": "string"
+}
+
+*** GET A LIST OF RECORDS ***
+GET /records
+[{"id": "number", 
+  "record":
+    {
+        "datetime": "string",
+        "place": "string",
+        "memo": "string",
+        "format": "string"
+    }
+}]
+
+*** GET A RECORD ***
+GET /records/:id
+{
+    "datetime: "string",
+    "place": "string",
+    "memo": "string",
+    "format": "string"
+}
+
+*** PUT AN IMAGE ***
+PUT /photos/:id
+Binary data
+
+*** GET A THUMBNAIL ***
+GET /photos/:id/thumbnail
+Binary data
+
+*** GET AN IMAGE ***
+GET /photos/:id/image
+Binary data
+
+*** DELETE A RECORD ***
+DELETE /records/:id
+
+*** DELETE RECORDS ***
+DELETE /records
+
+Its associated photo is also deleted.
+
+```
+
 ## Running the app locally
 
 ```
