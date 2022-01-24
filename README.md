@@ -18,7 +18,7 @@ Last year, I also studied low-code development platforms such as OutSystems or M
 
 ## Relationship to my other project on GitHub
 
-react-myphotos(frontend) --- REST API --- [heroku-myphotos(backend)](https://github.com/araobp/heroku-myphotos)
+react-myphotos(frontend) --- REST API --- [heroku-myphotos(backend, private project at the moment)](https://github.com/araobp/heroku-myphotos)
 
 ## Running the app locally
 
