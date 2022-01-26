@@ -1,4 +1,4 @@
-# React my photos
+# MY PHOTOS ON REACT
 
 (Work in progress)
 
