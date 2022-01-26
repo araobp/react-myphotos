@@ -1,4 +1,4 @@
-# React my photos
+# MY PHOTOS ON REACT
 
 (Work in progress)
 
@@ -14,7 +14,7 @@ I have been using Unity over one and a half year for developing a number of 3D s
 
 Once I tried to bulid WebGL version of the project above, but it took forever and it did not run on my smart phone very well.
 
-Last year, I also studied low-code development platforms such as OutSystems or Mendix. I felt PaaSes are really nice for developing the server-side. This time I will use Heroku as a PaaS for the server-side.
+Last year, I also studied low-code development platforms such as OutSystems or Mendix. I felt PaaSes are really nice for developing backend. This time I will use Heroku as a PaaS for the backend development.
 
 ## Relationship to my other project on GitHub
 
