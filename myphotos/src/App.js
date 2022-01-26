@@ -88,16 +88,14 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <Title />
-        <Form setId={setId} getRecord={getRecord} getRecords={getRecords} />
-        <Records BASE_URL={BASE_URL} records={records} setModalOpen={setModalIsOpen} setImageUrl={setImageUrl} />
-        <File recordInput={recordInput} setRecordInput={setRecordInput} setImageFile={setImageFile} postRecord={postRecord} />
-        <Modal isOpen={modalIsOpen} style={customStyles}>
-          <img className="contain" src={imageUrl} onClick={() => closeModal()} />
-        </Modal>
-      </header>
+    <div className="default">
+      <Title />
+      <Form setId={setId} getRecord={getRecord} getRecords={getRecords} />
+      <Records BASE_URL={BASE_URL} records={records} setModalOpen={setModalIsOpen} setImageUrl={setImageUrl} />
+      <File recordInput={recordInput} setRecordInput={setRecordInput} setImageFile={setImageFile} postRecord={postRecord} />
+      <Modal isOpen={modalIsOpen} style={customStyles}>
+        <img className="contain" src={imageUrl} onClick={() => closeModal()} />
+      </Modal>
     </div>
   );
 }

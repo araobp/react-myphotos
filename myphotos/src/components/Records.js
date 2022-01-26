@@ -10,6 +10,7 @@ const Records = ({ BASE_URL, records, setModalOpen, setImageUrl}) => {
             <table>
                 <thead>
                     <tr>
+                        <th></th>
                         <th>id</th>
                         <th>datetime</th>
                         <th>place</th>
@@ -20,6 +21,7 @@ const Records = ({ BASE_URL, records, setModalOpen, setImageUrl}) => {
                 {records.map((r, i) => (
                     <tbody key={i}>
                         <tr>
+                            <td><input type="checkbox"/></td>
                             <td>{r.id}</td>
                             <td>{new Date(r.record.datetime).toLocaleString()}</td>
                             <td>{r.record.place}</td>
