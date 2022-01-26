@@ -1,4 +1,10 @@
-const Records = ({ BASE_URL, records}) => {
+const Records = ({ BASE_URL, records, setModalOpen, setImageUrl}) => {
+
+    const openModal = (id) => {
+        setImageUrl(`${BASE_URL}/photos/${id}/image`);
+        setModalOpen(true);
+    }
+
     return (
         <div>
             <table>
@@ -18,7 +24,7 @@ const Records = ({ BASE_URL, records}) => {
                             <td>{new Date(r.record.datetime).toLocaleString()}</td>
                             <td>{r.record.place}</td>
                             <td>{r.record.memo}</td>
-                            <td><a href={`${BASE_URL}/photos/${r.id}/image`} target="_blank"><img src={`${BASE_URL}/photos/${r.id}/thumbnail`}/></a></td>
+                            <td><img src={`${BASE_URL}/photos/${r.id}/thumbnail`} onClick={() => openModal(r.id)}/></td>
                         </tr>
                     </tbody>
                 ))}

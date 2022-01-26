@@ -1,11 +1,18 @@
 import React from "react";
 
-const Form = ({ recordInput, setRecordInput, postRecord }) => {
+const Form = ({ recordInput, setRecordInput, setImageFile, postRecord }) => {
 
     const handleChange = e => {
-        const name = e.target.name;
-        const value = e.target.value;
-        setRecordInput(values => ({...values, [name]: value}));
+        setRecordInput(recordInput => ({...recordInput, [e.target.name]: e.target.value}));
+        console.log(recordInput);
+    }
+
+    const handleImageFile = file => {
+        const reader = new FileReader();
+        reader.onload = e => {
+            setImageFile(e.target.result);
+        }
+        reader.readAsArrayBuffer(file);
     }
     
     return (
@@ -38,8 +45,7 @@ const Form = ({ recordInput, setRecordInput, postRecord }) => {
                 <input
                     type="file"
                     name="imageFile"
-                    value={recordInput.imageFile || ""}
-                    onChange={handleChange}
+                    onChange={e => handleImageFile(e.target.files[0])}
                 />
             </label>
             </div>
