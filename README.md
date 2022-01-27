@@ -88,8 +88,14 @@ Its associated photo is also deleted.
 
 ## Running the app locally
 
+Start a HTTP server,
 ```
 $ npm start
+```
+
+Or start a HTTPS server,
+```
+$ HTTPS=true npm start
 ```
 
 ## Project plan
@@ -105,4 +111,5 @@ Then, I am going to study three.js and WebRTC for 2D & 3D world wide web.
 
 ## References
 
-React Tutorial: https://www.w3schools.com/REACT/default.asp
+- React Tutorial: https://www.w3schools.com/REACT/default.asp
+- react-html5-camera-photo: https://www.npmjs.com/package/react-html5-camera-photo
