@@ -6,15 +6,12 @@
 
 I am really interested in Metaverse. This project is a starting point for me to study every technology required for Metaverse.
 
-## Background
+## Sub-projects
 
-I have been using Unity over one and a half year for developing a number of 3D simulation demos. I have also developed a Metaverse-like demo. But I will not use Unity for 3D world wide web development because of its heavy overhead.
+(Work in progress)
 
-[One sample 3D project "unity-sabae"](https://github.com/araobp/unity-sabae).
-
-Once I tried to bulid WebGL version of the project above, but it took forever and it did not run on my smart phone very well.
-
-Last year, I also studied low-code development platforms such as OutSystems or Mendix. I felt PaaSes are really nice for developing backend. This time I will use Heroku as a PaaS for the backend development.
+- [My photos](/myphotos): React SPA for managing photo images on Postgres SQL on Heroku PaaS.
+- [My 3D models](/three): Three.js app for displaying my original 3D models made with Blender.
 
 ## Relationship to my other project on GitHub
 
