@@ -22,6 +22,18 @@ function App() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
 
+  const [checkedRecords, setCheckedRecords] = useState([]);
+
+  const handleCheckedRecord = (id, isChecked) => {
+    const index = checkedRecords.indexOf(id);
+    if (index == -1 && isChecked) {
+      checkedRecords.push(id);
+    } else if (index !== -1 && !isChecked) {
+      checkedRecords.splice(index, 1);
+    }
+    setCheckedRecords(checkedRecords);
+  }
+
   const getRecord = e => {
     e.preventDefault();
     fetch(`${BASE_URL}/records/${id}`)
@@ -39,7 +51,6 @@ function App() {
 
   const postRecord = e => {
     e.preventDefault();
-    console.log(recordInput);
 
     // POST /records
     const body = JSON.stringify({ place: recordInput.place, memo: recordInput.memo });
@@ -62,6 +73,21 @@ function App() {
             console.log(res.status);
           });
       });
+  }
+
+  const deleteCheckedRecords = e => {
+    e.preventDefault();
+    checkedRecords.forEach( id => {
+      const method = "DELETE";
+      const headers = {
+        'Accept': 'application/json'
+      }
+      fetch(`${BASE_URL}/records/${id}`, {method: method, headers: headers})
+        .then(res => {
+          console.log(res.status);
+        });
+    });
+    setCheckedRecords([]);
   }
 
   const closeModal = () => {
@@ -91,7 +117,7 @@ function App() {
     <div className="default">
       <Title />
       <Form setId={setId} getRecord={getRecord} getRecords={getRecords} />
-      <Records BASE_URL={BASE_URL} records={records} setModalOpen={setModalIsOpen} setImageUrl={setImageUrl} />
+      <Records BASE_URL={BASE_URL} records={records} setModalOpen={setModalIsOpen} setImageUrl={setImageUrl} checkedRecords={checkedRecords} handleCheckedRecord={handleCheckedRecord} deleteCheckedRecords={deleteCheckedRecords}/>
       <File recordInput={recordInput} setRecordInput={setRecordInput} setImageFile={setImageFile} postRecord={postRecord} />
       <Modal isOpen={modalIsOpen} style={customStyles}>
         <img className="contain" src={imageUrl} onClick={() => closeModal()} />
