@@ -1,4 +1,5 @@
 import React from "react";
+import '../App.css';
 
 const Form = ({ recordInput, setRecordInput, setImageFile, postRecord }) => {
 
@@ -50,7 +51,7 @@ const Form = ({ recordInput, setRecordInput, setImageFile, postRecord }) => {
             </label>
             </div>
 
-            <button type="submit">Upload</button>
+            <button className="small-button" type="submit">Upload</button>
 
         </form>
     );

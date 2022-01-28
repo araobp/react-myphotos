@@ -1,3 +1,5 @@
+import '../App.css';
+
 const Records = ({ BASE_URL, records, setModalOpen, setImageUrl, checkedRecords, handleCheckedRecord, deleteCheckedRecords }) => {
 
     const openModal = (id) => {
@@ -8,7 +10,7 @@ const Records = ({ BASE_URL, records, setModalOpen, setImageUrl, checkedRecords,
     return (
         <div>
             <form onSubmit={deleteCheckedRecords}>
-                <button type="submit">Delete checked records</button>
+                <button className="small-button" type="submit">Delete checked records</button>
             </form>
             <table>
                 <thead>

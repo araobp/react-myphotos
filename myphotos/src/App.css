@@ -51,3 +51,56 @@ form button {
   height: 100%;
   object-fit: contain;
 }
+
+.default {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: #1760a0;
+}
+
+#title {
+  font-size: 2.8em;
+  color: #dbedf0;
+}
+
+.button {
+  border: 0;
+  width: 80vw;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 0.2em;
+  font-size: 2em;
+  border-radius: 6px;
+  background-color: #dbedf0;
+  color: #1760a0;
+}
+
+.small-button {
+  border: 0;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 0.2em;
+  font-size: 1.3em;
+  border-radius: 3px;
+  background-color: #dbedf0;
+  color: #1760a0;
+}
+
+input {
+  margin: 5px;
+  font-size: 1.3em;
+}
+
+.content {
+  width: 80vw;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: #1760a0;
+}
