@@ -6,6 +6,10 @@ import Records from './components/Records';
 import File from './components/File';
 import './App.css';
 
+// Camera
+import Camera from 'react-html5-camera-photo';
+import 'react-html5-camera-photo/build/css/index.css';
+
 const BASE_URL = "https://myphotos1088001.herokuapp.com";
 
 Modal.setAppElement("#root");
@@ -19,10 +23,13 @@ function App() {
   const [records, setRecords] = useState([]);
   const [recordInput, setRecordInput] = useState({});
   const [imageFile, setImageFile] = useState();
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [imagePopUpIsOpen, setImagePopUpIsOpen] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
 
   const [checkedRecords, setCheckedRecords] = useState([]);
+
+  const [cameraIsOpen, setCameraIsOpen] = useState(false);
+  const [dataUri, setDataUri] = useState(null);
 
   const handleCheckedRecord = (id, isChecked) => {
     const index = checkedRecords.indexOf(id);
@@ -90,9 +97,17 @@ function App() {
     setCheckedRecords([]);
   }
 
-  const closeModal = () => {
+  const closeImagePopUp = () => {
     setImageUrl('');
-    setModalIsOpen(false);
+    setImagePopUpIsOpen(false);
+  }
+
+  const closeCamera = () => {
+    setCameraIsOpen(false);
+  }
+
+  const handleTakePhoto = dataUri => {
+    setDataUri(dataUri);
   }
 
   const customStyles = {
@@ -117,11 +132,17 @@ function App() {
     <div className="default">
       <Title />
       <Form setId={setId} getRecord={getRecord} getRecords={getRecords} />
-      <Records BASE_URL={BASE_URL} records={records} setModalOpen={setModalIsOpen} setImageUrl={setImageUrl} checkedRecords={checkedRecords} handleCheckedRecord={handleCheckedRecord} deleteCheckedRecords={deleteCheckedRecords}/>
+      <Records BASE_URL={BASE_URL} records={records} setModalOpen={setImagePopUpIsOpen} setImageUrl={setImageUrl} checkedRecords={checkedRecords} handleCheckedRecord={handleCheckedRecord} deleteCheckedRecords={deleteCheckedRecords}/>
       <File recordInput={recordInput} setRecordInput={setRecordInput} setImageFile={setImageFile} postRecord={postRecord} />
-      <Modal isOpen={modalIsOpen} style={customStyles}>
-        <img className="contain" src={imageUrl} onClick={() => closeModal()} />
+      <Modal isOpen={imagePopUpIsOpen} style={customStyles}>
+        <img className="contain" src={imageUrl} onClick={() => closeImagePopUp()} />
       </Modal>
+      <Modal isOpen={cameraIsOpen} style={customStyles}>
+        <button onClick={closeCamera}>Close camera</button>
+        <img src={dataUri}/>
+        <Camera  onTakePhoto = { dataUri => {handleTakePhoto(dataUri)}} />
+      </Modal>
+      <button onClick={() => setCameraIsOpen(true)}>Take photo</button>
     </div>
   );
 }
