@@ -6,6 +6,10 @@
 
 I am really interested in Metaverse. This project is a starting point for me to study every technology required for Metaverse.
 
+## Rough sketch of the app UI
+
+<img src="./doc/rough_sketch.jpg" width=300px>
+
 ## Sub-projects
 
 (Work in progress)
