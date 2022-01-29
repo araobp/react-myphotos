@@ -6,7 +6,7 @@ import '../App.css';
 import { Form } from './Form';
 import { Records }from './Records';
 
-export const AlbumPage = ({ BASE_URL }) => {
+export const AlbumPage = () => {
 
     Modal.setAppElement("#root");
 
@@ -30,7 +30,7 @@ export const AlbumPage = ({ BASE_URL }) => {
 
     const getRecord = e => {
         e.preventDefault();
-        fetch(`${BASE_URL}/records/${id}`)
+        fetch(`${process.env.BASE_URL}/records/${id}`)
             .then(res => res.json())
             .then(data => setRecords([data]));
     }
@@ -38,7 +38,7 @@ export const AlbumPage = ({ BASE_URL }) => {
     const getRecords = e => {
         e.preventDefault();
 
-        fetch(`${BASE_URL}/records`)
+        fetch(`${process.env.BASE_URL}/records`)
             .then(res => res.json())
             .then(data => setRecords(data));
     }
@@ -50,7 +50,7 @@ export const AlbumPage = ({ BASE_URL }) => {
             const headers = {
                 'Accept': 'application/json'
             }
-            fetch(`${BASE_URL}/records/${id}`, { method: method, headers: headers })
+            fetch(`${process.env.BASE_URL}/records/${id}`, { method: method, headers: headers })
                 .then(res => {
                     console.log(res.status);
                 });
@@ -76,7 +76,7 @@ export const AlbumPage = ({ BASE_URL }) => {
 
     // Initialization
     useEffect(() => {
-        fetch(`${BASE_URL}/records`)
+        fetch(`${process.env.BASE_URL}/records`)
             .then(res => res.json())
             .then(data => setRecords(data));
     }, []);
@@ -84,7 +84,7 @@ export const AlbumPage = ({ BASE_URL }) => {
     return (
         <div>
             <Form setId={setId} getRecord={getRecord} getRecords={getRecords} />
-            <Records BASE_URL={BASE_URL} records={records} setModalOpen={setImagePopUpIsOpen} setImageUrl={setImageUrl} checkedRecords={checkedRecords} handleCheckedRecord={handleCheckedRecord} deleteCheckedRecords={deleteCheckedRecords} />
+            <Records records={records} setModalOpen={setImagePopUpIsOpen} setImageUrl={setImageUrl} checkedRecords={checkedRecords} handleCheckedRecord={handleCheckedRecord} deleteCheckedRecords={deleteCheckedRecords} />
             {/*<File recordInput={recordInput} setRecordInput={setRecordInput} setImageFile={setImageFile} postRecord={postRecord} />*/}
             <Modal isOpen={imagePopUpIsOpen} style={customStyles}>
                 <img className="contain" src={imageUrl} onClick={() => closeImagePopUp()} />

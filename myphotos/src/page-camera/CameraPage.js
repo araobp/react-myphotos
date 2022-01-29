@@ -6,7 +6,7 @@ import '../App.css';
 import Camera from 'react-html5-camera-photo';
 import 'react-html5-camera-photo/build/css/index.css';
 
-export const CameraPage = ({ BASE_URL }) => {
+export const CameraPage = () => {
 
     const [dataUrl, setDataUrl] = useState(null);
     const [imagePopUpIsOpen, setImagePopUpIsOpen] = useState(false);
