@@ -1,7 +1,7 @@
 import React from "react";
 import '../App.css';
 
-const Form = ({ setId, getRecord, getRecords }) => {
+export const Form = ({ setId, getRecord, getRecords }) => {
     return (
         <>
             <form onSubmit={getRecord}>
@@ -15,5 +15,3 @@ const Form = ({ setId, getRecord, getRecords }) => {
         </>
     );
 };
-
-export default Form;

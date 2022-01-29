@@ -1,6 +1,6 @@
 import '../App.css';
 
-const Records = ({ BASE_URL, records, setModalOpen, setImageUrl, checkedRecords, handleCheckedRecord, deleteCheckedRecords }) => {
+export const Records = ({ BASE_URL, records, setModalOpen, setImageUrl, checkedRecords, handleCheckedRecord, deleteCheckedRecords }) => {
 
     const openModal = (id) => {
         setImageUrl(`${BASE_URL}/photos/${id}/image`);
@@ -39,5 +39,3 @@ const Records = ({ BASE_URL, records, setModalOpen, setImageUrl, checkedRecords,
         </div>
     );
 }
-
-export default Records;

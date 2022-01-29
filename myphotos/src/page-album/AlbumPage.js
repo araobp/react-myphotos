@@ -3,10 +3,10 @@ import Modal from "react-modal";
 import '../App.css';
 
 //import File from './File';
-import Form from './Form';
-import Records from './Records';
+import { Form } from './Form';
+import { Records }from './Records';
 
-const Album = ({ BASE_URL }) => {
+export const AlbumPage = ({ BASE_URL }) => {
 
     Modal.setAppElement("#root");
 
@@ -92,5 +92,3 @@ const Album = ({ BASE_URL }) => {
         </div>
     );
 };
-
-export default Album;

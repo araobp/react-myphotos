@@ -2,9 +2,9 @@ import React, {useState} from "react";  // named export
 import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 
 import './App.css';
-import AlbumPage from './page-album/Album';
-import CameraPage from './page-camera/CameraPage';
-import Upload from './components/Upload'
+import { AlbumPage } from './page-album/AlbumPage';
+import { CameraPage } from './page-camera/CameraPage';
+import { Upload } from './components/Upload'
 
 const BASE_URL = "https://myphotos1088001.herokuapp.com";
 

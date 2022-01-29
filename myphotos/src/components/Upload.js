@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import '../App.css';
 
-const Upload = ({ BASE_URL, imageFile, setImageFile }) => {
+export const Upload = ({ BASE_URL, imageFile, setImageFile }) => {
 
     const [params, setParams] = useState({});
 
@@ -32,16 +32,7 @@ const Upload = ({ BASE_URL, imageFile, setImageFile }) => {
     }
 
     const handleChange = e => {
-        setParams(recordInput => ({...recordInput, [e.target.name]: e.target.value}));
-        console.log(params);
-    }
-
-    const handleImageFile = file => {
-        const reader = new FileReader();
-        reader.onload = e => {
-            setImageFile(e.target.result);
-        }
-        reader.readAsArrayBuffer(file);
+        setParams(params => ({...params, [e.target.name]: e.target.value}))
     }
     
     return (
@@ -74,7 +65,8 @@ const Upload = ({ BASE_URL, imageFile, setImageFile }) => {
                 <input
                     type="file"
                     name="imageFile"
-                    onChange={e => handleImageFile(e.target.files[0])}
+                    value={params.imageFile || ""}
+                    onChange={handleChange}
                 />
             </label>
             </div>
@@ -84,5 +76,3 @@ const Upload = ({ BASE_URL, imageFile, setImageFile }) => {
         </form>
     );
 };
-
-export default Upload;

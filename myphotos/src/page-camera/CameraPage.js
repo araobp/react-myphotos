@@ -6,7 +6,7 @@ import '../App.css';
 import Camera from 'react-html5-camera-photo';
 import 'react-html5-camera-photo/build/css/index.css';
 
-const CameraPage = ({ BASE_URL }) => {
+export const CameraPage = ({ BASE_URL }) => {
 
     const [dataUrl, setDataUrl] = useState(null);
     const [imagePopUpIsOpen, setImagePopUpIsOpen] = useState(false);
@@ -40,5 +40,3 @@ const CameraPage = ({ BASE_URL }) => {
         </div>
     );
 };
-
-export default CameraPage;
