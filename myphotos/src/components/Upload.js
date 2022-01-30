@@ -7,25 +7,21 @@ export const Upload = () => {
     const [place, setPlace] = useState();
     const [memo, setMemo] = useState();
     const [imageFile, setImageFile] = useState();
-    const [showInputFileFlag, setShowInputFileFloag] = useState(false);
-    const [showCameraFlag, setShowCameraFlag] = useState(true);
+    const [showInputFileFlag, setShowInputFileFlag] = useState();
+    const [showCameraFlag, setShowCameraFlag] = useState(false);
     const [dataURL, setDataURL] = useState();
 
-    const postRecord = e => {
-
-    }
-    /*
     const postRecord = e => {
         e.preventDefault();
 
         // POST /records
-        const body = JSON.stringify({ place: params.place, memo: params.memo });
+        const body = JSON.stringify({ place: place, memo: memo });
         const method = "POST";
         const headers = {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         };
-        fetch(`${process.env.BASE_URL}/records`, { method: method, headers: headers, body: body })
+        fetch(`${process.env.REACT_APP_BASE_URL}/records`, { method: method, headers: headers, body: body })
             .then(res => res.json())
             .then(body => {
                 const id = body.id;
@@ -34,24 +30,29 @@ export const Upload = () => {
                     'Accept': 'application/json',
                     'Content-Type': 'application/octet-stream'
                 }
-                fetch(`${process.env.BASE_URL}/photos/${id}`, { method: method, headers: headers, body: imageFile })
+                fetch(
+                    `${process.env.REACT_APP_BASE_URL}/photos/${id}`,
+                    { method: method, headers: headers, body: imageFile }
+                )
                     .then(res => {
                         console.log(res.status);
                     });
             });
     }
-    */
 
     const handleChange = f => {
-        setImageFile(f);
         const reader = new FileReader();
         reader.onload = e => {
             setDataURL(reader.result);
+            reader.onload = e => {
+                setImageFile(reader.result);
+            }
+            reader.readAsArrayBuffer(f);
         };
         reader.readAsDataURL(f);
     }
 
-    console.log('Upload');
+    console.log(showCameraFlag);
 
     return (
         <div>
@@ -91,13 +92,16 @@ export const Upload = () => {
                         </label>
                     </div>
                 }
-
-                <img src={dataURL} width="30%"/>
-
-                <button className="small-button" type="submit">Upload</button>
-
-                <button className="small-button" type="submit" onClick={() => setShowCameraFlag(true)}>Camera</button>
             </form>
+
+            <img src={dataURL} width="30%" />
+            
+            <div>
+                <button className="small-button" type="submit" onClick={postRecord}>Upload</button>
+                <button className="small-button" type="submit" onClick={() => setShowInputFileFlag(true)}>File</button>
+                <button className="small-button" type="submit" onClick={() => setShowCameraFlag(true)}>Camera</button>
+            </div>
+            
             {showCameraFlag &&
                 <CameraComp dataURL={dataURL} setDataURL={setDataURL} setShowCameraFlag={setShowCameraFlag} />
             }

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import '../App.css';
 
-
 import { Form } from './Form';
 import { Records }from './Records';
 
