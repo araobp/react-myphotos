@@ -1,11 +1,15 @@
 import React, { useState } from "react";
+import { CameraComp } from './CameraComp';
 import '../App.css';
 
-export const Upload = ({ setImageDataURL }) => {
+export const Upload = () => {
 
     const [place, setPlace] = useState();
     const [memo, setMemo] = useState();
     const [imageFile, setImageFile] = useState();
+    const [showInputFileFlag, setShowInputFileFloag] = useState(false);
+    const [showCameraFlag, setShowCameraFlag] = useState(true);
+    const [dataURL, setDataURL] = useState();
 
     const postRecord = e => {
 
@@ -36,13 +40,13 @@ export const Upload = ({ setImageDataURL }) => {
                     });
             });
     }
-    */    
+    */
 
     const handleChange = f => {
         setImageFile(f);
         const reader = new FileReader();
         reader.onload = e => {
-            setImageDataURL(reader.result);
+            setDataURL(reader.result);
         };
         reader.readAsDataURL(f);
     }
@@ -50,43 +54,53 @@ export const Upload = ({ setImageDataURL }) => {
     console.log('Upload');
 
     return (
-        <form onSubmit={postRecord}>
+        <div>
+            <form onSubmit={postRecord}>
 
-            <div>
-                <label>Place:
-                    <input
-                        type="text"
-                        name="place"
-                        value={place || ""}
-                        onChange={e => setPlace(e.target.value)}
-                    />
-                </label>
-            </div>
+                <div>
+                    <label>Place:
+                        <input
+                            type="text"
+                            name="place"
+                            value={place || ""}
+                            onChange={e => setPlace(e.target.value)}
+                        />
+                    </label>
+                </div>
 
-            <div>
-                <label>Memo:
-                    <input
-                        type="text"
-                        name="memo"
-                        value={memo || ""}
-                        onChange={e => setMemo(e.target.value)}
-                    />
-                </label>
-            </div>
+                <div>
+                    <label>Memo:
+                        <input
+                            type="text"
+                            name="memo"
+                            value={memo || ""}
+                            onChange={e => setMemo(e.target.value)}
+                        />
+                    </label>
+                </div>
 
-            <div>
-                <label>Image file:
-                    <input
-                        type="file"
-                        name="imageFile"
-                        //value={params.imageFile || ""}
-                        onChange={e => handleChange(e.target.files[0])}
-                    />
-                </label>
-            </div>
+                {showInputFileFlag &&
+                    <div>
+                        <label>Image file:
+                            <input
+                                type="file"
+                                name="imageFile"
+                                //value={params.imageFile || ""}
+                                onChange={e => handleChange(e.target.files[0])}
+                            />
+                        </label>
+                    </div>
+                }
 
-            <button className="small-button" type="submit">Upload</button>
+                <img src={dataURL} width="30%"/>
 
-        </form>
+                <button className="small-button" type="submit">Upload</button>
+
+                <button className="small-button" type="submit" onClick={() => setShowCameraFlag(true)}>Camera</button>
+            </form>
+            {showCameraFlag &&
+                <CameraComp dataURL={dataURL} setDataURL={setDataURL} setShowCameraFlag={setShowCameraFlag} />
+            }
+        </div>
     );
 };

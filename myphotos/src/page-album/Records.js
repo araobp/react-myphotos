@@ -3,7 +3,7 @@ import '../App.css';
 export const Records = ({ records, setModalOpen, setImageUrl, checkedRecords, handleCheckedRecord, deleteCheckedRecords }) => {
 
     const openModal = (id) => {
-        setImageUrl(`${process.env.BASE_URL}/photos/${id}/image`);
+        setImageUrl(`${process.env.REACT_APP_BASE_URL}/photos/${id}/image`);
         setModalOpen(true);
     }
 
@@ -31,7 +31,7 @@ export const Records = ({ records, setModalOpen, setImageUrl, checkedRecords, ha
                             <td>{new Date(r.record.datetime).toLocaleString()}</td>
                             <td>{r.record.place}</td>
                             <td>{r.record.memo}</td>
-                            <td><img src={`${process.env.BASE_URL}/photos/${r.id}/thumbnail`} onClick={() => openModal(r.id)} /></td>
+                            <td><img src={`${process.env.REACT_APP_BASE_URL}/photos/${r.id}/thumbnail`} onClick={() => openModal(r.id)} /></td>
                         </tr>
                     </tbody>
                 ))}
