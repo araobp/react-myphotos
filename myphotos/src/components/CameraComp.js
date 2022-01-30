@@ -6,14 +6,14 @@ import '../App.css';
 import Camera from 'react-html5-camera-photo';
 import 'react-html5-camera-photo/build/css/index.css';
 
-export const CameraComp = ({dataURL, setDataURL, setShowCameraFlag}) => {
+export const CameraComp = ({dataURI, setDataURI, setShowCameraFlag}) => {
 
     Modal.setAppElement('#root')
 
     const [imagePopUpIsOpen, setImagePopUpIsOpen] = useState(false);
 
-    const handleTakePhoto = imageURL => {
-        setDataURL(imageURL);
+    const handleTakePhoto = imageURI => {
+        setDataURI(imageURI);
         setImagePopUpIsOpen(true);
     }
 
@@ -39,10 +39,10 @@ export const CameraComp = ({dataURL, setDataURL, setShowCameraFlag}) => {
 
     return (
         <div>
-            <Camera onTakePhoto={imageURL => { handleTakePhoto(imageURL) }} />
+            <Camera onTakePhoto={uri => { handleTakePhoto(uri) }} />
             <Modal isOpen={imagePopUpIsOpen} style={customStyles}>
                 <div>
-                <img className="contain" src={dataURL} onClick={() => closeImagePopUp()} />
+                <img className="contain" src={dataURI} onClick={() => closeImagePopUp()} />
                 <button onClick={closeCameraComp}>Use this image</button>
                 </div>
             </Modal>

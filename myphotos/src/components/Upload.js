@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { CameraComp } from './CameraComp';
 import '../App.css';
+import { dataURItoArrayBuffer} from '../util/convert';
 
 export const Upload = () => {
 
@@ -9,7 +10,7 @@ export const Upload = () => {
     const [imageFile, setImageFile] = useState();
     const [showInputFileFlag, setShowInputFileFlag] = useState();
     const [showCameraFlag, setShowCameraFlag] = useState(false);
-    const [dataURL, setDataURL] = useState();
+    const [dataURI, setDataURI] = useState();
 
     const postRecord = e => {
         e.preventDefault();
@@ -32,7 +33,7 @@ export const Upload = () => {
                 }
                 fetch(
                     `${process.env.REACT_APP_BASE_URL}/photos/${id}`,
-                    { method: method, headers: headers, body: imageFile }
+                    { method: method, headers: headers, body: dataURItoArrayBuffer(dataURI) }
                 )
                     .then(res => {
                         console.log(res.status);
@@ -43,11 +44,7 @@ export const Upload = () => {
     const handleChange = f => {
         const reader = new FileReader();
         reader.onload = e => {
-            setDataURL(reader.result);
-            reader.onload = e => {
-                setImageFile(reader.result);
-            }
-            reader.readAsArrayBuffer(f);
+            setDataURI(reader.result);
         };
         reader.readAsDataURL(f);
     }
@@ -94,7 +91,7 @@ export const Upload = () => {
                 }
             </form>
 
-            <img src={dataURL} width="30%" />
+            <img src={dataURI} width="30%" />
             
             <div>
                 <button className="small-button" type="submit" onClick={postRecord}>Upload</button>
@@ -103,7 +100,7 @@ export const Upload = () => {
             </div>
             
             {showCameraFlag &&
-                <CameraComp dataURL={dataURL} setDataURL={setDataURL} setShowCameraFlag={setShowCameraFlag} />
+                <CameraComp dataURI={dataURI} setDataURI={setDataURI} setShowCameraFlag={setShowCameraFlag} />
             }
         </div>
     );
