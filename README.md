@@ -1,5 +1,7 @@
 # MY PHOTOS ON REACT
 
+My React exercises
+
 (Work in progress)
 
 ## Rough sketch of the app UI
