@@ -17,7 +17,7 @@ My React exercises
 
 ## Relationship to my other project on GitHub
 
-react-myphotos(frontend) --- REST API --- [heroku-myphotos(backend, private project at the moment)](https://github.com/araobp/heroku-myphotos)
+react-myphotos(frontend) --- REST API --- [heroku-myphotos](https://github.com/araobp/heroku-myphotos)
 
 ```
 REST API
