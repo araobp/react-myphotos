@@ -1,5 +1,7 @@
 # MY PHOTOS ON REACT
 
+My React exercises
+
 (Work in progress)
 
 ## Rough sketch of the app UI
@@ -15,7 +17,7 @@
 
 ## Relationship to my other project on GitHub
 
-react-myphotos(frontend) --- REST API --- [heroku-myphotos(backend, private project at the moment)](https://github.com/araobp/heroku-myphotos)
+react-myphotos(frontend) --- REST API --- [heroku-myphotos](https://github.com/araobp/heroku-myphotos)
 
 ```
 REST API
@@ -108,6 +110,23 @@ $ HTTPS=true npm start
 6. Migrate from js version to ts version
 
 Then, I am going to study three.js and WebRTC for 2D & 3D world wide web.
+
+## Issues
+
+### Leaflet
+
+- Loading marker images 
+
+https://stackoverflow.com/questions/65758463/react-leaflet-marker-image-fails-to-load
+
+Remove import "leaflet/dist/leaflet.css"; 
+
+Go to public/index.html and include the CDN hosted leaflet.css:
+```
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+  integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+  crossorigin=""/>
+```
 
 ## References
 
