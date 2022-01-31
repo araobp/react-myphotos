@@ -95,8 +95,9 @@ input {
 }
 
 .content {
-  width: 80vw;
-  height: auto;
+  width: 70vw;
+  height: 70vh;
+  content: contain;
   display: flex;
   flex-direction: column;
   align-items: center;

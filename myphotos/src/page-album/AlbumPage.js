@@ -1,20 +1,14 @@
 import React, { useState, useEffect } from "react";
-import Modal from "react-modal";
-import '../App.css';
 
 import { Form } from './Form';
 import { Records }from './Records';
 
 export const AlbumPage = () => {
 
-    Modal.setAppElement("#root");
-
     const [id, setId] = useState({
         id: 0
       });    
     const [records, setRecords] = useState([]);
-    const [imagePopUpIsOpen, setImagePopUpIsOpen] = useState(false);
-    const [imageUrl, setImageUrl] = useState("");
     const [checkedRecords, setCheckedRecords] = useState([]);
 
     const handleCheckedRecord = (id, isChecked) => {
@@ -39,7 +33,10 @@ export const AlbumPage = () => {
 
         fetch(`${process.env.REACT_APP_BASE_URL}/records`)
             .then(res => res.json())
-            .then(data => setRecords(data));
+            .then(data => {
+                setRecords(data);
+                console.log(data);
+            });
     }
 
     const deleteCheckedRecords = e => {
@@ -57,22 +54,6 @@ export const AlbumPage = () => {
         setCheckedRecords([]);
     }
 
-    const closeImagePopUp = () => {
-        setImageUrl('');
-        setImagePopUpIsOpen(false);
-    }
-
-    const customStyles = {
-        content: {
-          top: '50%',
-          left: '50%',
-          right: 'auto',
-          bottom: 'auto',
-          marginRight: '-50%',
-          transform: 'translate(-50%, -50%)',
-        },
-      };
-
     // Initialization
     useEffect(() => {
         fetch(`${process.env.REACT_APP_BASE_URL}/records`)
@@ -83,10 +64,7 @@ export const AlbumPage = () => {
     return (
         <div>
             <Form setId={setId} getRecord={getRecord} getRecords={getRecords} />
-            <Records records={records} setModalOpen={setImagePopUpIsOpen} setImageUrl={setImageUrl} checkedRecords={checkedRecords} handleCheckedRecord={handleCheckedRecord} deleteCheckedRecords={deleteCheckedRecords} />
-            <Modal isOpen={imagePopUpIsOpen} style={customStyles}>
-                <img className="contain" src={imageUrl} onClick={() => closeImagePopUp()} />
-            </Modal>
+            <Records records={records} checkedRecords={checkedRecords} handleCheckedRecord={handleCheckedRecord} deleteCheckedRecords={deleteCheckedRecords} />
         </div>
     );
 };

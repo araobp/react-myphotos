@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
 import '../App.css';
+import { styleModal } from '../components-common/styles';
 
 // Camera
 import Camera, { IMAGE_TYPES } from 'react-html5-camera-photo';
@@ -26,21 +27,10 @@ export const CameraComp = ({ dataURI, setDataURI, setShowCameraFlag }) => {
         setImagePopUpIsOpen(false);
     }
 
-    const customStyles = {
-        content: {
-            top: '50%',
-            left: '50%',
-            right: 'auto',
-            bottom: 'auto',
-            marginRight: '-50%',
-            transform: 'translate(-50%, -50%)',
-        },
-    };
-
     return (
         <div>
             <Camera onTakePhoto={uri => { handleTakePhoto(uri) }} imageType={IMAGE_TYPES.JPG} />
-            <Modal isOpen={imagePopUpIsOpen} style={customStyles}>
+            <Modal isOpen={imagePopUpIsOpen} style={styleModal}>
                 <div>
                     <img className="contain" src={dataURI} onClick={() => closeImagePopUp()} />
                     <button onClick={closeCameraComp}>Use this image</button>
