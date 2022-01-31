@@ -109,6 +109,23 @@ $ HTTPS=true npm start
 
 Then, I am going to study three.js and WebRTC for 2D & 3D world wide web.
 
+## Issues
+
+### Leaflet
+
+- Loading marker images 
+
+https://stackoverflow.com/questions/65758463/react-leaflet-marker-image-fails-to-load
+
+Remove import "leaflet/dist/leaflet.css"; 
+
+Go to public/index.html and include the CDN hosted leaflet.css:
+```
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+  integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+  crossorigin=""/>
+```
+
 ## References
 
 - React Tutorial: https://www.w3schools.com/REACT/default.asp
