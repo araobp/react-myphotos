@@ -29,7 +29,8 @@ POST /records
 {
     "place": "string",
     "memo": "string",
-    "format": "string"
+    "latitude": "number",
+    "longitude": "number"
 }
 
 Its response
@@ -42,7 +43,8 @@ PUT /records/:id
 {
     "place": "string",
     "memo": "string",
-    "format": "string"
+    "latitude": "number",
+    "longitude": "number"
 }
 
 *** GET A LIST OF RECORDS ***
@@ -53,7 +55,8 @@ GET /records
         "datetime": "string",
         "place": "string",
         "memo": "string",
-        "format": "string"
+        "latitude": "number",
+        "longitude": "number"
     }
 }]
 
@@ -63,7 +66,8 @@ GET /records/:id
     "datetime: "string",
     "place": "string",
     "memo": "string",
-    "format": "string"
+    "latitude": "number",
+    "longitude": "number"
 }
 
 *** PUT AN IMAGE ***
