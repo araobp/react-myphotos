@@ -55,16 +55,34 @@ form button {
 .default {
   width: 100vw;
   height: 100vh;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  justify-content: flex-start;
+  /* align-items: center; */
   text-align: center;
-  background: #1760a0;
+  background: #566e61;
 }
 
-#title {
+#navi {
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   font-size: 2.8em;
+  font-weight: bold;
   color: #dbedf0;
+  padding: 10px;
+  background-color: #1b383a;
+}
+
+.navi-icon {
+  width: 15%;
+  height: auto;
+  font-size: 1.8rem;
+  text-align: left;
+  padding-left: 10px;
 }
 
 .button {
@@ -103,4 +121,18 @@ input {
   align-items: center;
   text-align: center;
   background: #1760a0;
+}
+
+#menu {
+  position: fixed;
+  display: none;
+  width: 50%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #1b383a;
+  z-index: 2;
+  cursor: pointer;
 }

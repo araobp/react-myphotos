@@ -7,12 +7,8 @@ import { Upload } from './components-upload/Upload';
 
 function Home() {
 
-  const [isLocationSupported, setIsLocationSupported] = useState(false);
-  const [location, setLocation] = useState();
-
+  const [location, setLocation] = useState({});
   const navigate = useNavigate();
-
-  console.log(`Location: ${isLocationSupported}`);
 
   let watchId = null;
 
@@ -24,24 +20,22 @@ function Home() {
   };
 
   const stopWatchingLocation = () => {
-    navigator.geolocation.clearWatch(watchId);
+    watchId && navigator.geolocation.clearWatch(watchId);
   };
 
   useEffect(() => {
     if ('geolocation' in navigator) {
-      setIsLocationSupported(true);
       startWatchingLocation();
     }
-    return () => {stopWatchingLocation()};
+    return () => { stopWatchingLocation() };
   }, []);
- 
+
   return (
-    <div className="default">
-      <h1 id="title">Photos</h1>
+    <div>
       {location &&
         <p>Latitude: {location.latitude}, Longitude: {location.longitude}</p>
       }
-      <Upload location={location}/>
+      <Upload location={location} />
       <button className="button" onClick={() => navigate('/album')}>Album</button>
     </div>
   );
@@ -50,12 +44,20 @@ function Home() {
 function App() {
   return (
     <div className="default">
-      <BrowserRouter>
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/album' element={<AlbumPage />} />
-        </Routes>
-      </BrowserRouter>
+      <div id="navi">
+        <div className="navi-icon">Menu</div>
+        <div>Photos</div>
+        <div className="navi-icon"></div>
+      </div>
+      <div>
+        <div id="menu"></div>
+        <BrowserRouter>
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/album' element={<AlbumPage />} />
+          </Routes>
+        </BrowserRouter>
+      </div>
     </div>
   );
 }
