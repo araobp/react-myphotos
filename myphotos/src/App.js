@@ -7,7 +7,7 @@ import { Upload } from './components-upload/Upload';
 
 function Home() {
 
-  const [location, setLocation] = useState({});
+  const [location, setLocation] = useState(null);
   const navigate = useNavigate();
 
   let watchId = null;
@@ -34,6 +34,7 @@ function Home() {
     <div>
       {location &&
         <p>Latitude: {location.latitude}, Longitude: {location.longitude}</p>
+        || <p>Positioning...</p>
       }
       <Upload location={location} />
       <button className="button" onClick={() => navigate('/album')}>Album</button>
@@ -42,15 +43,24 @@ function Home() {
 }
 
 function App() {
+
+  const [showMenu, setShowMenu] = useState(false);
+
+  const toggleShowMenu = () => {
+    setShowMenu(!showMenu);
+  }
+
   return (
-    <div className="default">
+    <div className="App">
       <div id="navi">
-        <div className="navi-icon">Menu</div>
+        <div className="navi-menu" onClick={() => toggleShowMenu()}>Menu</div>
         <div>Photos</div>
-        <div className="navi-icon"></div>
+        <div className="navi-menu"></div>
       </div>
-      <div>
+      {showMenu &&
         <div id="menu"></div>
+      }
+      <div className="default" onClick={() => setShowMenu(false)}>
         <BrowserRouter>
           <Routes>
             <Route path='/' element={<Home />} />
