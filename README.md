@@ -134,5 +134,6 @@ Go to public/index.html and include the CDN hosted leaflet.css:
 
 ## References
 
+- W3 schools: https://www.w3schools.com/
 - React Tutorial: https://www.w3schools.com/REACT/default.asp
 - react-html5-camera-photo: https://www.npmjs.com/package/react-html5-camera-photo
