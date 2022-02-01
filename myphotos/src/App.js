@@ -37,7 +37,6 @@ function Home() {
         || <p>Positioning...</p>
       }
       <Upload location={location} />
-      <button className="button" onClick={() => navigate('/album')}>Album</button>
     </div>
   );
 }
@@ -59,8 +58,9 @@ function App() {
       </div>
       {showMenu &&
         <div id="menu">
-          <div className="navi-menu-text">Album</div>
-          <div className="navi-menu-text">About</div>
+          <a href="/" className="navi-menu-text">Home</a>
+          <a href="/album" className="navi-menu-text">Album</a>
+          <a className="navi-menu-text">About</a>
         </div>
       }
       <div className="default" onClick={() => setShowMenu(false)}>

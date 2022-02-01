@@ -141,4 +141,27 @@ input {
   cursor: pointer;
   background: #254d50;
   transition: width 1s;
+  display: flex;
+  flex-direction: column;
 }
+
+a:link {
+  text-decoration: none;
+  color: beige;
+}
+
+a:visited {
+  text-decoration: none;
+  color: beige;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: beige;
+}
+
+a:active {
+  text-decoration: underline;
+  color: beige;
+}
+
