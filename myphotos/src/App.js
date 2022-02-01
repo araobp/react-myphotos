@@ -58,7 +58,10 @@ function App() {
         <div className="navi-menu"></div>
       </div>
       {showMenu &&
-        <div id="menu"></div>
+        <div id="menu">
+          <div className="navi-menu-text">Album</div>
+          <div className="navi-menu-text">About</div>
+        </div>
       }
       <div className="default" onClick={() => setShowMenu(false)}>
         <BrowserRouter>

@@ -6,7 +6,6 @@
   color: beige;
   margin: 0;
   height: 100vh;
-
 }
 
 .default {
@@ -80,6 +79,13 @@ form button {
   font-size: 1.5rem;
   text-align: left;
   padding-left: 1.5vw;
+}
+
+.navi-menu-text {
+  padding-top:1.3rem;
+  padding-left: 0.8rem;
+  text-align: left;
+  font-size: 1.5rem;
 }
 
 .button {
