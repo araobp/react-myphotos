@@ -4,7 +4,7 @@ import { useState } from "react";
 import { GeoLocation } from '../components-common/GeoLocation';
 import Modal from "react-modal";
 
-export const Records = ({ records, checkedRecords, handleCheckedRecord, deleteCheckedRecords }) => {
+export const Records = ({ records, getRecords, checkedRecords, handleCheckedRecord, deleteCheckedRecords }) => {
 
     const [showImage, setShowImage] = useState(false);
     const [imageURL, setImageURL] = useState("");
@@ -26,16 +26,21 @@ export const Records = ({ records, checkedRecords, handleCheckedRecord, deleteCh
     return (
         <div>
             <Modal isOpen={showImage} style={styleModal}>
-                <img src={imageURL} className="content"/>
+                <img src={imageURL} className="content" />
                 <button className="small-button" onClick={() => setShowImage(false)}>Close</button>
             </Modal>
             <Modal isOpen={showMap} style={styleModal}>
                 <GeoLocation latitude={location.latitude} longitude={location.longitude} />
                 <button className="small-button" onClick={() => setShowMap(false)}>Close</button>
             </Modal>
-            <form onSubmit={deleteCheckedRecords}>
-                <button className="small-button" type="submit">Delete checked records</button>
-            </form>
+            <div>
+                <form onSubmit={getRecords}>
+                    <button className="small-button" type="submit">Refresh</button>
+                </form>
+                <form onSubmit={deleteCheckedRecords}>
+                    <button className="small-button" type="submit">Delete</button>
+                </form>
+            </div>
             <table>
                 <thead>
                     <tr>
@@ -44,10 +49,6 @@ export const Records = ({ records, checkedRecords, handleCheckedRecord, deleteCh
                         <th>datetime</th>
                         <th>place</th>
                         <th>memo</th>
-                        {/*
-                        <th>latitude</th>
-                        <th>longitude</th>
-                        */}
                         <th>map</th>
                         <th>thumbnail</th>
                     </tr>
@@ -60,10 +61,6 @@ export const Records = ({ records, checkedRecords, handleCheckedRecord, deleteCh
                             <td>{new Date(r.record.datetime).toLocaleString()}</td>
                             <td>{r.record.place}</td>
                             <td>{r.record.memo}</td>
-                            {/*
-                            <td>{r.record.latitude}</td>
-                            <td>{r.record.longitude}</td>
-                            */}
                             <td><button onClick={() => openMap(r.record.latitude, r.record.longitude)}>Map</button></td>
                             <td><img src={`${process.env.REACT_APP_BASE_URL}/photos/${r.id}/thumbnail`} onClick={() => openImage(r.id)} /></td>
                         </tr>

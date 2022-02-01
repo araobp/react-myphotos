@@ -10,8 +10,7 @@
 
 .default {
   font-size: 1.1em;
-  margin-top: 5rem;
-  align-content: center;
+  margin-top: 4.6rem;
 }
 
 table {
@@ -59,18 +58,20 @@ form button {
 #navi {
   position: fixed;
   overflow: hidden;
-  top: 0px;
   width: 100vw;
-  height: 4rem;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+  height: 3.5rem;
   font-size: 2.8rem;
   font-weight: bold;
   color: #dbedf0;
-  /* padding: 10px; */
   background-color: #1b383a;
+  text-align: center;
+}
+
+.position-left {
+  position: absolute;
+  left: 0.5rem;
+  top: 0.8rem;
+  font-size: 1.7rem;
 }
 
 .navi-menu {
@@ -88,24 +89,30 @@ form button {
   font-size: 1.5rem;
 }
 
-.button {
-  border: 0;
-  width: 80vw;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  padding: 0.2em;
-  font-size: 2em;
-  border-radius: 6px;
-  background-color: #dbedf0;
-  color: #1760a0;
-}
+.footer {
+  position: fixed;
+  overflow: hidden;
+  bottom: 0px;
+  width: 100vw;
+  height: 4rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #dbedf0;
+  /* padding: 10px; */
+  background-color: #1b383a;
+}  
 
 .small-button {
+  width: 8rem;
   border: 0;
   margin: 5px;
   padding: 0.2em;
   font-size: 1.3em;
-  border-radius: 3px;
+  border-radius: 5px;
   background-color: #dbedf0;
   color: #1760a0;
 }
@@ -128,7 +135,7 @@ input {
 
 #menu {
   position: fixed;
-  margin-top: 4rem;
+  margin-top: 3.5rem;
   /* display: none; */
   width: 50%;
   height: 100%;

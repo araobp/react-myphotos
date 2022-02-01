@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 
-import { Form } from './Form';
 import { Records }from './Records';
 
 export const AlbumPage = () => {
@@ -63,8 +62,7 @@ export const AlbumPage = () => {
 
     return (
         <div>
-            <Form setId={setId} getRecord={getRecord} getRecords={getRecords} />
-            <Records records={records} checkedRecords={checkedRecords} handleCheckedRecord={handleCheckedRecord} deleteCheckedRecords={deleteCheckedRecords} />
+            <Records records={records} getRecords={getRecords} checkedRecords={checkedRecords} handleCheckedRecord={handleCheckedRecord} deleteCheckedRecords={deleteCheckedRecords} />
         </div>
     );
 };

@@ -107,12 +107,14 @@ export const Upload = ({ location }) => {
             </form>
 
             <img src={dataURI} width="30%" />
-
             <div>
-                <button className="small-button" type="submit" onClick={() => setShowMap(true)}>Show Map</button>
+            <button className="small-button" type="submit" onClick={() => setShowCameraFlag(true)}>Camera</button>
+            <button className="small-button" type="submit" onClick={() => setShowInputFileFlag(true)}>File</button>
+            </div>
+
+            <div className="footer">
+                <button className="small-button" type="submit" onClick={() => setShowMap(true)}>Map</button>
                 <button className="small-button" type="submit" onClick={postRecord}>Upload</button>
-                <button className="small-button" type="submit" onClick={() => setShowInputFileFlag(true)}>File</button>
-                <button className="small-button" type="submit" onClick={() => setShowCameraFlag(true)}>Camera</button>
             </div>
 
             {showCameraFlag &&

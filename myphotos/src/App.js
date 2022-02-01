@@ -8,7 +8,7 @@ import { Upload } from './components-upload/Upload';
 function Home() {
 
   const [location, setLocation] = useState(null);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   let watchId = null;
 
@@ -52,9 +52,8 @@ function App() {
   return (
     <div className="App">
       <div id="navi">
-        <div className="navi-menu" onClick={() => toggleShowMenu()}>Menu</div>
+        <div className="position-left" onClick={() => toggleShowMenu()}>Menu</div>
         <div>Photos</div>
-        <div className="navi-menu"></div>
       </div>
       {showMenu &&
         <div id="menu">
