@@ -11,6 +11,8 @@
 .default {
   font-size: 1.1em;
   margin-top: 4.6rem;
+  margin-bottom: 3.5rem;
+  padding: 0.8rem;
 }
 
 table {
@@ -57,21 +59,34 @@ form button {
 
 #navi {
   position: fixed;
-  overflow: hidden;
+  display: flex;
   width: 100vw;
+  justify-content: space-between;
   height: 3.5rem;
-  font-size: 2.8rem;
-  font-weight: bold;
   color: #dbedf0;
   background-color: #1b383a;
-  text-align: center;
+  align-items: center;
 }
 
-.position-left {
-  position: absolute;
-  left: 0.5rem;
-  top: 0.8rem;
-  font-size: 1.7rem;
+#navi #left {
+  width: 33vw;
+  text-align: left;
+  font-size: 1.3rem;
+  padding-left: 0.8rem;
+}
+
+#navi #center {
+  width: 34vw;
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+#navi #right {
+  width: 33vw;
+  text-align: right;
+  font-size: 1.3rem;
+  padding-right: 0.8rem;
 }
 
 .navi-menu {
@@ -137,7 +152,7 @@ input {
   position: fixed;
   margin-top: 3.5rem;
   /* display: none; */
-  width: 50%;
+  width: 35%;
   height: 100%;
   top: 0;
   left: 0;

@@ -1,45 +1,9 @@
-import React, { useState, useEffect } from "react";  // named export
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import React, { useState } from "react";  // named export
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import './App.css';
 import { AlbumPage } from './page-album/AlbumPage';
-import { Upload } from './components-upload/Upload';
-
-function Home() {
-
-  const [location, setLocation] = useState(null);
-  // const navigate = useNavigate();
-
-  let watchId = null;
-
-  const startWatchingLocation = () => {
-    watchId = navigator.geolocation.watchPosition(position => {
-      const { latitude, longitude } = position.coords;
-      setLocation({ latitude, longitude });
-    });
-  };
-
-  const stopWatchingLocation = () => {
-    watchId && navigator.geolocation.clearWatch(watchId);
-  };
-
-  useEffect(() => {
-    if ('geolocation' in navigator) {
-      startWatchingLocation();
-    }
-    return () => { stopWatchingLocation() };
-  }, []);
-
-  return (
-    <div>
-      {location &&
-        <p>Latitude: {location.latitude}, Longitude: {location.longitude}</p>
-        || <p>Positioning...</p>
-      }
-      <Upload location={location} />
-    </div>
-  );
-}
+import { HomePage } from './page-home/HomePage';
 
 function App() {
 
@@ -52,8 +16,9 @@ function App() {
   return (
     <div className="App">
       <div id="navi">
-        <div className="position-left" onClick={() => toggleShowMenu()}>Menu</div>
-        <div>Photos</div>
+        <div id="left" onClick={() => toggleShowMenu()}>Menu</div>
+        <div id="center">Photos</div>
+        <div id="right">login</div>
       </div>
       {showMenu &&
         <div id="menu">
@@ -62,10 +27,10 @@ function App() {
           <a className="navi-menu-text">About</a>
         </div>
       }
-      <div className="default" onClick={() => setShowMenu(false)}>
+      <div onClick={() => setShowMenu(false)}>
         <BrowserRouter>
           <Routes>
-            <Route path='/' element={<Home />} />
+            <Route path='/' element={<HomePage />} />
             <Route path='/album' element={<AlbumPage />} />
           </Routes>
         </BrowserRouter>

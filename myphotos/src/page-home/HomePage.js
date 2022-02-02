@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { CameraComp } from './CameraComp';
 import '../App.css';
 import { dataURItoArrayBuffer } from '../util/convert';
@@ -6,18 +6,40 @@ import { GeoLocation } from '../components-common/GeoLocation';
 import Modal from "react-modal";
 import { styleModal } from "../components-common/styles";
 
-export const Upload = ({ location }) => {
+export const HomePage = () => {
 
     Modal.setAppElement("#root");
 
+    const [location, setLocation] = useState(null);
     const [place, setPlace] = useState();
     const [memo, setMemo] = useState();
-    //const [imageFile, setImageFile] = useState();
     const [showInputFileFlag, setShowInputFileFlag] = useState();
     const [showCameraFlag, setShowCameraFlag] = useState(false);
     const [dataURI, setDataURI] = useState();
     const [showMap, setShowMap] = useState();
 
+    let watchId = null;
+
+    /*** Geo-location ***********************************************/
+    const startWatchingLocation = () => {
+        watchId = navigator.geolocation.watchPosition(position => {
+            const { latitude, longitude } = position.coords;
+            setLocation({ latitude, longitude });
+        });
+    };
+
+    const stopWatchingLocation = () => {
+        watchId && navigator.geolocation.clearWatch(watchId);
+    };
+
+    useEffect(() => {
+        if ('geolocation' in navigator) {
+            startWatchingLocation();
+        }
+        return () => { stopWatchingLocation() };
+    }, []);
+
+    /*** Upload a record ****************************************/
     const postRecord = e => {
         e.preventDefault();
 
@@ -64,64 +86,71 @@ export const Upload = ({ location }) => {
         reader.readAsDataURL(f);
     }
 
-    console.log(showCameraFlag);
-
     return (
         <div>
-            <form onSubmit={postRecord}>
-
-                <div>
-                    <label>Place:
-                        <input
-                            type="text"
-                            name="place"
-                            value={place || ""}
-                            onChange={e => setPlace(e.target.value)}
-                        />
-                    </label>
-                </div>
-
-                <div>
-                    <label>Memo:
-                        <input
-                            type="text"
-                            name="memo"
-                            value={memo || ""}
-                            onChange={e => setMemo(e.target.value)}
-                        />
-                    </label>
-                </div>
-
-                {showInputFileFlag &&
-                    <div>
-                        <label>Image file:
-                            <input
-                                type="file"
-                                name="imageFile"
-                                //value={params.imageFile || ""}
-                                onChange={e => handleChange(e.target.files[0])}
-                            />
-                        </label>
-                    </div>
+            <div className="default">
+                {location &&
+                    <p>Latitude: {location.latitude}, Longitude: {location.longitude}</p>
+                    || <p>Positioning...</p>
                 }
-            </form>
+                <div>
+                    <form onSubmit={postRecord}>
 
-            <img src={dataURI} width="30%" />
-            <div>
-            <button className="small-button" type="submit" onClick={() => setShowCameraFlag(true)}>Camera</button>
-            <button className="small-button" type="submit" onClick={() => setShowInputFileFlag(true)}>File</button>
+                        <div>
+                            <label>Place:
+                                <input
+                                    type="text"
+                                    name="place"
+                                    value={place || ""}
+                                    onChange={e => setPlace(e.target.value)}
+                                />
+                            </label>
+                        </div>
+
+                        <div>
+                            <label>Memo:
+                                <input
+                                    type="text"
+                                    name="memo"
+                                    value={memo || ""}
+                                    onChange={e => setMemo(e.target.value)}
+                                />
+                            </label>
+                        </div>
+
+                        {showInputFileFlag &&
+                            <div>
+                                <label>Image file:
+                                    <input
+                                        type="file"
+                                        name="imageFile"
+                                        //value={params.imageFile || ""}
+                                        onChange={e => handleChange(e.target.files[0])}
+                                    />
+                                </label>
+                            </div>
+                        }
+                    </form>
+
+                    <img src={dataURI} width="30%" />
+                    <div>
+                        <button className="small-button" type="submit" onClick={() => setShowCameraFlag(true)}>Camera</button>
+                        <button className="small-button" type="submit" onClick={() => setShowInputFileFlag(true)}>File</button>
+                    </div>
+                </div>
             </div>
-
             <div className="footer">
                 <button className="small-button" type="submit" onClick={() => setShowMap(true)}>Map</button>
                 <button className="small-button" type="submit" onClick={postRecord}>Upload</button>
             </div>
 
-            {showCameraFlag &&
+            {
+                showCameraFlag &&
                 <CameraComp dataURI={dataURI} setDataURI={setDataURI} setShowCameraFlag={setShowCameraFlag} />
             }
 
-            {location && showMap &&
+            {
+                location && showMap &&
                 <Modal isOpen={showMap} style={styleModal} >
                     <div>
                         <GeoLocation latitude={location.latitude} longitude={location.longitude} />
