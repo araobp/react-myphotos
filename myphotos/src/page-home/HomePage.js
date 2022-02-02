@@ -86,6 +86,12 @@ export const HomePage = () => {
         reader.readAsDataURL(f);
     }
 
+    const clearInputFields = () => {
+        setPlace("");
+        setMemo("");
+        setDataURI(null);
+    }
+
     return (
         <div>
             {!showCameraFlag &&
@@ -141,11 +147,13 @@ export const HomePage = () => {
                     </div>
                 </div>
             }
+
             {
                 !showCameraFlag &&
                 <div className="footer">
                     <button className="small-button" type="submit" onClick={() => setShowMap(true)}>Map</button>
                     <button className="small-button" type="submit" onClick={postRecord}>Upload</button>
+                    <button className="small-button" type="submit" onClick={clearInputFields}>Clear</button>
                 </div>
             }
 
