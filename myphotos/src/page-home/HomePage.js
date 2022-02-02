@@ -88,65 +88,72 @@ export const HomePage = () => {
 
     return (
         <div>
-            <div className="default">
-                {location &&
-                    <p>Latitude: {location.latitude}, Longitude: {location.longitude}</p>
-                    || <p>Positioning...</p>
-                }
-                <div>
-                    <form onSubmit={postRecord}>
+            {!showCameraFlag &&
+                <div className="default">
+                    {location &&
+                        <p>Latitude: {location.latitude}, Longitude: {location.longitude}</p>
+                        || <p>Positioning...</p>
+                    }
+                    <div>
+                        <form onSubmit={postRecord}>
 
-                        <div>
-                            <label>Place:
-                                <input
-                                    type="text"
-                                    name="place"
-                                    value={place || ""}
-                                    onChange={e => setPlace(e.target.value)}
-                                />
-                            </label>
-                        </div>
-
-                        <div>
-                            <label>Memo:
-                                <input
-                                    type="text"
-                                    name="memo"
-                                    value={memo || ""}
-                                    onChange={e => setMemo(e.target.value)}
-                                />
-                            </label>
-                        </div>
-
-                        {showInputFileFlag &&
                             <div>
-                                <label>Image file:
+                                <label>Place:
                                     <input
-                                        type="file"
-                                        name="imageFile"
-                                        //value={params.imageFile || ""}
-                                        onChange={e => handleChange(e.target.files[0])}
+                                        type="text"
+                                        name="place"
+                                        value={place || ""}
+                                        onChange={e => setPlace(e.target.value)}
                                     />
                                 </label>
                             </div>
-                        }
-                    </form>
 
-                    <img src={dataURI} width="30%" />
-                    <div>
-                        <button className="small-button" type="submit" onClick={() => setShowCameraFlag(true)}>Camera</button>
-                        <button className="small-button" type="submit" onClick={() => setShowInputFileFlag(true)}>File</button>
+                            <div>
+                                <label>Memo:
+                                    <input
+                                        type="text"
+                                        name="memo"
+                                        value={memo || ""}
+                                        onChange={e => setMemo(e.target.value)}
+                                    />
+                                </label>
+                            </div>
+
+                            {showInputFileFlag &&
+                                <div>
+                                    <label>Image file:
+                                        <input
+                                            type="file"
+                                            name="imageFile"
+                                            //value={params.imageFile || ""}
+                                            onChange={e => handleChange(e.target.files[0])}
+                                        />
+                                    </label>
+                                </div>
+                            }
+                        </form>
+
+                        <img src={dataURI} width="30%" />
+                        <div>
+                            <button className="small-button" type="submit" onClick={() => setShowCameraFlag(true)}>Camera</button>
+                            <button className="small-button" type="submit" onClick={() => setShowInputFileFlag(true)}>File</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className="footer">
-                <button className="small-button" type="submit" onClick={() => setShowMap(true)}>Map</button>
-                <button className="small-button" type="submit" onClick={postRecord}>Upload</button>
-            </div>
+            }
+            {
+                !showCameraFlag &&
+                <div className="footer">
+                    <button className="small-button" type="submit" onClick={() => setShowMap(true)}>Map</button>
+                    <button className="small-button" type="submit" onClick={postRecord}>Upload</button>
+                </div>
+            }
 
             {
                 showCameraFlag &&
-                <CameraComp dataURI={dataURI} setDataURI={setDataURI} setShowCameraFlag={setShowCameraFlag} />
+                <div id="camera">
+                    <CameraComp setDataURI={setDataURI} setShowCameraFlag={setShowCameraFlag} />
+                </div>
             }
 
             {

@@ -121,6 +121,13 @@ form button {
   background-color: #1b383a;
 }  
 
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
 .small-button {
   width: 8rem;
   border: 0;
@@ -185,5 +192,13 @@ a:hover {
 a:active {
   text-decoration: underline;
   color: beige;
+}
+
+#camera {
+  position: absolute;
+  width: 100vw;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
