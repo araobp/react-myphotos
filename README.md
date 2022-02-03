@@ -6,7 +6,7 @@ My React exercises
 
 ## Motivation
 
-I studied Low-Code Development Platforms such as OutSystems or Mendix last year. They gave me a lot of hints on how to make a cross-platform app based on HTML5.
+I studied Low-Code Development Platforms such as OutSystems or Mendix last year. They gave me a lot of hints on how to make a cross-platform app (SPA amd PWA) based on HTML5.
 
 This project is a handwritten version of such an app based on React, Express and Postgres SQL.
 
