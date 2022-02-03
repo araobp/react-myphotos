@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { CameraComp } from './CameraComp';
 import '../App.css';
-import { dataURItoArrayBuffer } from '../util/convert';
-import { GeoLocation } from '../components-common/GeoLocation';
 import Modal from "react-modal";
+
 import { styleModal } from "../components-common/styles";
+import { dataURItoArrayBuffer } from '../util/convert';
+
+import { CameraComp } from './CameraComp';
+import { GeoLocation } from '../components-common/GeoLocation';
 
 export const HomePage = () => {
 
@@ -13,8 +15,8 @@ export const HomePage = () => {
     const [location, setLocation] = useState(null);
     const [place, setPlace] = useState();
     const [memo, setMemo] = useState();
-    const [showInputFileFlag, setShowInputFileFlag] = useState();
-    const [showCameraFlag, setShowCameraFlag] = useState(false);
+    const [showInputFile, setShowInputFile] = useState(false);
+    const [showCamera, setShowCamera] = useState(false);
     const [dataURI, setDataURI] = useState();
     const [showMap, setShowMap] = useState();
 
@@ -94,14 +96,13 @@ export const HomePage = () => {
 
     return (
         <div>
-            {!showCameraFlag &&
+            {!showCamera &&
                 <div className="default">
                     {location &&
                         <p>Latitude: {location.latitude}, Longitude: {location.longitude}</p>
                         || <p>Positioning...</p>
                     }
                     <div>
-                        <form onSubmit={postRecord}>
 
                             <div>
                                 <label>Place:
@@ -125,7 +126,7 @@ export const HomePage = () => {
                                 </label>
                             </div>
 
-                            {showInputFileFlag &&
+                            {showInputFile &&
                                 <div>
                                     <label>Image file:
                                         <input
@@ -137,19 +138,18 @@ export const HomePage = () => {
                                     </label>
                                 </div>
                             }
-                        </form>
 
                         <img src={dataURI} width="30%" />
                         <div>
-                            <button className="small-button" type="submit" onClick={() => setShowCameraFlag(true)}>Camera</button>
-                            <button className="small-button" type="submit" onClick={() => setShowInputFileFlag(true)}>File</button>
+                            <button className="small-button" type="submit" onClick={() => setShowCamera(true)}>Camera</button>
+                            <button className="small-button" type="submit" onClick={() => setShowInputFile(!showInputFile)}>File</button>
                         </div>
                     </div>
                 </div>
             }
 
             {
-                !showCameraFlag &&
+                !showCamera &&
                 <div className="footer">
                     <button className="small-button" type="submit" onClick={() => setShowMap(true)}>Map</button>
                     <button className="small-button" type="submit" onClick={postRecord}>Upload</button>
@@ -158,9 +158,9 @@ export const HomePage = () => {
             }
 
             {
-                showCameraFlag &&
+                showCamera &&
                 <div id="camera">
-                    <CameraComp setDataURI={setDataURI} setShowCameraFlag={setShowCameraFlag} />
+                    <CameraComp setDataURI={setDataURI} setShowCameraFlag={setShowCamera} />
                 </div>
             }
 

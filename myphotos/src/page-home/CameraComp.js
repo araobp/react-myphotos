@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
 import '../App.css';
+
 import { styleModal } from '../components-common/styles';
 
 // Camera
@@ -9,19 +10,19 @@ import 'react-html5-camera-photo/build/css/index.css';
 
 export const CameraComp = ({ setDataURI, setShowCameraFlag }) => {
 
-    const [imageURI, setImageURI] = useState();
 
     Modal.setAppElement('#root')
 
+    const [temporaryDataURI, setTemporaryDataURI] = useState();
     const [imagePopUpIsOpen, setImagePopUpIsOpen] = useState(false);
 
     const handleTakePhoto = imageURI => {
-        setImageURI(imageURI);
+        setTemporaryDataURI(imageURI);
         setImagePopUpIsOpen(true);
     }
 
     const done = () => {
-        setDataURI(imageURI);
+        setDataURI(temporaryDataURI);
         closeCameraComp();
     }
 
@@ -40,7 +41,7 @@ export const CameraComp = ({ setDataURI, setShowCameraFlag }) => {
             <button className="small-button" onClick={closeCameraComp}>Close</button>
             <Modal isOpen={imagePopUpIsOpen} style={styleModal}>
                 <div>
-                    <img src={imageURI} />
+                    <img src={temporaryDataURI} />
                     <div className="row">
                         <button className="small-button" onClick={done}>Done</button>
                         <button className="small-button" onClick={closeImagePopUp}>Cancel</button>

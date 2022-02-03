@@ -1,21 +1,23 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
+
+import { authHeaders } from "../util/auth";
+
 import { styleModal } from "../components-common/styles";
+
 import { GeoLocation } from '../components-common/GeoLocation';
 
 export const AlbumPage = () => {
 
     Modal.setAppElement("#root");
 
-    const [id, setId] = useState({
-        id: 0
-    });
     const [records, setRecords] = useState([]);
     const [checkedRecords, setCheckedRecords] = useState([]);
     const [showImage, setShowImage] = useState(false);
     const [imageURL, setImageURL] = useState("");
     const [showMap, setShowMap] = useState(false);
     const [location, setLocation] = useState({});
+    const [thumbnails, setThumbnails] = useState({});
 
     const openImage = (id) => {
         setImageURL(`${process.env.REACT_APP_BASE_URL}/photos/${id}/image`);
@@ -37,31 +39,35 @@ export const AlbumPage = () => {
         setCheckedRecords(checkedRecords);
     }
 
+    /*
     const getRecord = e => {
-        e.preventDefault();
         fetch(`${process.env.REACT_APP_BASE_URL}/records/${id}`)
             .then(res => res.json())
             .then(data => setRecords([data]));
     }
+    */
 
-    const getRecords = e => {
-        e.preventDefault();
-
-        fetch(`${process.env.REACT_APP_BASE_URL}/records`)
+    const getRecords = () => {
+        const method = "GET";
+        const headers = {
+            ...{ 'Accept': 'application/json' },
+            ...authHeaders
+        };
+        fetch(`${process.env.REACT_APP_BASE_URL}/records`, { method: method, headers: headers })
             .then(res => res.json())
-            .then(data => {
-                setRecords(data);
-                console.log(data);
+            .then(rec => {
+                setRecords(rec);
+                getThumbnails(rec);
             });
     }
 
-    const deleteCheckedRecords = e => {
-        e.preventDefault();
+    const deleteCheckedRecords = () => {
         checkedRecords.forEach(id => {
             const method = "DELETE";
             const headers = {
-                'Accept': 'application/json'
-            }
+                ...{ 'Accept': 'application/json' },
+                ...authHeaders
+            };
             fetch(`${process.env.REACT_APP_BASE_URL}/records/${id}`, { method: method, headers: headers })
                 .then(res => {
                     console.log(res.status);
@@ -70,11 +76,24 @@ export const AlbumPage = () => {
         setCheckedRecords([]);
     }
 
+    const getThumbnails = async (rec) => {
+        const method = "GET";
+        const headers = {
+            ...{ 'Accept': 'application/octet-stream' },
+            ...authHeaders
+        };
+        const t = {};
+        await Promise.all(rec.map(async r => {
+            const res = await fetch(`${process.env.REACT_APP_BASE_URL}/photos/${r.id}/thumbnail`, { method: method, headers: headers });
+            const data = await res.blob();
+            t[`id_${r.id}`] = URL.createObjectURL(data);
+        }));
+        setThumbnails(t);
+    }
+
     // Initialization
     useEffect(() => {
-        fetch(`${process.env.REACT_APP_BASE_URL}/records`)
-            .then(res => res.json())
-            .then(data => setRecords(data));
+        getRecords();
     }, []);
 
     return (
@@ -109,8 +128,8 @@ export const AlbumPage = () => {
                                     <td>{new Date(r.record.datetime).toLocaleString()}</td>
                                     <td>{r.record.place}</td>
                                     <td>{r.record.memo}</td>
-                                    <td><button onClick={() => openMap(r.record.latitude, r.record.longitude)}>Map</button></td>
-                                    <td><img src={`${process.env.REACT_APP_BASE_URL}/photos/${r.id}/thumbnail`} onClick={() => openImage(r.id)} /></td>
+                                    <td><button className="tiny-button" onClick={() => openMap(r.record.latitude, r.record.longitude)}>Map</button></td>
+                                    <td><img src={thumbnails[`id_${r.id}`]} onClick={() => openImage(r.id)} /></td>
                                 </tr>
                             </tbody>
                         ))}
@@ -118,8 +137,8 @@ export const AlbumPage = () => {
                 </div>
             </div>
             <div className="footer">
-                <button className="small-button" type="submit" onClick={getRecords}>Refresh</button>
-                <button className="small-button" type="submit" onClick={deleteCheckedRecords}>Delete</button>
+                <button className="small-button" type="submit" onClick={e => getRecords()}>Refresh</button>
+                <button className="small-button" type="submit" onClick={e => deleteCheckedRecords()}>Delete</button>
             </div>
         </>
     );
