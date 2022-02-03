@@ -117,9 +117,13 @@ Then, I am going to study three.js and WebRTC for 2D & 3D world wide web.
 
 ## Issues
 
+### async/await in forEach
+
+[Using async/await with a forEach loop](https://stackoverflow.com/questions/37576685/using-async-await-with-a-foreach-loop)
+
 ### Leaflet
 
-- Loading marker images 
+Loading marker images 
 
 https://stackoverflow.com/questions/65758463/react-leaflet-marker-image-fails-to-load
 
