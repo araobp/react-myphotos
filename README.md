@@ -4,6 +4,15 @@ My React exercises
 
 (Work in progress)
 
+## Motivation
+
+I studied Low-Code Development Platforms such as OutSystems or Mendix last year. They gave me a lot of hints on how to make a cross-platform app based on HTML5.
+
+This project is a handwritten version of such an app based on React, Express and Postgres SQL.
+
+The backend runs on Heroku PaaS. Its code is in my other project: [heroku-myphotos](https://github.com/araobp/heroku-myphotos).
+
+
 ## Rough sketch of the app UI
 
 <img src="./doc/rough_sketch.jpg" width=300px>
