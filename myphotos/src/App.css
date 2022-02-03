@@ -1,9 +1,9 @@
 .App {
   text-align: center;
-  background: #566e61;
+  background: #518c84;
   width: 100%;
   overflow-x: hidden;
-  color: beige;
+  color: white;
   margin: 0;
   padding: 0;
   height: 100vh;
@@ -14,6 +14,13 @@
   margin-top: 3rem;
   margin-bottom: 3.5rem;
   padding: 0.8rem;
+}
+
+#login {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  width: 20rem;
 }
 
 #album {
@@ -31,14 +38,13 @@ table {
 table th {
   text-align: center;
   padding: 3px;
-  background-color: darkcyan;
-  color: honeydew;
+  background-color: rgb(29, 92, 100);
 }
 
 table td {
   text-align: left;
   padding: 3px;
-  background-color: gainsboro;
+  background-color: rgb(215, 224, 228);
   color: #333333;
 }
 
@@ -69,7 +75,7 @@ form button {
   justify-content: space-between;
   height: 3.5rem;
   color: #dbedf0;
-  background-color: #1b383a;
+  background-color: #3e687d;
   align-items: center;
 }
 
@@ -90,7 +96,7 @@ form button {
 #navi #right {
   width: 33vw;
   text-align: right;
-  font-size: 1.3rem;
+  font-size: 1rem;
   padding-right: 0.8rem;
 }
 
@@ -123,7 +129,7 @@ form button {
   font-weight: bold;
   color: #dbedf0;
   /* padding: 10px; */
-  background-color: #1b383a;
+  background-color: #3e687d;
 }  
 
 .row {
@@ -135,8 +141,8 @@ form button {
 
 button {
   cursor: pointer;
-  color: #1760a0;
-  background-color: #cae9ee;
+  color: #555555;
+  background-color: #dddddd;
 }
 
 button:active {
@@ -164,6 +170,8 @@ button:active {
   padding: 0.1em;
   font-size: 0.9em;
   border-radius: 4px;
+  color: white;;
+  background-color: darkseagreen
 }
 
 input {
@@ -191,11 +199,9 @@ input {
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
-  background-color: #1b383a;
   z-index: 2;
   cursor: pointer;
-  background: #254d50;
+  background: #475479;
   transition: width 1s;
   display: flex;
   flex-direction: column;
@@ -203,22 +209,22 @@ input {
 
 a:link {
   text-decoration: none;
-  color: beige;
+  color: white;
 }
 
 a:visited {
   text-decoration: none;
-  color: beige;
+  color: white;
 }
 
 a:hover {
   text-decoration: underline;
-  color: beige;
+  color: white;
 }
 
 a:active {
   text-decoration: underline;
-  color: beige;
+  color: white;
 }
 
 #camera {
