@@ -19,8 +19,16 @@ export const AlbumPage = () => {
     const [location, setLocation] = useState({});
     const [thumbnails, setThumbnails] = useState({});
 
-    const openImage = (id) => {
-        setImageURL(`${process.env.REACT_APP_BASE_URL}/photos/${id}/image`);
+    const apiOpenImage = (id) => {
+        setImageURL(null);
+        const method = "GET";
+        const headers = {
+            ...{ 'Accept': 'application/octet-stream' },
+            ...authHeaders
+        }
+        fetch(`${process.env.REACT_APP_BASE_URL}/photos/${id}/image`, {method: method, headers: headers})
+        .then(res => res.blob())
+        .then(data => setImageURL(URL.createObjectURL(data)));     
         setShowImage(true);
     }
 
@@ -39,15 +47,7 @@ export const AlbumPage = () => {
         setCheckedRecords(checkedRecords);
     }
 
-    /*
-    const getRecord = e => {
-        fetch(`${process.env.REACT_APP_BASE_URL}/records/${id}`)
-            .then(res => res.json())
-            .then(data => setRecords([data]));
-    }
-    */
-
-    const getRecords = () => {
+    const apiGetRecords = () => {
         const method = "GET";
         const headers = {
             ...{ 'Accept': 'application/json' },
@@ -57,26 +57,25 @@ export const AlbumPage = () => {
             .then(res => res.json())
             .then(rec => {
                 setRecords(rec);
-                getThumbnails(rec);
+                apiGetThumbnails(rec);
             });
     }
 
-    const deleteCheckedRecords = () => {
-        checkedRecords.forEach(id => {
-            const method = "DELETE";
-            const headers = {
-                ...{ 'Accept': 'application/json' },
-                ...authHeaders
-            };
-            fetch(`${process.env.REACT_APP_BASE_URL}/records/${id}`, { method: method, headers: headers })
-                .then(res => {
-                    console.log(res.status);
-                });
-        });
+    const apiDeleteCheckedRecords = async () => {
+        const method = "DELETE";
+        const headers = {
+            ...{ 'Accept': 'application/json' },
+            ...authHeaders
+        };
+        await Promise.all(checkedRecords.map(async id => {
+            const res = await fetch(`${process.env.REACT_APP_BASE_URL}/records/${id}`, { method: method, headers: headers });
+            console.log(`status: ${res.status}`);
+        }));
         setCheckedRecords([]);
+        apiGetRecords();
     }
 
-    const getThumbnails = async (rec) => {
+    const apiGetThumbnails = async (rec) => {
         const method = "GET";
         const headers = {
             ...{ 'Accept': 'application/octet-stream' },
@@ -93,7 +92,7 @@ export const AlbumPage = () => {
 
     // Initialization
     useEffect(() => {
-        getRecords();
+        apiGetRecords();
     }, []);
 
     return (
@@ -108,6 +107,7 @@ export const AlbumPage = () => {
                         <GeoLocation latitude={location.latitude} longitude={location.longitude} />
                         <button className="small-button" onClick={() => setShowMap(false)}>Close</button>
                     </Modal>
+                    <div id="album">Album</div>
                     <table>
                         <thead>
                             <tr>
@@ -129,7 +129,7 @@ export const AlbumPage = () => {
                                     <td>{r.record.place}</td>
                                     <td>{r.record.memo}</td>
                                     <td><button className="tiny-button" onClick={() => openMap(r.record.latitude, r.record.longitude)}>Map</button></td>
-                                    <td><img src={thumbnails[`id_${r.id}`]} onClick={() => openImage(r.id)} /></td>
+                                    <td><img src={thumbnails[`id_${r.id}`]} onClick={() => apiOpenImage(r.id)} /></td>
                                 </tr>
                             </tbody>
                         ))}
@@ -137,8 +137,7 @@ export const AlbumPage = () => {
                 </div>
             </div>
             <div className="footer">
-                <button className="small-button" type="submit" onClick={e => getRecords()}>Refresh</button>
-                <button className="small-button" type="submit" onClick={e => deleteCheckedRecords()}>Delete</button>
+                <button className="small-button" type="submit" onClick={e => apiDeleteCheckedRecords()}>Delete</button>
             </div>
         </>
     );

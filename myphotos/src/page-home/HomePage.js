@@ -5,6 +5,8 @@ import Modal from "react-modal";
 import { styleModal } from "../components-common/styles";
 import { dataURItoArrayBuffer } from '../util/convert';
 
+import { authHeaders } from "../util/auth";
+
 import { CameraComp } from './CameraComp';
 import { GeoLocation } from '../components-common/GeoLocation';
 
@@ -42,9 +44,7 @@ export const HomePage = () => {
     }, []);
 
     /*** Upload a record ****************************************/
-    const postRecord = e => {
-        e.preventDefault();
-
+    const apiPostRecord = e => {
         // POST /records
         const obj = { place: place, memo: memo };
         if (location) {
@@ -58,8 +58,11 @@ export const HomePage = () => {
         console.log(body);
         const method = "POST";
         const headers = {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            ...{
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            ...authHeaders
         };
         fetch(`${process.env.REACT_APP_BASE_URL}/records`, { method: method, headers: headers, body: body })
             .then(res => res.json())
@@ -67,8 +70,11 @@ export const HomePage = () => {
                 const id = body.id;
                 const method = "POST";
                 const headers = {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/octet-stream'
+                    ...{
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/octet-stream'
+                    },
+                    ...authHeaders
                 }
                 fetch(
                     `${process.env.REACT_APP_BASE_URL}/photos/${id}`,
@@ -102,44 +108,44 @@ export const HomePage = () => {
                         <p>Latitude: {location.latitude}, Longitude: {location.longitude}</p>
                         || <p>Positioning...</p>
                     }
-                    <div>
+                    <div id="upload">
+                        <div id="place">
+                            <label>Place:
+                                <input
+                                    type="text"
+                                    name="place"
+                                    value={place || ""}
+                                    onChange={e => setPlace(e.target.value)}
+                                />
+                            </label>
+                        </div>
 
+                        <div id="memo">
+                            <div>Memo:</div>
+                            <textarea id="memo-input"
+                                type="text"
+                                name="memo"
+                                value={memo || ""}
+                                onChange={e => setMemo(e.target.value)}
+                                rows="3"
+                            />
+                        </div>
+
+                        {showInputFile &&
                             <div>
-                                <label>Place:
+                                <label>Image file:
                                     <input
-                                        type="text"
-                                        name="place"
-                                        value={place || ""}
-                                        onChange={e => setPlace(e.target.value)}
+                                        type="file"
+                                        name="imageFile"
+                                        //value={params.imageFile || ""}
+                                        onChange={e => handleChange(e.target.files[0])}
                                     />
                                 </label>
                             </div>
+                        }
 
-                            <div>
-                                <label>Memo:
-                                    <input
-                                        type="text"
-                                        name="memo"
-                                        value={memo || ""}
-                                        onChange={e => setMemo(e.target.value)}
-                                    />
-                                </label>
-                            </div>
+                        <img id="img-temp" src={dataURI} width="35%" />
 
-                            {showInputFile &&
-                                <div>
-                                    <label>Image file:
-                                        <input
-                                            type="file"
-                                            name="imageFile"
-                                            //value={params.imageFile || ""}
-                                            onChange={e => handleChange(e.target.files[0])}
-                                        />
-                                    </label>
-                                </div>
-                            }
-
-                        <img src={dataURI} width="30%" />
                         <div>
                             <button className="small-button" type="submit" onClick={() => setShowCamera(true)}>Camera</button>
                             <button className="small-button" type="submit" onClick={() => setShowInputFile(!showInputFile)}>File</button>
@@ -152,7 +158,7 @@ export const HomePage = () => {
                 !showCamera &&
                 <div className="footer">
                     <button className="small-button" type="submit" onClick={() => setShowMap(true)}>Map</button>
-                    <button className="small-button" type="submit" onClick={postRecord}>Upload</button>
+                    <button className="small-button" type="submit" onClick={apiPostRecord}>Upload</button>
                     <button className="small-button" type="submit" onClick={clearInputFields}>Clear</button>
                 </div>
             }

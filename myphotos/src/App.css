@@ -5,14 +5,19 @@
   overflow-x: hidden;
   color: beige;
   margin: 0;
+  padding: 0;
   height: 100vh;
 }
 
 .default {
   font-size: 1.1em;
-  margin-top: 3.8rem;
+  margin-top: 3rem;
   margin-bottom: 3.5rem;
   padding: 0.8rem;
+}
+
+#album {
+  font-size: 1.5rem;
 }
 
 table {
@@ -71,7 +76,7 @@ form button {
 #navi #left {
   width: 33vw;
   text-align: left;
-  font-size: 1.3rem;
+  font-size: 1.5rem;
   padding-left: 0.8rem;
 }
 
@@ -224,3 +229,24 @@ a:active {
   transform: translate(-50%, -50%);
 }
 
+#upload {
+  width: 95%;
+  padding: 5px;
+}
+
+#place {
+  text-align: left;
+}
+
+#memo {
+  text-align: left;
+}
+
+#memo-input {
+  width: 100%;
+  margin-top: 5px;
+}
+
+#img-temp {
+  margin: 5px;
+}
