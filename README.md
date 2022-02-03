@@ -17,12 +17,9 @@ The backend runs on Heroku PaaS. Its code is in my other project: [heroku-myphot
 
 <img src="./doc/rough_sketch.jpg" width=300px>
 
-## Sub-projects
+## Code
 
-(Work in progress)
-
-- [My photos](/myphotos): React SPA for managing photo images on Postgres SQL on Heroku PaaS.
-- [My 3D models](/three): Three.js app for displaying my original 3D models made with Blender.
+[My photos](/myphotos): React SPA for managing photo images on Postgres SQL on Heroku PaaS.
 
 ## Relationship to my other project on GitHub
 
@@ -113,18 +110,7 @@ Or start a HTTPS server,
 $ HTTPS=true npm start
 ```
 
-## Project plan
-
-1. Study React basics
-2. Study Heroku basics
-3. Develop Photo app with React
-4. Develop REST API services on Heroku
-5. Integrate them
-6. Migrate from js version to ts version
-
-Then, I am going to study three.js and WebRTC for 2D & 3D world wide web.
-
-## Issues
+## Issues I faced in the development
 
 ### async/await in forEach
 
