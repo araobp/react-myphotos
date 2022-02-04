@@ -10,6 +10,8 @@ My React exercises
 
 ## Running the app locally
 
+Note: before starting this app, add ".env" file containing "BASE_URL=<REST API BASE URL>".
+
 ```
 $ npm start
 ```
