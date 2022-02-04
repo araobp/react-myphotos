@@ -8,6 +8,12 @@ My React exercises
 
 <img src="./doc/rough_sketch.jpg" width=300px>
 
+## Running the app locally
+
+```
+$ npm start
+```
+
 ## Relationship to my other project on GitHub
 
 react-myphotos(frontend) --- REST API --- [heroku-myphotos](https://github.com/araobp/heroku-myphotos)
@@ -83,14 +89,6 @@ DELETE /records
 
 Its associated photo is also deleted.
 
-```
-
-## Running the app locally
-
-Note: .env in the .gitignore file is intentionally commented out to use BASE_URL in the app.
-
-```
-$ npm start
 ```
 
 ## Issues
