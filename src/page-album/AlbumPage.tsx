@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 
-import { authHeaders } from "../util/auth";
+import { authHeaders, baseURL } from "../util/auth";
 import { styleModal } from "../components-common/styles";
 import { RecordResponse, LatLon, Thumbnails } from "../components-common/structure";
 
@@ -26,7 +26,7 @@ export const AlbumPage = () => {
             ...{ 'Accept': 'application/octet-stream' },
             ...authHeaders
         }
-        fetch(`${process.env.REACT_APP_BASE_URL}/photos/${id}/image`, { method: method, headers: headers })
+        fetch(`${baseURL}/photos/${id}/image`, { method: method, headers: headers })
             .then(res => res.blob())
             .then(data => setImageURL(URL.createObjectURL(data)));
         setShowImage(true);
@@ -53,7 +53,7 @@ export const AlbumPage = () => {
             ...{ 'Accept': 'application/json' },
             ...authHeaders
         };
-        fetch(`${process.env.REACT_APP_BASE_URL}/records`, { method: method, headers: headers })
+        fetch(`${baseURL}/records`, { method: method, headers: headers })
             .then(res => res.json())
             .then(rec => {
                 setRecords(rec);
@@ -68,7 +68,7 @@ export const AlbumPage = () => {
             ...authHeaders
         };
         await Promise.all(checkedRecords.map(async id => {
-            const res = await fetch(`${process.env.REACT_APP_BASE_URL}/records/${id}`, { method: method, headers: headers });
+            const res = await fetch(`${baseURL}/records/${id}`, { method: method, headers: headers });
             console.log(`status: ${res.status}`);
         }));
         setCheckedRecords([]);
@@ -84,7 +84,7 @@ export const AlbumPage = () => {
         const t: { [k: string]: string } = {};
         await Promise.all(rec.map(async (r: RecordResponse) => {
             if (r.id) {
-                const res = await fetch(`${process.env.REACT_APP_BASE_URL}/photos/${r.id}/thumbnail`, { method: method, headers: headers });
+                const res = await fetch(`${baseURL}/photos/${r.id}/thumbnail`, { method: method, headers: headers });
                 const data = await res.blob();
                 t[`id_${r.id}`] = URL.createObjectURL(data);
             }

@@ -4,9 +4,8 @@ import Modal from "react-modal";
 
 import { styleModal } from "../components-common/styles";
 import { dataURItoArrayBuffer } from '../util/convert';
-import { BASE_URL } from "../config";
+import { authHeaders, baseURL } from "../util/auth";
 
-import { authHeaders } from "../util/auth";
 import { RecordRequest, LatLon } from "../components-common/structure";
 import { CameraComp } from './CameraComp';
 import { GeoLocation } from '../components-common/GeoLocation';
@@ -62,7 +61,7 @@ export const HomePage = () => {
             },
             ...authHeaders
         };
-        fetch(`${process.env.REACT_APP_BASE_URL}/records`, { method: method, headers: headers, body: body })
+        fetch(`${baseURL}/records`, { method: method, headers: headers, body: body })
             .then(res => res.json())
             .then(body => {
                 const id = body.id;
@@ -75,7 +74,7 @@ export const HomePage = () => {
                     ...authHeaders
                 }
                 fetch(
-                    `${process.env.REACT_APP_BASE_URL}/photos/${id}`,
+                    `${baseURL}/photos/${id}`,
                     { method: method, headers: headers, body: dataURItoArrayBuffer(dataURI) }
                 )
                     .then(res => {
