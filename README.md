@@ -85,15 +85,16 @@ Its associated photo is also deleted.
 
 ```
 
+## The app running on Heroku PaaS
+
+The app can be found at: https://myreact1088001.herokuapp.com/
+
 ## Running the app locally
+
+Note: .env in the .gitignore file is intentionally commented out to use BASE_URL in the app.
 
 ```
 $ npm start
-```
-
-Or start a HTTPS server,
-```
-$ HTTPS=true npm start
 ```
 
 ## Issues
@@ -122,3 +123,4 @@ Go to public/index.html and include the CDN hosted leaflet.css:
 - W3 schools: https://www.w3schools.com/
 - React Tutorial: https://www.w3schools.com/REACT/default.asp
 - react-html5-camera-photo: https://www.npmjs.com/package/react-html5-camera-photo
+- React buildpack for Heroku PaaS: https://github.com/mars/create-react-app-buildpack
