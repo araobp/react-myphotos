@@ -4,22 +4,16 @@ My React exercises
 
 (Work in progress)
 
-## Motivation
-
-I studied Low-Code Development Platforms such as OutSystems or Mendix last year. They gave me a lot of hints on how to make a cross-platform app (SPA amd PWA) based on HTML5.
-
-This project is a handwritten version of such an app based on React, Express and Postgres SQL.
-
-The backend runs on Heroku PaaS. Its code is in my other project: [heroku-myphotos](https://github.com/araobp/heroku-myphotos).
-
-
 ## Rough sketch of the app UI
 
 <img src="./doc/rough_sketch.jpg" width=300px>
 
-## Code
+## Sub-projects
 
-[My photos](/myphotos): React SPA for managing photo images on Postgres SQL on Heroku PaaS.
+(Work in progress)
+
+- [My photos](/myphotos): React SPA for managing photo images on Postgres SQL on Heroku PaaS.
+- [My 3D models](/three): Three.js app for displaying my original 3D models made with Blender.
 
 ## Relationship to my other project on GitHub
 
@@ -110,7 +104,18 @@ Or start a HTTPS server,
 $ HTTPS=true npm start
 ```
 
-## Issues I faced in the development
+## Project plan
+
+1. Study React basics
+2. Study Heroku basics
+3. Develop Photo app with React
+4. Develop REST API services on Heroku
+5. Integrate them
+6. Migrate from js version to ts version
+
+Then, I am going to study three.js and WebRTC for 2D & 3D world wide web.
+
+## Issues
 
 ### async/await in forEach
 
