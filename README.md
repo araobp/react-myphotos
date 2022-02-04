@@ -8,6 +8,14 @@ My React exercises
 
 <img src="./doc/rough_sketch.jpg" width=300px>
 
+## Running the app locally
+
+Note: before starting this app, add ".env" file containing "REACT_APP_BASE_URL=<REST API BASE URL>".
+
+```
+$ npm start
+```
+
 ## Relationship to my other project on GitHub
 
 react-myphotos(frontend) --- REST API --- [heroku-myphotos](https://github.com/araobp/heroku-myphotos)
@@ -85,18 +93,6 @@ Its associated photo is also deleted.
 
 ```
 
-## The app running on Heroku PaaS
-
-The app can be found at: https://myreact1088001.herokuapp.com/
-
-## Running the app locally
-
-Note: .env in the .gitignore file is intentionally commented out to use BASE_URL in the app.
-
-```
-$ npm start
-```
-
 ## Issues
 
 ### async/await in forEach
@@ -124,3 +120,4 @@ Go to public/index.html and include the CDN hosted leaflet.css:
 - React Tutorial: https://www.w3schools.com/REACT/default.asp
 - react-html5-camera-photo: https://www.npmjs.com/package/react-html5-camera-photo
 - React buildpack for Heroku PaaS: https://github.com/mars/create-react-app-buildpack
+    
