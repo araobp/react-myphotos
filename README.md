@@ -85,10 +85,6 @@ Its associated photo is also deleted.
 
 ```
 
-## The app running on Heroku PaaS
-
-The app can be found at: https://myreact1088001.herokuapp.com/
-
 ## Running the app locally
 
 Note: .env in the .gitignore file is intentionally commented out to use BASE_URL in the app.
