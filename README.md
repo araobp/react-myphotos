@@ -8,13 +8,6 @@ My React exercises
 
 <img src="./doc/rough_sketch.jpg" width=300px>
 
-## Sub-projects
-
-(Work in progress)
-
-- [My photos](/myphotos): React SPA for managing photo images on Postgres SQL on Heroku PaaS.
-- [My 3D models](/three): Three.js app for displaying my original 3D models made with Blender.
-
 ## Relationship to my other project on GitHub
 
 react-myphotos(frontend) --- REST API --- [heroku-myphotos](https://github.com/araobp/heroku-myphotos)
@@ -94,7 +87,6 @@ Its associated photo is also deleted.
 
 ## Running the app locally
 
-Start a HTTP server,
 ```
 $ npm start
 ```
@@ -103,17 +95,6 @@ Or start a HTTPS server,
 ```
 $ HTTPS=true npm start
 ```
-
-## Project plan
-
-1. Study React basics
-2. Study Heroku basics
-3. Develop Photo app with React
-4. Develop REST API services on Heroku
-5. Integrate them
-6. Migrate from js version to ts version
-
-Then, I am going to study three.js and WebRTC for 2D & 3D world wide web.
 
 ## Issues
 
