@@ -4,6 +4,7 @@ import Modal from "react-modal";
 
 import { styleModal } from "../components-common/styles";
 import { dataURItoArrayBuffer } from '../util/convert';
+import { BASE_URL } from "../config";
 
 import { authHeaders } from "../util/auth";
 import { RecordRequest, LatLon } from "../components-common/structure";
