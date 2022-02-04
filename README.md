@@ -120,3 +120,4 @@ Go to public/index.html and include the CDN hosted leaflet.css:
 - React Tutorial: https://www.w3schools.com/REACT/default.asp
 - react-html5-camera-photo: https://www.npmjs.com/package/react-html5-camera-photo
 - React buildpack for Heroku PaaS: https://github.com/mars/create-react-app-buildpack
+    
