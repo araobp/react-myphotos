@@ -12,11 +12,11 @@ This app is dependent on a REST API server in my other project [heroku-myphotos]
 
 ## Running the app locally
 
-Note: enter "login", "password" and "BASE URL"(URL of the REST API server) for the first time.
-
 ```
 $ npm start
 ```
+
+Note: enter "login", "password" and "BASE URL"(URL of the REST API server) on the Login page of the app for the first time.
 
 ## Relationship to my other project on GitHub
 
