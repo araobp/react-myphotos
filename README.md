@@ -2,13 +2,17 @@
 
 My React exercises
 
+## Note
+
+This app is dependent on a REST API server in my other project [heroku-myphotos](https://github.com/araobp/heroku-myphotos).
+
 ## Rough sketch of the app UI
 
 <img src="./doc/rough_sketch.jpg" width=300px>
 
 ## Running the app locally
 
-Note: before starting this app, add ".env" file containing "REACT_APP_BASE_URL=<REST API BASE URL>".
+Note: enter "login", "password" and "BASE URL"(URL of the REST API server) for the first time.
 
 ```
 $ npm start
