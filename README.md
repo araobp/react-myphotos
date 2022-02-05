@@ -2,6 +2,10 @@
 
 My React exercises
 
+## Motivation
+
+Last year I studied Low Code Development Platforms (LCDP) such as OutSystem or Mendix. I want to develop something like a handwritten version of such a web app made possible with LCDP: I use React, Express and Postgres SQL with Heroku PaaS instead of LCDP.
+
 ## Note
 
 This app is dependent on a REST API server in my other project [heroku-myphotos](https://github.com/araobp/heroku-myphotos).
