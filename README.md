@@ -17,6 +17,7 @@ I have connected Heroku PaaS to both [react-myphotos](https://github.com/araobp/
 Heroku PaaS builds and deploys these projects automatically at every commit to GitHub.
 
 ```
+ react-myphotos                    heroku-myphotos
 [React web page] --- REST API --- [Express/Node.js]---[Postgres SQL]
 - - - - - - - - -                 - - - - - - - - - - - - - - - - -
 Static web serever                        REST API service
