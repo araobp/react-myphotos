@@ -20,7 +20,7 @@ Heroku PaaS builds and deploys these projects automatically at every commit to G
  react-myphotos                    heroku-myphotos
 [React web page] --- REST API --- [Express/Node.js]---[Postgres SQL]
 - - - - - - - - -                 - - - - - - - - - - - - - - - - -
-Static web serever                        REST API service
+Static web server                         REST API service
 hosted by Heroku                          hosted by Heroku PaaS
 ```
 
