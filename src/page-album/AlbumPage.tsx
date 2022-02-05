@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 
 import { authHeaders, baseURL } from "../util/auth";
-import { styleModal } from "../components-common/styles";
 import { RecordResponse, LatLon, Thumbnails } from "../components-common/structure";
 
 import { GeoLocation } from '../components-common/GeoLocation';
@@ -101,11 +100,11 @@ export const AlbumPage = () => {
         <>
             <div className="default">
                 <div>
-                    <Modal isOpen={showImage} style={styleModal}>
+                    <Modal isOpen={showImage} className="center">
                         <img src={imageURL} className="content" />
                         <button className="small-button" onClick={() => setShowImage(false)}>Close</button>
                     </Modal>
-                    <Modal isOpen={showMap} style={styleModal}>
+                    <Modal isOpen={showMap} className="center">
                         <GeoLocation latitude={location.latitude} longitude={location.longitude} />
                         <button className="small-button" onClick={() => setShowMap(false)}>Close</button>
                     </Modal>

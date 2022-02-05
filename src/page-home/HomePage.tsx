@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import '../App.css';
 import Modal from "react-modal";
 
-import { styleModal } from "../components-common/styles";
 import { dataURItoArrayBuffer } from '../util/convert';
 import { authHeaders, baseURL } from "../util/auth";
 
@@ -163,14 +162,14 @@ export const HomePage = () => {
 
             {
                 showCamera &&
-                <div id="camera">
+                <div className="center">
                     <CameraComp setDataURI={setDataURI} setShowCameraFlag={setShowCamera} />
                 </div>
             }
 
             {
                 location && showMap &&
-                <Modal isOpen={showMap} style={styleModal} >
+                <Modal isOpen={showMap} className="center" >
                     <div>
                         <GeoLocation latitude={location.latitude} longitude={location.longitude} />
                         <button className="small-button" onClick={() => setShowMap(false)}>Close</button>
