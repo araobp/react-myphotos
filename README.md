@@ -10,6 +10,19 @@ This app is dependent on a REST API server in my other project [heroku-myphotos]
 
 <img src="./doc/rough_sketch.jpg" width=300px>
 
+## Architecture
+
+I have connected Heroku PaaS to both [react-myphotos](https://github.com/araobp/react-myphotos) and [heroku-myphotos](https://github.com/araobp/heroku-myphotos).
+
+Heroku PaaS builds and deploys these projects automatically at every commit to GitHub.
+
+```
+[React web page] --- REST API --- [Express/Node.js]---[Postgres SQL]
+- - - - - - - - -                 - - - - - - - - - - - - - - - - -
+Static web serever                        REST API service
+hosted by Heroku                          hosted by Heroku PaaS
+```
+
 ## Running the app locally
 
 ```
