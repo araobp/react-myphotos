@@ -1,7 +1,11 @@
 import React, { useState, useEffect, FC } from "react";  // named export
 import '../App.css';
 
-export const LoginPage = ({ setLoginName }) => {
+type LoginPageProps = {
+    setLoginName: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export const LoginPage = ({ setLoginName }: LoginPageProps) => {
 
     const [login, setLogin] = useState<string>("");
     const [password, setPassword] = useState<string>("");
