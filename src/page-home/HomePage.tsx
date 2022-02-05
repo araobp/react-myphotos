@@ -107,7 +107,7 @@ export const HomePage = () => {
                         <p>Latitude: {location.latitude}, Longitude: {location.longitude}</p>
                         || <p>Positioning...</p>
                     }
-                    <div id="upload">
+                    <div>
                         <div id="place">
                             <label>Place:
                                 <input
@@ -135,7 +135,7 @@ export const HomePage = () => {
                                     <input
                                         type="file"
                                         name="imageFile"
-                                        //value={params.imageFile || ""}
+                                        className="input-file"
                                         onChange={e => { e.target.files && handleChange(e.target.files[0]) }}
                                     />
                                 </label>

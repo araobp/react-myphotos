@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import './App.css';
@@ -12,23 +12,21 @@ function App() {
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [loginName, setLoginName] = useState<string>(localStorage.getItem("login") || "<Unknown>");
 
-  const toggleShowMenu = () => {
-    setShowMenu(!showMenu);
-  }
+  const toggleShowMenu = () => setShowMenu(!showMenu);
 
   return (
     <div className="App">
       <div id="navi">
-        <div id="left" onClick={() => toggleShowMenu()}>Menu</div>
+        <div id="left" onClick={e => toggleShowMenu()}>Menu</div>
         <div id="center">Photos</div>
         <div id="right">{loginName}</div>
       </div>
       {showMenu &&
         <div id="menu">
-          <a href="/" className="navi-menu-text">Home</a>
-          <a href="/album" className="navi-menu-text">Album</a>
-          <a href="/login" className="navi-menu-text">Login</a>
-          <a href="/about" className="navi-menu-text">About</a>
+          <a href="/" className="menu-text">Home</a>
+          <a href="/album" className="menu-text">Album</a>
+          <a href="/login" className="menu-text">Login</a>
+          <a href="/about" className="menu-text">About</a>
         </div>
       }
       <div onClick={() => setShowMenu(false)}>

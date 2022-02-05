@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";  // named export
+import React, { useState, useEffect, FC } from "react";  // named export
 import '../App.css';
 
 export const LoginPage = ({ setLoginName }) => {
