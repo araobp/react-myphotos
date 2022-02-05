@@ -37,7 +37,11 @@
   justify-content: space-around;
   align-items: center;
   background-color: var(--nave-footer-background-color);
-}  
+}
+
+img {
+  object-fit: contain;
+}
 
 input {
   margin: 0.2rem;
@@ -86,23 +90,21 @@ textarea {
 
 .center {
   position: absolute;
+  background: #475479;
   top: 50%;
   left: 50%;
-  right: auto;
-  bottom: auto;
-  margin-right: -50%;
   transform: translate(-50%, -50%);
 }
 
 .content {
-  width: 70vw;
-  height: 70vh;
+  width: 85vw;
+  height: 85vh;
   content: contain;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  background: #1760a0;
+  background: #475479;
 }
 
 a:link {
@@ -228,7 +230,7 @@ table td {
 }
 
 .menu-text {
-  padding-top:1.3rem;
+  padding-top: 1.3rem;
   padding-left: 0.8rem;
   text-align: left;
   font-size: 1.5rem;
