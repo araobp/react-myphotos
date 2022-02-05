@@ -2,8 +2,6 @@
 
 My React exercises
 
-(Work in progress)
-
 ## Rough sketch of the app UI
 
 <img src="./doc/rough_sketch.jpg" width=300px>
