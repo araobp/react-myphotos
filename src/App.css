@@ -10,7 +10,7 @@
   text-align: center;
   background: var(--default-background);
   width: 100%;
-  /* overflow-x: hidden; */
+  overflow-x: hidden;
   color: white;
   margin: 0;
   padding: 0;
@@ -167,7 +167,7 @@ a:active {
 }
 
 table {
-  width: 90%;
+  width: 90vw;
   margin-left: auto;
   margin-right: auto;
   margin-top: 0.2rem;
