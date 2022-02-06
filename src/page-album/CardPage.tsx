@@ -113,9 +113,9 @@ export const CardPage = () => {
                             <div key={r.id} className="card">
                                 <img className="card-img" src={thumbnails[`id_${r.id}`]} onClick={() => apiOpenImage(r.id)}/>
                                 <div className="card-text">
-                                    <p>Date: {new Date(r.datetime as string).toLocaleString()}</p>
-                                    <p>Place: {r.place}</p>
-                                    <p>Memo: {r.memo}</p>
+                                    <div>Date: {new Date(r.datetime as string).toLocaleString()}</div>
+                                    <div>Place: {r.place}</div>
+                                    <div>Memo: {r.memo}</div>
                                 </div>
                             </div>
                         ))}
