@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BiMenu } from "react-icons/bi";
 
 import './App.css';
 import { HomePage } from './page-home/HomePage';
@@ -17,7 +18,7 @@ function App() {
   return (
     <div className="App">
       <div id="navi">
-        <div id="left" onClick={e => toggleShowMenu()}>Menu</div>
+        <div id="left" onClick={e => toggleShowMenu()}><BiMenu /></div>
         <div id="center">Photos</div>
         <div id="right">{loginName}</div>
       </div>

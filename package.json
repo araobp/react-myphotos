@@ -15,6 +15,7 @@
     "react-dom": "^17.0.2",
     "react-gitignore": "^1.0.12",
     "react-html5-camera-photo": "^1.5.5",
+    "react-icons": "^4.3.1",
     "react-leaflet": "^3.2.5",
     "react-modal": "^3.14.4",
     "react-router-dom": "^6.2.1",

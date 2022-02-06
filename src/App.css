@@ -6,7 +6,7 @@
   --default-font-size: 1.1rem;
   --input-font-size: 1.3rem;
   --input-background-color: #dddddd;
-  --nave-footer-background-color: #3e687d;
+  --navi-footer-background-color: #3e687d;
   text-align: center;
   background: var(--default-background);
   width: 100%;
@@ -36,7 +36,7 @@
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  background-color: var(--nave-footer-background-color);
+  background-color: var(--navi-footer-background-color);
 }
 
 img {
@@ -223,14 +223,14 @@ table td {
   justify-content: space-between;
   height: var(--margin-navi);
   color: #dbedf0;
-  background-color: #3e687d;
+  background-color: var(--navi-footer-background-color);
   align-items: center;
 }
 
 #navi #left {
   width: 33%;
   text-align: left;
-  font-size: 1.5rem;
+  font-size: 2.3rem;
   padding-left: 0.8rem;
 }
 
@@ -260,10 +260,11 @@ table td {
   right: 0;
   z-index: 2;
   cursor: pointer;
-  background: #475479;
+  background: var(--navi-footer-background-color);
   transition: width 1s;
   display: flex;
   flex-direction: column;
+  box-shadow: 3px 0px rgba(205, 219, 198, 0.4);
 }
 
 .menu-text {
