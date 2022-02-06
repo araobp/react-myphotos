@@ -89,6 +89,8 @@ textarea {
 }
 
 .center {
+  width: 85vw;
+  height: 85vh;
   position: absolute;
   background: #475479;
   top: 50%;

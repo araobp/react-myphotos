@@ -39,7 +39,7 @@ export const CameraComp = ({
     return (
         <div>
             <Camera onTakePhoto={(uri: any) => { handleTakePhoto(uri) }} imageType={IMAGE_TYPES.JPG}
-            idealFacingMode={FACING_MODES.ENVIRONMENT} />
+            idealFacingMode={FACING_MODES.ENVIRONMENT} isImageMirror={false}/>
             <button className="small-button" onClick={closeCameraComp}>Close</button>
             <Modal isOpen={imagePopUpIsOpen} className="center">
                 <div>
