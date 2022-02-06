@@ -45,6 +45,7 @@ img {
 }
 
 input {
+  border: 0;
   margin: 0.2rem;
   font-size: var(--input-font-size);
   background-color: var(--input-background-color);
@@ -63,10 +64,11 @@ textarea {
 
 .small-button {
   width: 8rem;
+  height: 2.4rem;
   margin: 8px;
   border: 2px solid #b9d3da;
   padding: 0.2em;
-  font-size: 1.3em;
+  font-size: 1.1em;
   border-radius: 5px;
   background: #2a4f88;
   color: var(--default-color);
@@ -74,7 +76,7 @@ textarea {
 
 .tiny-button {
   width: 3rem;
-  height: 2rem;
+  height: 2.4rem;
   border: 0;
   margin: 2px;
   padding: 0.1em;
