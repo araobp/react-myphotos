@@ -7,9 +7,9 @@ type LoginPageProps = {
 
 export const LoginPage = ({ setLoginName }: LoginPageProps) => {
 
-    const [login, setLogin] = useState<string>("");
-    const [password, setPassword] = useState<string>("");
-    const [baseURL, setBaseURL] = useState<string>("");
+    const [login, setLogin] = useState<string>(localStorage.getItem("login") || "");
+    const [password, setPassword] = useState<string>(localStorage.getItem("password") || "");
+    const [baseURL, setBaseURL] = useState<string>(localStorage.getItem("baseURL") || "");
     const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
 
     const saveCredential = () => {
@@ -29,39 +29,39 @@ export const LoginPage = ({ setLoginName }: LoginPageProps) => {
         setShowAdvanced(!showAdvanced);
     }
 
-    useEffect(() => {
-        const url = localStorage.getItem("baseURL");
-        if (url) {
-            setBaseURL(url);
-        }
-    }, []);
-
     return (
         <>
             <div className="default">
-                <input
-                    style={{ width: "16rem" }}
-                    type="text"
-                    value={login}
-                    onChange={(e) => setLogin(e.target.value)}
-                    placeholder="login"
-                />
-                <br></br>
-                <input
-                    style={{ width: "16rem" }}
-                    type="text"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="password"
-                />
-                {showAdvanced &&
+                <label>login:
                     <input
-                        style={{ width: "28rem" }}
+                        style={{ width: "16rem" }}
                         type="text"
-                        value={baseURL}
-                        onChange={(e) => setBaseURL(e.target.value)}
-                        placeholder="BASE URL"
+                        value={login}
+                        onChange={(e) => setLogin(e.target.value)}
+                        placeholder="login"
                     />
+                </label>
+                <br></br>
+                <label>password:
+                    <input
+                        style={{ width: "16rem" }}
+                        type="text"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="password"
+                    />
+                </label>
+                <br></br>
+                {showAdvanced &&
+                    <label>baseURL:
+                        <input
+                            style={{ width: "28rem" }}
+                            type="text"
+                            value={baseURL}
+                            onChange={(e) => setBaseURL(e.target.value)}
+                            placeholder="BASE URL"
+                        />
+                    </label>
                 }
                 <br></br>
                 <button className="small-button" type="submit" onClick={e => toggleAdvancedSetting()}>Advanced</button>

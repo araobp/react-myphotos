@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import '../App.css';
 import Modal from "react-modal";
 
@@ -14,21 +14,21 @@ export const HomePage = () => {
     Modal.setAppElement("#root");
 
     const [location, setLocation] = useState<LatLon>({ latitude: 0.0, longitude: 0.0 });
-    const [place, setPlace] = useState<string>("");
-    const [memo, setMemo] = useState<string>("");
+    const [place, setPlace] = useState<string>(localStorage.getItem("place") || "");
+    const [memo, setMemo] = useState<string>(localStorage.getItem("memo") || "");
     const [showInputFile, setShowInputFile] = useState<boolean>(false);
     const [showCamera, setShowCamera] = useState<boolean>(false);
     const [dataURI, setDataURI] = useState<string | null>(null);
     const [showMap, setShowMap] = useState<boolean>(false);
-
-    let watchId: any = null;
+    const [watchId, setWatchId] = useState<number | null>(null);
 
     /*** Geo-location ***********************************************/
     const startWatchingLocation = () => {
-        watchId = navigator.geolocation.watchPosition(position => {
+        const id = navigator.geolocation.watchPosition(position => {
             const { latitude, longitude } = position.coords;
             setLocation({ latitude, longitude });
         });
+        setWatchId(id);
     };
 
     const stopWatchingLocation = () => {
@@ -44,6 +44,10 @@ export const HomePage = () => {
 
     /*** Upload a record ****************************************/
     const apiPostRecord = () => {
+        // Save parameters
+        localStorage.setItem("place", place);
+        localStorage.setItem("memo", memo)
+
         // POST /records
         const record: RecordRequest = { place: place, memo: memo, latitude: 0.0, longitude: 0.0 };
         if (location) {
@@ -112,7 +116,7 @@ export const HomePage = () => {
                                 <input
                                     type="text"
                                     name="place"
-                                    value={place || ""}
+                                    value={place}
                                     onChange={e => setPlace(e.target.value)}
                                 />
                             </label>
@@ -122,7 +126,7 @@ export const HomePage = () => {
                             <div>Memo:</div>
                             <textarea id="memo-input"
                                 name="memo"
-                                value={memo || ""}
+                                value={memo}
                                 onChange={e => setMemo(e.target.value)}
                                 rows={3}
                             />
@@ -172,7 +176,7 @@ export const HomePage = () => {
                 <Modal isOpen={showMap} className="center">
                     <div>
                         <GeoLocation latitude={location.latitude} longitude={location.longitude} />
-                        <button className="small-button" style={{color: "white"}} onClick={() => setShowMap(false)}>Close</button>
+                        <button className="small-button" style={{ color: "white" }} onClick={() => setShowMap(false)}>Close</button>
                     </div>
                 </Modal>
             }

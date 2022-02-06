@@ -30,7 +30,7 @@ function App() {
           <a href="/about" className="menu-text">About</a>
         </div>
       }
-      <div onClick={() => setShowMenu(false)}>
+      <div onClick={() => setShowMenu(false)} >
         <BrowserRouter>
           <Routes>
             <Route path='/' element={<HomePage />} />
