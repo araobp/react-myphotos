@@ -4,7 +4,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './App.css';
 import { HomePage } from './page-home/HomePage';
 import { AlbumPage } from './page-album/AlbumPage';
-import { CardPage } from "./page-album/CardPage";
 import { AboutPage } from './page-about/AboutPage';
 import { LoginPage } from './page-login/LoginPage';
 
@@ -26,7 +25,6 @@ function App() {
         <div id="menu">
           <a href="/" className="menu-text">Home</a>
           <a href="/album" className="menu-text">Album</a>
-          <a href="/card" className="menu-text">Card</a>
           <a href="/login" className="menu-text">Login</a>
           <a href="/about" className="menu-text">About</a>
         </div>
@@ -36,7 +34,6 @@ function App() {
           <Routes>
             <Route path='/' element={<HomePage />} />
             <Route path='/album' element={<AlbumPage />} />
-            <Route path='/card' element={<CardPage />} />
             <Route path='/login' element={<LoginPage setLoginName={setLoginName}/>} />
             <Route path='/about' element={<AboutPage />} />
           </Routes>

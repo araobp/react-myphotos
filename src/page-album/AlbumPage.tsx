@@ -101,12 +101,30 @@ export const AlbumPage = () => {
             <div className="default">
                 <div>
                     <Modal isOpen={showImage} className="center">
-                        <img src={imageURL} onClick={() => setShowImage(false)} style={{width: "70vw", height: "70vh"}}/>
+                        <img src={imageURL} onClick={() => setShowImage(false)} style={{ width: "70vw", height: "70vh" }} />
                     </Modal>
                     <Modal isOpen={showMap} className="center">
                         <GeoLocation latitude={location.latitude} longitude={location.longitude} />
                         <button className="small-button" onClick={() => setShowMap(false)}>Close</button>
                     </Modal>
+                    <div id="album">Album</div>
+                    <div>
+                        {records.map((r, index) => (
+                            <div key={r.id} className="card">
+                                <input className="card-checkbox" type="checkbox" defaultChecked={r.id && (checkedRecords.indexOf(r.id) == -1) ? false : true} onChange={(e) => handleCheckedRecord(r.id, e.target.checked)} />
+                                <img className="card-img" src={thumbnails[`id_${r.id}`]} onClick={() => apiOpenImage(r.id)} />
+                                <div className="card-text">
+                                    <div>Date: {new Date(r.datetime as string).toLocaleString()}</div>
+                                    <div>Place: {r.place}</div>
+                                    <div>Memo: {r.memo}</div>
+                                </div>
+                                <div className="card-map">
+                                    <button className="tiny-button" onClick={() => openMap(r.latitude, r.longitude)}>Map</button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    {/*
                     <div id="album">Album</div>
                     <table>
                         <thead>
@@ -135,6 +153,7 @@ export const AlbumPage = () => {
                             </tbody>
                         ))}
                     </table>
+                        */}
                 </div>
             </div>
             <div className="footer">
