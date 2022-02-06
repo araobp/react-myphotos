@@ -3,7 +3,7 @@ import Modal from "react-modal";
 import '../App.css';
 
 // Camera
-import Camera, { IMAGE_TYPES } from 'react-html5-camera-photo';
+import Camera, { FACING_MODES, IMAGE_TYPES } from 'react-html5-camera-photo';
 import 'react-html5-camera-photo/build/css/index.css';
 
 export const CameraComp = ({
@@ -38,7 +38,8 @@ export const CameraComp = ({
 
     return (
         <div>
-            <Camera onTakePhoto={(uri: any) => { handleTakePhoto(uri) }} imageType={IMAGE_TYPES.JPG} />
+            <Camera onTakePhoto={(uri: any) => { handleTakePhoto(uri) }} imageType={IMAGE_TYPES.JPG}
+            idealFacingMode={FACING_MODES.ENVIRONMENT} />
             <button className="small-button" onClick={closeCameraComp}>Close</button>
             <Modal isOpen={imagePopUpIsOpen} className="center">
                 <div>
