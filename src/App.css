@@ -10,7 +10,7 @@
   text-align: center;
   background: var(--default-background);
   width: 100%;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
   color: white;
   margin: 0;
   padding: 0;
