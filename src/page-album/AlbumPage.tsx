@@ -105,9 +105,9 @@ export const AlbumPage = () => {
                     </Modal>
                     <Modal isOpen={showMap} className="center">
                         <GeoLocation latitude={location.latitude} longitude={location.longitude} />
-                        <button className="small-button" onClick={() => setShowMap(false)}>Close</button>
+                        <button className="small-button" style={{color: "white"}} onClick={() => setShowMap(false)}>Close</button>
                     </Modal>
-                    <div id="album">Album</div>
+                    <div id="album" className="title">Album</div>
                     <div>
                         {records.map((r, index) => (
                             <div key={r.id} className="card">
@@ -124,36 +124,6 @@ export const AlbumPage = () => {
                             </div>
                         ))}
                     </div>
-                    {/*
-                    <div id="album">Album</div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>id</th>
-                                <th>datetime</th>
-                                <th>place</th>
-                                <th>memo</th>
-                                <th>map</th>
-                                <th>thumbnail</th>
-                            </tr>
-                        </thead>
-                        {records.map((r, index) =>
-                        (
-                            <tbody key={r.id}>
-                                <tr>
-                                    <td><input type="checkbox" defaultChecked={r.id && (checkedRecords.indexOf(r.id) == -1) ? false : true} onChange={(e) => handleCheckedRecord(r.id, e.target.checked)} /></td>
-                                    <td>{r.id}</td>
-                                    <td>{new Date(r.datetime as string).toLocaleString()}</td>
-                                    <td>{r.place}</td>
-                                    <td>{r.memo}</td>
-                                    <td><button className="tiny-button" onClick={() => openMap(r.latitude, r.longitude)}>Map</button></td>
-                                    <td><img src={thumbnails[`id_${r.id}`]} onClick={() => apiOpenImage(r.id)} /></td>
-                                </tr>
-                            </tbody>
-                        ))}
-                    </table>
-                        */}
                 </div>
             </div>
             <div className="footer">

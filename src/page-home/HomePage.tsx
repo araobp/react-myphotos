@@ -172,7 +172,7 @@ export const HomePage = () => {
                 <Modal isOpen={showMap} className="center">
                     <div>
                         <GeoLocation latitude={location.latitude} longitude={location.longitude} />
-                        <button className="small-button" onClick={() => setShowMap(false)}>Close</button>
+                        <button className="small-button" style={{color: "white"}} onClick={() => setShowMap(false)}>Close</button>
                     </div>
                 </Modal>
             }

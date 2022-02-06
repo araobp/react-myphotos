@@ -14,7 +14,8 @@ export const GeoLocation: FunctionComponent<LatLon> = ({ latitude, longitude }: 
 
     return (
         <div>
-            <MapContainer center={[latitude, longitude]} zoom={17} scrollWheelZoom={false} style={{ width: "70vw", height: "70vh"}}>
+            <MapContainer center={[latitude, longitude]} zoom={17} scrollWheelZoom={false} style={{ width: "70vw", height: "70vh",
+            outline: "#888888 solid 3px"}}>
                 <TileLayer
                     //    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

@@ -7,11 +7,12 @@
   --input-font-size: 1.3rem;
   --input-background-color: #dddddd;
   --navi-footer-background-color: #3e687d;
+  --default-color: #dbedf0;
   text-align: center;
   background: var(--default-background);
   width: 100%;
   overflow-x: hidden;
-  color: white;
+  color: var(--default-color);
   margin: 0;
   padding: 0;
   height: 100vh;
@@ -62,11 +63,13 @@ textarea {
 
 .small-button {
   width: 8rem;
-  border: 0;
   margin: 8px;
+  border: 2px solid #b9d3da;
   padding: 0.2em;
   font-size: 1.3em;
   border-radius: 5px;
+  background: #2a4f88;
+  color: var(--default-color);
 }
 
 .tiny-button {
@@ -113,22 +116,22 @@ textarea {
 
 a:link {
   text-decoration: none;
-  color: white;
+  color: var(--default-color);
 }
 
 a:visited {
   text-decoration: none;
-  color: white;
+  color: var(--default-color);
 }
 
 a:hover {
   text-decoration: underline;
-  color: white;
+  color: var(--default-color);
 }
 
 a:active {
   text-decoration: underline;
-  color: white;
+  color: var(--default-color);
 }
 
 /*** Home page ***/
@@ -152,6 +155,10 @@ a:active {
 
 .latlon {
   font-size: 0.9rem;
+}
+
+.title {
+  font-weight: bold;
 }
 
 /*** LoginPage ***/
@@ -222,7 +229,7 @@ table td {
   width: 100%;
   justify-content: space-between;
   height: var(--margin-navi);
-  color: #dbedf0;
+  color: var(--default-color);
   background-color: var(--navi-footer-background-color);
   align-items: center;
 }
@@ -254,14 +261,13 @@ table td {
   margin-top: var(--margin-navi);
   /* display: none; */
   width: 35%;
-  height: 100%;
+  height: 100vh;
   top: 0;
   left: 0;
   right: 0;
   z-index: 2;
   cursor: pointer;
   background: var(--navi-footer-background-color);
-  transition: width 1s;
   display: flex;
   flex-direction: column;
   box-shadow: 3px 0px rgba(205, 219, 198, 0.4);
