@@ -7,7 +7,7 @@
   --input-font-size: 1.3rem;
   --input-background-color: #dddddd;
   --navi-footer-background-color: #3e687d;
-  --default-color: #dbedf0;
+  --default-color: white;
   text-align: center;
   background: var(--default-background);
   width: 100%;
@@ -102,6 +102,13 @@ textarea {
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
+  outline: none;
+}
+
+.center-img {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
   outline: none;
 }
 

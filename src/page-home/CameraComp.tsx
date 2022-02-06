@@ -45,8 +45,8 @@ export const CameraComp = ({
                 <div>
                     <img src={temporaryDataURI} />
                     <div className="row">
-                        <button className="small-button" onClick={done}>Done</button>
-                        <button className="small-button" onClick={closeImagePopUp}>Cancel</button>
+                        <button className="small-button" onClick={done} style={{color: "white"}}>Done</button>
+                        <button className="small-button" onClick={closeImagePopUp} style={{color: "white"}}>Cancel</button>
                     </div>
                 </div>
             </Modal>
