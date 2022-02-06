@@ -202,8 +202,12 @@ table td {
 
 .card-text {
   margin-left: 0.5rem;
-  width: 85vw;
+  width: 70vw;
   text-align: left;
+}
+
+.card-map {
+  width: 15vw;
 }
 
 /*** navi ***/

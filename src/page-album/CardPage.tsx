@@ -111,11 +111,14 @@ export const CardPage = () => {
                     <div>
                         {records.map((r, index) => (
                             <div key={r.id} className="card">
-                                <img className="card-img" src={thumbnails[`id_${r.id}`]} onClick={() => apiOpenImage(r.id)}/>
+                                <img className="card-img" src={thumbnails[`id_${r.id}`]} onClick={() => apiOpenImage(r.id)} />
                                 <div className="card-text">
                                     <div>Date: {new Date(r.datetime as string).toLocaleString()}</div>
                                     <div>Place: {r.place}</div>
                                     <div>Memo: {r.memo}</div>
+                                </div>
+                                <div className="card-map">
+                                    <button className="tiny-button" onClick={() => openMap(r.latitude, r.longitude)}>Map</button>
                                 </div>
                             </div>
                         ))}
