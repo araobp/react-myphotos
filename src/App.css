@@ -30,7 +30,7 @@
   position: fixed;
   overflow: hidden;
   bottom: 0px;
-  width: 100vw;
+  width: 100%;
   height: var(--margin-footer);
   display: flex;
   flex-direction: row;
@@ -89,19 +89,20 @@ textarea {
 }
 
 .center {
-  width: 85vw;
-  height: 85vh;
+  width: 70vw;
+  height: 70vh;
   position: absolute;
-  background: #475479;
+  background: transparent;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
+  outline: none;
 }
 
 .content {
-  width: 85vw;
-  height: 85vh;
+  width: 85%;
+  height: 85%;
   content: contain;
   display: flex;
   flex-direction: column;
@@ -146,7 +147,11 @@ a:active {
 
 #img-temp {
   margin: 5px;
-  width: 25vw;
+  width: 25%;
+}
+
+.latlon {
+  font-size: 0.9rem;
 }
 
 /*** LoginPage ***/
@@ -162,7 +167,7 @@ a:active {
 }
 
 table {
-  width: 90vw;
+  width: 90%;
   margin-left: auto;
   margin-right: auto;
   margin-top: 0.2rem;
@@ -185,7 +190,7 @@ table td {
 #navi {
   position: fixed;
   display: flex;
-  width: 100vw;
+  width: 100%;
   justify-content: space-between;
   height: var(--margin-navi);
   color: #dbedf0;
@@ -194,21 +199,21 @@ table td {
 }
 
 #navi #left {
-  width: 33vw;
+  width: 33%;
   text-align: left;
   font-size: 1.5rem;
   padding-left: 0.8rem;
 }
 
 #navi #center {
-  width: 34vw;
+  width: 34%;
   text-align: center;
   font-size: 2.5rem;
   font-weight: bold;
 }
 
 #navi #right {
-  width: 33vw;
+  width: 33%;
   text-align: right;
   font-size: 1rem;
   padding-right: 0.8rem;

@@ -101,8 +101,7 @@ export const AlbumPage = () => {
             <div className="default">
                 <div>
                     <Modal isOpen={showImage} className="center">
-                        <img src={imageURL} className="content" />
-                        <button className="small-button" onClick={() => setShowImage(false)}>Close</button>
+                        <img src={imageURL} onClick={() => setShowImage(false)} style={{width: "70vw", height: "70vh"}}/>
                     </Modal>
                     <Modal isOpen={showMap} className="center">
                         <GeoLocation latitude={location.latitude} longitude={location.longitude} />

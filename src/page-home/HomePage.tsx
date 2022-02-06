@@ -103,8 +103,8 @@ export const HomePage = () => {
             {!showCamera &&
                 <div className="default">
                     {location &&
-                        <p>Latitude: {location.latitude}, Longitude: {location.longitude}</p>
-                        || <p>Positioning...</p>
+                        <p className="latlon">Latitude: {location.latitude}, Longitude: {location.longitude}</p>
+                        || <p className="latlon">Positioning...</p>
                     }
                     <div>
                         <div id="place">
@@ -168,8 +168,9 @@ export const HomePage = () => {
             }
 
             {
-                location && showMap &&
-                <Modal isOpen={showMap} className="center" >
+                location &&
+                <Modal isOpen={showMap} className="center">
+
                     <div>
                         <GeoLocation latitude={location.latitude} longitude={location.longitude} />
                         <button className="small-button" onClick={() => setShowMap(false)}>Close</button>
