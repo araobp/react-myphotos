@@ -186,6 +186,27 @@ table td {
   color: #333333;
 }
 
+.card {
+  display: flex;
+  flex-direction: row;
+  margin: 0.2rem;
+  padding: 0.3rem;
+  background: beige;
+  color:#333333;
+}
+
+.card-img {
+  width: 15vw;
+  object-fit: contain;
+}
+
+.card-text {
+  margin-left: 0.5rem;
+  width: 85vw;
+  text-align: left;
+  line-height:30%;
+}
+
 /*** navi ***/
 #navi {
   position: fixed;

@@ -6,7 +6,7 @@ import { RecordResponse, LatLon, Thumbnails } from "../components-common/structu
 
 import { GeoLocation } from '../components-common/GeoLocation';
 
-export const AlbumPage = () => {
+export const CardPage = () => {
 
     Modal.setAppElement("#root");
 
@@ -101,12 +101,26 @@ export const AlbumPage = () => {
             <div className="default">
                 <div>
                     <Modal isOpen={showImage} className="center">
-                        <img src={imageURL} onClick={() => setShowImage(false)} style={{width: "70vw", height: "70vh"}}/>
+                        <img src={imageURL} onClick={() => setShowImage(false)} style={{ width: "70vw", height: "70vh" }} />
                     </Modal>
                     <Modal isOpen={showMap} className="center">
                         <GeoLocation latitude={location.latitude} longitude={location.longitude} />
                         <button className="small-button" onClick={() => setShowMap(false)}>Close</button>
                     </Modal>
+                    <div id="album">Album</div>
+                    <div>
+                        {records.map((r, index) => (
+                            <div key={r.id} className="card">
+                                <img className="card-img" src={thumbnails[`id_${r.id}`]} onClick={() => apiOpenImage(r.id)}/>
+                                <div className="card-text">
+                                    <p>Date: {new Date(r.datetime as string).toLocaleString()}</p>
+                                    <p>Place: {r.place}</p>
+                                    <p>Memo: {r.memo}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    {/*
                     <div id="album">Album</div>
                     <table>
                         <thead>
@@ -135,6 +149,7 @@ export const AlbumPage = () => {
                             </tbody>
                         ))}
                     </table>
+                        */}
                 </div>
             </div>
             <div className="footer">
