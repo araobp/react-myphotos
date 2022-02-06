@@ -162,7 +162,7 @@ export const HomePage = () => {
 
             {
                 showCamera &&
-                <div className="center">
+                <div>
                     <CameraComp setDataURI={setDataURI} setShowCameraFlag={setShowCamera} />
                 </div>
             }
