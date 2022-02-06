@@ -111,6 +111,7 @@ export const CardPage = () => {
                     <div>
                         {records.map((r, index) => (
                             <div key={r.id} className="card">
+                                <input className="card-checkbox" type="checkbox" defaultChecked={r.id && (checkedRecords.indexOf(r.id) == -1) ? false : true} onChange={(e) => handleCheckedRecord(r.id, e.target.checked)} />
                                 <img className="card-img" src={thumbnails[`id_${r.id}`]} onClick={() => apiOpenImage(r.id)} />
                                 <div className="card-text">
                                     <div>Date: {new Date(r.datetime as string).toLocaleString()}</div>

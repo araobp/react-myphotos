@@ -193,6 +193,11 @@ table td {
   padding: 0.3rem;
   background: beige;
   color:#333333;
+  align-items: center;
+}
+
+.card-checkbox {
+  width: 5vw;
 }
 
 .card-img {
@@ -207,7 +212,7 @@ table td {
 }
 
 .card-map {
-  width: 15vw;
+  width: 10vw;
 }
 
 /*** navi ***/
