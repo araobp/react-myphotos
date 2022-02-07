@@ -7,12 +7,10 @@ import { authHeaders, baseURL } from "../util/auth";
 
 import { RecordRequest, LatLon } from "../components-common/structure";
 import { CameraComp } from './CameraComp';
-import { GeoLocation } from '../components-common/GeoLocation';
-import { PopUp } from "../components-common/PopUp";
+import { PopUpMap } from '../components-common/PopUpMap';
+import { PopUp } from "../components-common/PopUpMessage";
 
 export const HomePage = () => {
-
-    Modal.setAppElement("#root");
 
     const [location, setLocation] = useState<LatLon>({ latitude: 0.0, longitude: 0.0 });
     const [place, setPlace] = useState<string>(localStorage.getItem("place") || "");
@@ -24,6 +22,8 @@ export const HomePage = () => {
     const [watchId, setWatchId] = useState<number | null>(null);
     const [showProgress, setShowProgress] = useState<boolean>(false);
     const [showReject, setShowReject] = useState<boolean>(false);
+
+    Modal.setAppElement("#root");
 
     /*** Geo-location ***********************************************/
     const startWatchingLocation = () => {
@@ -169,8 +169,7 @@ export const HomePage = () => {
                 </div>
             }
 
-            {
-                !showCamera &&
+            {!showCamera &&
                 <div className="footer">
                     <button className="small-button" type="submit" onClick={() => setShowMap(true)}>Map</button>
                     <button className="small-button" type="submit" onClick={e => apiPostRecord()}>Upload</button>
@@ -178,26 +177,19 @@ export const HomePage = () => {
                 </div>
             }
 
-            {
-                showCamera &&
+            {showCamera &&
                 <div>
                     <CameraComp setDataURI={setDataURI} setShowCameraFlag={setShowCamera} />
                 </div>
             }
 
-            {
-                location &&
-                <Modal isOpen={showMap} className="center">
-                    <div>
-                        <GeoLocation latitude={location.latitude} longitude={location.longitude} />
-                        <button className="small-button" onClick={() => setShowMap(false)}>Close</button>
-                    </div>
-                </Modal>
+            {location &&
+                <PopUpMap isOpen={showMap} setIsOpen={setShowMap} latlon={location} />
             }
 
-            <PopUp showPopUp={showProgress} isAlert={false} message={'Uploading the record to the cloud...'}/>
+            <PopUp isOpen={showProgress} isAlert={false} message={'Uploading the record to the cloud...'} />
 
-            <PopUp showPopUp={showReject} isAlert={true} message={'Uploading rejected: no imaga data'} />
+            <PopUp isOpen={showReject} isAlert={true} message={'Uploading rejected: no imaga data'} />
 
         </div >
     );

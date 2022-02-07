@@ -1,3 +1,4 @@
+// Data structures for the REST API
 
 export type RecordResponse = {
     id: number;

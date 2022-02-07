@@ -3,9 +3,8 @@ import Modal from "react-modal";
 
 import { authHeaders, baseURL } from "../util/auth";
 import { RecordResponse, LatLon, Thumbnails } from "../components-common/structure";
-import { PopUpConfirm, PopUpConfirmProps } from "../components-common/PopUp";
-
-import { GeoLocation } from '../components-common/GeoLocation';
+import { PopUpConfirm } from "../components-common/PopUpMessage";
+import { PopUpMap } from '../components-common/PopUpMap';
 
 export const AlbumPage = () => {
 
@@ -112,12 +111,10 @@ export const AlbumPage = () => {
                     <Modal isOpen={showImage} className="center-img">
                         <img src={imageURL} onClick={() => setShowImage(false)} style={{ width: "100vw", height: "100vh" }} />
                     </Modal>
-                    <Modal isOpen={showMap} className="center">
-                        <GeoLocation latitude={location.latitude} longitude={location.longitude} />
-                        <button className="small-button" onClick={() => setShowMap(false)}>Close</button>
-                    </Modal>
 
-                    <PopUpConfirm showPopUp={showConfirm} message="Do you really want to delete these records?"
+                    <PopUpMap isOpen={showMap} setIsOpen={setShowMap} latlon={location} />
+
+                    <PopUpConfirm isOpen={showConfirm} message="Do you really want to delete these records?"
                     callback={confirmed => deleteCheckedRecords(confirmed)} />
 
                     <div className="title">Album</div>

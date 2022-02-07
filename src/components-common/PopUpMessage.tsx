@@ -3,18 +3,18 @@ import Modal from "react-modal";
 import '../App.css';
 
 export type PopUpProps = {
-    showPopUp: boolean;
+    isOpen: boolean;
     isAlert: boolean;
     message: string;
 }
 
 export type PopUpConfirmProps = {
-    showPopUp: boolean;
+    isOpen: boolean;
     message: string;
     callback: (confirmed: boolean) => void;
 }
 
-export const PopUp: FunctionComponent<PopUpProps> = ({ showPopUp, isAlert, message }: PopUpProps) => {
+export const PopUp: FunctionComponent<PopUpProps> = ({ isOpen: showPopUp, isAlert, message }: PopUpProps) => {
     const className: string = isAlert ? "popup-alert" : "popup";
 
     return (
@@ -28,7 +28,7 @@ export const PopUp: FunctionComponent<PopUpProps> = ({ showPopUp, isAlert, messa
     );
 }
 
-export const PopUpConfirm: FunctionComponent<PopUpConfirmProps> = ({ showPopUp, message, callback }: PopUpConfirmProps) => {
+export const PopUpConfirm: FunctionComponent<PopUpConfirmProps> = ({ isOpen: showPopUp, message, callback }: PopUpConfirmProps) => {
     return (
         <>
             <Modal isOpen={showPopUp} className="center">
