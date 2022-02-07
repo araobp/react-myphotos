@@ -32,6 +32,8 @@ export const LoginPage = ({ setLoginName }: LoginPageProps) => {
     return (
         <>
             <div className="default">
+                <div className="title">Login</div>
+                <br></br>
                 <label>login:
                     <input
                         style={{ width: "16rem" }}

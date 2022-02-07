@@ -106,8 +106,9 @@ export const HomePage = () => {
         <div>
             {!showCamera &&
                 <div className="default">
+                    <div className="title">Home</div>
                     {location &&
-                        <p className="latlon">Latitude: {location.latitude}, Longitude: {location.longitude}</p>
+                        <p className="latlon">Latitude: {location.latitude.toFixed(6)}, Longitude: {location.longitude.toFixed(6)}</p>
                         || <p className="latlon">Positioning...</p>
                     }
                     <div>

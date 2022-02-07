@@ -157,7 +157,7 @@ button:active {
 }
 
 .popup {
-  width: 40vw;
+  width: 24rem;
   padding: 1rem;
   border: 2px solid #b9d3da;
   background-color:rgb(217, 235, 247);
@@ -209,6 +209,7 @@ a:active {
 }
 
 .title {
+  font-size: 1.5rem;
   font-weight: bold;
 }
 
@@ -220,9 +221,6 @@ a:active {
 }
 
 /*** AlbumPage ***/
-#album {
-  font-size: 1.5rem;
-}
 
 table {
   width: 90vw;

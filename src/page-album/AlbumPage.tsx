@@ -124,7 +124,7 @@ export const AlbumPage = () => {
                             </div>
                         </div>
                     </Modal>
-                    <div id="album" className="title">Album</div>
+                    <div className="title">Album</div>
                     <div>
                         {records.map((r, index) => (
                             <div key={r.id} className="card">

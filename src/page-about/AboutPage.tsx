@@ -2,10 +2,14 @@ import '../App.css';
 
 export const AboutPage = () => {
     return (
-        <div className="default">
-            <p>Development period: January - February, 2022</p>
-            <p>Author: <a href="https://github.com/araobp">https://github.com/araobp</a></p>
-            <p>Project page: <a href="https://github.com/araobp/react-myphotos">https://github.com/araobp/react-myphotos</a></p>
+        <div className='default'>
+            <div className="title">About</div>
+            <div>
+                <br></br>
+                <div><a href="https://github.com/araobp">Author</a></div>
+                <br></br>
+                <div><a href="https://github.com/araobp/react-myphotos">Projet page</a></div>
+            </div>
         </div>
     );
 }
