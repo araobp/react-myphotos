@@ -157,7 +157,7 @@ button:active {
 }
 
 .popup {
-  width: 24rem;
+  width: 55vw;
   padding: 1rem;
   border: 2px solid #b9d3da;
   background-color: rgb(217, 235, 247);
