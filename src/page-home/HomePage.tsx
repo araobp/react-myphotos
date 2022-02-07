@@ -21,6 +21,7 @@ export const HomePage = () => {
     const [dataURI, setDataURI] = useState<string | null>(null);
     const [showMap, setShowMap] = useState<boolean>(false);
     const [watchId, setWatchId] = useState<number | null>(null);
+    const [showProgress, setShowProgress] = useState<boolean>(false);
 
     /*** Geo-location ***********************************************/
     const startWatchingLocation = () => {
@@ -44,6 +45,8 @@ export const HomePage = () => {
 
     /*** Upload a record ****************************************/
     const apiPostRecord = () => {
+        setShowProgress(true);
+
         // Save parameters
         localStorage.setItem("place", place);
         localStorage.setItem("memo", memo)
@@ -67,22 +70,27 @@ export const HomePage = () => {
         fetch(`${baseURL}/records`, { method: method, headers: headers, body: body })
             .then(res => res.json())
             .then(body => {
-                const id = body.id;
-                const method = "POST";
-                const headers = {
-                    ...{
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/octet-stream'
-                    },
-                    ...authHeaders
+                if (dataURI) {
+                    const id = body.id;
+                    const method = "POST";
+                    const headers = {
+                        ...{
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/octet-stream'
+                        },
+                        ...authHeaders
+                    }
+                    fetch(
+                        `${baseURL}/photos/${id}`,
+                        { method: method, headers: headers, body: dataURItoArrayBuffer(dataURI) }
+                    )
+                        .then(res => {
+                            console.log(res.status);
+                            setShowProgress(false);
+                        });
+                } else {
+                    setShowProgress(false);
                 }
-                fetch(
-                    `${baseURL}/photos/${id}`,
-                    { method: method, headers: headers, body: dataURItoArrayBuffer(dataURI) }
-                )
-                    .then(res => {
-                        console.log(res.status);
-                    });
             });
     }
 
@@ -181,6 +189,13 @@ export const HomePage = () => {
                     </div>
                 </Modal>
             }
+
+            <Modal isOpen={showProgress} className="center">
+                <div className="popup">
+                    <p>Uploading the record to the cloud...</p>
+                </div>
+            </Modal>
+
         </div >
     );
 };
