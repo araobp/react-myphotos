@@ -1,4 +1,4 @@
-# MY PHOTOS ON REACT
+# MY PHOTOS ON REACT (SPA and PWA)
 
 My React exercises
 
