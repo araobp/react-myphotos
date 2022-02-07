@@ -7,12 +7,11 @@
   --input-font-size: 1.3rem;
   --input-background-color: #dddddd;
   --navi-footer-background-color: #3e687d;
-  --default-color: white;
   text-align: center;
   background: var(--default-background);
   width: 100%;
   overflow-x: hidden;
-  color: var(--default-color);
+  color: white;
   margin: 0;
   padding: 0;
   height: 100vh;
@@ -75,7 +74,7 @@ button {
   font-size: 1.1em;
   border-radius: 5px;
   background: #2a4f88;
-  color: var(--default-color);
+  color: white;
 }
 
 .small-button-confirm {
@@ -86,8 +85,8 @@ button {
   padding: 0.2em;
   font-size: 1.1em;
   border-radius: 5px;
-  background: #fa4545;
-  color: var(--default-color);
+  background: #FF5555;
+  color: white;
 }
 
 .small-button-cancel {
@@ -99,7 +98,7 @@ button {
   font-size: 1.1em;
   border-radius: 5px;
   background: #686868;
-  color: var(--default-color);
+  color: white;
 }
 
 .tiny-button {
@@ -165,24 +164,33 @@ button:active {
   margin-right: auto;
 }
 
+.popup-alert {
+  width: 55vw;
+  padding: 1rem;
+  border: 2px solid #b9d3da;
+  background-color: #FF5555;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 a:link {
   text-decoration: none;
-  color: var(--default-color);
+  color: white;
 }
 
 a:visited {
   text-decoration: none;
-  color: var(--default-color);
+  color: white;
 }
 
 a:hover {
   text-decoration: underline;
-  color: var(--default-color);
+  color: white;
 }
 
 a:active {
   text-decoration: underline;
-  color: var(--default-color);
+  color: white;
 }
 
 /*** Home page ***/
@@ -279,7 +287,7 @@ table td {
   width: 100%;
   justify-content: space-between;
   height: var(--margin-navi);
-  color: var(--default-color);
+  color: white;
   background-color: var(--navi-footer-background-color);
   align-items: center;
 }

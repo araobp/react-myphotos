@@ -22,6 +22,7 @@ export const HomePage = () => {
     const [showMap, setShowMap] = useState<boolean>(false);
     const [watchId, setWatchId] = useState<number | null>(null);
     const [showProgress, setShowProgress] = useState<boolean>(false);
+    const [showReject, setShowReject] = useState<boolean>(false);
 
     /*** Geo-location ***********************************************/
     const startWatchingLocation = () => {
@@ -45,32 +46,33 @@ export const HomePage = () => {
 
     /*** Upload a record ****************************************/
     const apiPostRecord = () => {
-        setShowProgress(true);
+        if (dataURI) {
 
-        // Save parameters
-        localStorage.setItem("place", place);
-        localStorage.setItem("memo", memo)
+            setShowProgress(true);
 
-        // POST /records
-        const record: RecordRequest = { place: place, memo: memo, latitude: 0.0, longitude: 0.0 };
-        if (location) {
-            record.latitude = location.latitude;
-            record.longitude = location.longitude;
-        }
-        const body = JSON.stringify(record);
-        console.log(body);
-        const method: string = "POST";
-        const headers = {
-            ...{
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            ...authHeaders
-        };
-        fetch(`${baseURL}/records`, { method: method, headers: headers, body: body })
-            .then(res => res.json())
-            .then(body => {
-                if (dataURI) {
+            // Save parameters
+            localStorage.setItem("place", place);
+            localStorage.setItem("memo", memo)
+
+            // POST /records
+            const record: RecordRequest = { place: place, memo: memo, latitude: 0.0, longitude: 0.0 };
+            if (location) {
+                record.latitude = location.latitude;
+                record.longitude = location.longitude;
+            }
+            const body = JSON.stringify(record);
+            console.log(body);
+            const method: string = "POST";
+            const headers = {
+                ...{
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                ...authHeaders
+            };
+            fetch(`${baseURL}/records`, { method: method, headers: headers, body: body })
+                .then(res => res.json())
+                .then(body => {
                     const id = body.id;
                     const method = "POST";
                     const headers = {
@@ -88,10 +90,12 @@ export const HomePage = () => {
                             console.log(res.status);
                             setShowProgress(false);
                         });
-                } else {
-                    setShowProgress(false);
-                }
-            });
+
+                });
+        } else {
+            setShowReject(true);
+            setTimeout(() => setShowReject(false), 2000);
+        }
     }
 
     const handleChange = (f: File | null) => {
@@ -185,7 +189,7 @@ export const HomePage = () => {
                 <Modal isOpen={showMap} className="center">
                     <div>
                         <GeoLocation latitude={location.latitude} longitude={location.longitude} />
-                        <button className="small-button" style={{ color: "white" }} onClick={() => setShowMap(false)}>Close</button>
+                        <button className="small-button" onClick={() => setShowMap(false)}>Close</button>
                     </div>
                 </Modal>
             }
@@ -193,6 +197,12 @@ export const HomePage = () => {
             <Modal isOpen={showProgress} className="center">
                 <div className="popup">
                     <p>Uploading the record to the cloud...</p>
+                </div>
+            </Modal>
+
+            <Modal isOpen={showReject} className="center">
+                <div className="popup-alert">
+                    <p>Uploading rejected: no imaga data</p>
                 </div>
             </Modal>
 

@@ -113,14 +113,14 @@ export const AlbumPage = () => {
                     </Modal>
                     <Modal isOpen={showMap} className="center">
                         <GeoLocation latitude={location.latitude} longitude={location.longitude} />
-                        <button className="small-button" style={{ color: "white" }} onClick={() => setShowMap(false)}>Close</button>
+                        <button className="small-button" onClick={() => setShowMap(false)}>Close</button>
                     </Modal>
                     <Modal isOpen={showConfirm} className="center">
                         <div className="popup">
                             <p>Do you really want to delete these records?</p>
                             <div className="row">
-                                <button className="small-button-cancel" style={{ color: "white" }} onClick={() => deleteCheckedRecords(false)}>Cancel</button>
-                                <button className="small-button-confirm" style={{ color: "white" }} onClick={() => deleteCheckedRecords(true)}>Delete</button>
+                                <button className="small-button-cancel" onClick={() => deleteCheckedRecords(false)}>Cancel</button>
+                                <button className="small-button-confirm" onClick={() => deleteCheckedRecords(true)}>Delete</button>
                             </div>
                         </div>
                     </Modal>

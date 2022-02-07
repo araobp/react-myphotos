@@ -39,14 +39,14 @@ export const CameraComp = ({
     return (
         <div>
             <Camera onTakePhoto={(uri: any) => { handleTakePhoto(uri) }} imageType={IMAGE_TYPES.JPG}
-            idealFacingMode={FACING_MODES.ENVIRONMENT} isImageMirror={false}/>
+                idealFacingMode={FACING_MODES.ENVIRONMENT} isImageMirror={false} />
             <button className="small-button" onClick={closeCameraComp}>Close</button>
             <Modal isOpen={imagePopUpIsOpen} className="center-img">
                 <div>
-                    <img src={temporaryDataURI} style={{ width: "100vw", height: "80vh" }}/>
+                    <img src={temporaryDataURI} style={{ width: "100vw", height: "80vh" }} />
                     <div className="row">
-                        <button className="small-button" onClick={done} style={{color: "white"}}>Done</button>
-                        <button className="small-button" onClick={closeImagePopUp} style={{color: "white"}}>Cancel</button>
+                        <button className="small-button" onClick={done} >Done</button>
+                        <button className="small-button" onClick={closeImagePopUp} >Cancel</button>
                     </div>
                 </div>
             </Modal>
