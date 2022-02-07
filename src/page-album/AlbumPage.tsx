@@ -3,6 +3,7 @@ import Modal from "react-modal";
 
 import { authHeaders, baseURL } from "../util/auth";
 import { RecordResponse, LatLon, Thumbnails } from "../components-common/structure";
+import { PopUpConfirm, PopUpConfirmProps } from "../components-common/PopUp";
 
 import { GeoLocation } from '../components-common/GeoLocation';
 
@@ -115,15 +116,10 @@ export const AlbumPage = () => {
                         <GeoLocation latitude={location.latitude} longitude={location.longitude} />
                         <button className="small-button" onClick={() => setShowMap(false)}>Close</button>
                     </Modal>
-                    <Modal isOpen={showConfirm} className="center">
-                        <div className="popup">
-                            <p>Do you really want to delete these records?</p>
-                            <div className="row">
-                                <button className="small-button-cancel" onClick={() => deleteCheckedRecords(false)}>Cancel</button>
-                                <button className="small-button-confirm" onClick={() => deleteCheckedRecords(true)}>Delete</button>
-                            </div>
-                        </div>
-                    </Modal>
+
+                    <PopUpConfirm showPopUp={showConfirm} message="Do you really want to delete these records?"
+                    callback={confirmed => deleteCheckedRecords(confirmed)} />
+
                     <div className="title">Album</div>
                     <div>
                         {records.map((r, index) => (

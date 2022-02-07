@@ -8,6 +8,7 @@ import { authHeaders, baseURL } from "../util/auth";
 import { RecordRequest, LatLon } from "../components-common/structure";
 import { CameraComp } from './CameraComp';
 import { GeoLocation } from '../components-common/GeoLocation';
+import { PopUp } from "../components-common/PopUp";
 
 export const HomePage = () => {
 
@@ -194,17 +195,9 @@ export const HomePage = () => {
                 </Modal>
             }
 
-            <Modal isOpen={showProgress} className="center">
-                <div className="popup">
-                    <p>Uploading the record to the cloud...</p>
-                </div>
-            </Modal>
+            <PopUp showPopUp={showProgress} isAlert={false} message={'Uploading the record to the cloud...'}/>
 
-            <Modal isOpen={showReject} className="center">
-                <div className="popup-alert">
-                    <p>Uploading rejected: no imaga data</p>
-                </div>
-            </Modal>
+            <PopUp showPopUp={showReject} isAlert={true} message={'Uploading rejected: no imaga data'} />
 
         </div >
     );
