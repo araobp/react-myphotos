@@ -18,9 +18,9 @@ function App() {
   return (
     <div className="App">
       <div id="navi">
-        <div id="left" onClick={e => toggleShowMenu()}><BiMenu /></div>
-        <div id="center">Photos</div>
-        <div id="right">{loginName}</div>
+        <div id="navi-left" onClick={e => toggleShowMenu()}><BiMenu /></div>
+        <div id="navi-center">Photos</div>
+        <div id="navi-right">{loginName}</div>
       </div>
       {showMenu &&
         <div id="menu">

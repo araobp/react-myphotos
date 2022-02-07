@@ -62,15 +62,43 @@ textarea {
   background-color: var(--input-background-color);
 }
 
+button {
+  box-shadow: 1px 1px 2px 2px rgba(0,0,0,0.2);
+}
+
 .small-button {
   width: 8rem;
   height: 2.4rem;
   margin: 8px;
-  border: 2px solid #b9d3da;
+  border: 2px solid white;
   padding: 0.2em;
   font-size: 1.1em;
   border-radius: 5px;
   background: #2a4f88;
+  color: var(--default-color);
+}
+
+.small-button-confirm {
+  width: 8rem;
+  height: 2.4rem;
+  margin: 8px;
+  border: 2px solid white;
+  padding: 0.2em;
+  font-size: 1.1em;
+  border-radius: 5px;
+  background: #fa4545;
+  color: var(--default-color);
+}
+
+.small-button-cancel {
+  width: 8rem;
+  height: 2.4rem;
+  margin: 8px;
+  border: 2px solid white;
+  padding: 0.2em;
+  font-size: 1.1em;
+  border-radius: 5px;
+  background: #686868;
   color: var(--default-color);
 }
 
@@ -126,6 +154,15 @@ button:active {
   align-items: center;
   text-align: center;
   background: #475479;
+}
+
+.popup {
+  width: 40vw;
+  padding: 1rem;
+  border: 2px solid #b9d3da;
+  background-color:rgb(217, 235, 247);
+  margin-left: auto;
+  margin-right: auto;
 }
 
 a:link {
@@ -249,7 +286,7 @@ table td {
   align-items: center;
 }
 
-#navi #left {
+#navi-left {
   width: 33%;
   text-align: left;
   font-size: 2.3rem;
@@ -257,14 +294,14 @@ table td {
   padding-top: 0.45rem;
 }
 
-#navi #center {
+#navi-center {
   width: 34%;
   text-align: center;
   font-size: 2.5rem;
   font-weight: bold;
 }
 
-#navi #right {
+#navi-right {
   width: 33%;
   text-align: right;
   font-size: 1rem;

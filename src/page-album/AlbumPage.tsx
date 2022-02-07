@@ -17,6 +17,7 @@ export const AlbumPage = () => {
     const [showMap, setShowMap] = useState<boolean>(false);
     const [location, setLocation] = useState<LatLon>({ latitude: 0.0, longitude: 0.0 });
     const [thumbnails, setThumbnails] = useState<Thumbnails>({});
+    const [showConfirm, setShowConfirm] = useState<boolean>(false);
 
     const apiOpenImage = (id: number) => {
         setImageURL("");
@@ -58,6 +59,13 @@ export const AlbumPage = () => {
                 setRecords(rec);
                 apiGetThumbnails(rec);
             });
+    }
+
+    const deleteCheckedRecords = (confirmed: boolean) => {
+        setShowConfirm(false);
+        if (confirmed) {
+            apiDeleteCheckedRecords();
+        }
     }
 
     const apiDeleteCheckedRecords = async () => {
@@ -105,7 +113,16 @@ export const AlbumPage = () => {
                     </Modal>
                     <Modal isOpen={showMap} className="center">
                         <GeoLocation latitude={location.latitude} longitude={location.longitude} />
-                        <button className="small-button" style={{color: "white"}} onClick={() => setShowMap(false)}>Close</button>
+                        <button className="small-button" style={{ color: "white" }} onClick={() => setShowMap(false)}>Close</button>
+                    </Modal>
+                    <Modal isOpen={showConfirm} className="center">
+                        <div className="popup">
+                            <p>Do you really want to delete these records?</p>
+                            <div className="row">
+                                <button className="small-button-cancel" style={{ color: "white" }} onClick={() => deleteCheckedRecords(false)}>Cancel</button>
+                                <button className="small-button-confirm" style={{ color: "white" }} onClick={() => deleteCheckedRecords(true)}>Delete</button>
+                            </div>
+                        </div>
                     </Modal>
                     <div id="album" className="title">Album</div>
                     <div>
@@ -127,7 +144,7 @@ export const AlbumPage = () => {
                 </div>
             </div>
             <div className="footer">
-                <button className="small-button" type="submit" onClick={e => apiDeleteCheckedRecords()}>Delete</button>
+                <button className="small-button" type="submit" onClick={e => setShowConfirm(true)}>Delete</button>
             </div>
         </>
     );
