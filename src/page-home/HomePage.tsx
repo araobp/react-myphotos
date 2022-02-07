@@ -12,7 +12,7 @@ import { PopUp } from "../components-common/PopUpMessage";
 
 export const HomePage = () => {
 
-    const [location, setLocation] = useState<LatLon>({ latitude: 0.0, longitude: 0.0 });
+    const [latlon, setLatLon] = useState<LatLon>({ latitude: 0.0, longitude: 0.0 });
     const [place, setPlace] = useState<string>(localStorage.getItem("place") || "");
     const [memo, setMemo] = useState<string>(localStorage.getItem("memo") || "");
     const [showInputFile, setShowInputFile] = useState<boolean>(false);
@@ -29,7 +29,7 @@ export const HomePage = () => {
     const startWatchingLocation = () => {
         const id = navigator.geolocation.watchPosition(position => {
             const { latitude, longitude } = position.coords;
-            setLocation({ latitude, longitude });
+            setLatLon({ latitude, longitude });
         });
         setWatchId(id);
     };
@@ -57,10 +57,10 @@ export const HomePage = () => {
 
             // POST /records
             const record: RecordRequest = { place: place, memo: memo, latitude: 0.0, longitude: 0.0 };
-            if (location) {
-                record.latitude = location.latitude;
-                record.longitude = location.longitude;
-            }
+
+            record.latitude = latlon.latitude;
+            record.longitude = latlon.longitude;
+
             const body = JSON.stringify(record);
             console.log(body);
             const method: string = "POST";
@@ -120,8 +120,8 @@ export const HomePage = () => {
             {!showCamera &&
                 <div className="default">
                     <div className="title">Home</div>
-                    {location &&
-                        <p className="latlon">Latitude: {location.latitude.toFixed(6)}, Longitude: {location.longitude.toFixed(6)}</p>
+                    {latlon.latitude != 0 && latlon.longitude !=0 &&
+                        <p className="latlon">Latitude: {latlon.latitude.toFixed(6)}, Longitude: {latlon.longitude.toFixed(6)}</p>
                         || <p className="latlon">Positioning...</p>
                     }
                     <div>
@@ -177,15 +177,9 @@ export const HomePage = () => {
                 </div>
             }
 
-            {showCamera &&
-                <div>
-                    <CameraComp setDataURI={setDataURI} setShowCameraFlag={setShowCamera} />
-                </div>
-            }
+            <CameraComp isOpen={showCamera} setIsOpen={setShowCamera} setDataURI={setDataURI} />
 
-            {location &&
-                <PopUpMap isOpen={showMap} setIsOpen={setShowMap} latlon={location} />
-            }
+            <PopUpMap isOpen={showMap} setIsOpen={setShowMap} latlon={latlon} />
 
             <PopUp isOpen={showProgress} isAlert={false} message={'Uploading the record to the cloud...'} />
 
