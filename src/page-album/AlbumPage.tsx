@@ -20,11 +20,11 @@ export const AlbumPage = () => {
     const [thumbnails, setThumbnails] = useState<Thumbnails>({});
     const [showConfirm, setShowConfirm] = useState<boolean>(false);
 
-    const [longTouch, setLongTouch] = useState<number[]>([]);
+    const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
     const [showInput, setShowInput] = useState<boolean>(false);
     const [place, setPlace] = useState<string>("");
     const [memo, setMemo] = useState<string>("");
-    const [id, setId] = useState<number|null>(null);
+    const [id, setId] = useState<number | null>(null);
 
     const apiOpenImage = (id: number) => {
         setImageURL("");
@@ -130,29 +130,21 @@ export const AlbumPage = () => {
 
     /*** Edit ***/
 
-    const removeId = (id: number) => setLongTouch(longTouch.filter(i => i != id));
-
     const handleTouchStart = (r: RecordResponse) => {
-        setLongTouch([...longTouch, r.id]);
         const timer = setTimeout(() => {
-            initiateEdit(r);
-        }, 1000);
+            handleDoubleClick(r);
+        }, 500);
+        setTimer(timer);
     }
 
-    const handleTouchEnd = (r: RecordResponse) => removeId(r.id);
-
-    const initiateEdit = (r: RecordResponse) => {
-        if (longTouch.includes(r.id)) {
-            setLongTouch(longTouch.filter(i => i != r.id));
-            setId(r.id);
-            setPlace(r.place);
-            setMemo(r.memo);
+    const handleTouchEnd = () => {
+        if (timer) {
+            clearTimeout(timer);
+            setTimer(null);
         }
-        setShowInput(true);
     }
 
     const handleDoubleClick = (r: RecordResponse) => {
-        setLongTouch(longTouch.filter(i => i != r.id));
         setId(r.id);
         setPlace(r.place);
         setMemo(r.memo);
@@ -193,7 +185,12 @@ export const AlbumPage = () => {
                             <div key={r.id} className="card">
                                 <input className="card-checkbox" type="checkbox" defaultChecked={r.id && (checkedRecords.indexOf(r.id) == -1) ? false : true} onChange={(e) => handleCheckedRecord(r.id, e.target.checked)} />
                                 <img className="card-img" src={thumbnails[`id_${r.id}`]} onClick={() => apiOpenImage(r.id)} />
-                                <div className="card-text" onDoubleClick={e => handleDoubleClick(r)} onTouchStart={e => handleTouchStart(r)} onTouchEnd={e => handleTouchEnd(r)} >
+                                <div className="card-text"
+                                    onDoubleClick={e => handleDoubleClick(r)}
+                                    onMouseDown={e => handleTouchStart(r)}
+                                    onMouseUp={e => handleTouchEnd()}
+                                    onTouchStart={e => handleTouchStart(r)}
+                                    onTouchEnd={e => handleTouchEnd()} >
                                     <div>Date: {new Date(r.datetime as string).toLocaleString()}</div>
                                     <div>Place: {r.place}</div>
                                     <div>Memo: {r.memo}</div>
