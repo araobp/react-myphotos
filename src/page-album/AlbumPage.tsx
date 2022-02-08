@@ -5,6 +5,7 @@ import { authHeaders, baseURL } from "../util/auth";
 import { RecordResponse, LatLon, Thumbnails } from "../components-common/structure";
 import { PopUpConfirm } from "../components-common/PopUpMessage";
 import { PopUpMap } from '../components-common/PopUpMap';
+import { RecordForm } from "../components-common/RecordForm";
 
 export const AlbumPage = () => {
 
@@ -18,6 +19,11 @@ export const AlbumPage = () => {
     const [location, setLocation] = useState<LatLon>({ latitude: 0.0, longitude: 0.0 });
     const [thumbnails, setThumbnails] = useState<Thumbnails>({});
     const [showConfirm, setShowConfirm] = useState<boolean>(false);
+
+    const [longTouch, setLongTouch] = useState<number[]>([]);
+    const [showInput, setShowInput] = useState<boolean>(false);
+    const [place, setPlace] = useState<string>("");
+    const [memo, setMemo] = useState<string>("");
 
     const apiOpenImage = (id: number) => {
         setImageURL("");
@@ -99,6 +105,25 @@ export const AlbumPage = () => {
         setThumbnails(t);
     }
 
+    const handleTouchStart = (r: RecordResponse) => {
+        setLongTouch([...longTouch, r.id]);
+        const timer = setTimeout(() => {
+            handleDoubleClick(r);
+        }, 500);
+    }
+
+    const handleTouchEnd = (r: RecordResponse) => setLongTouch(longTouch.filter(i => i != r.id));
+
+    const handleDoubleClick = (r: RecordResponse) => {
+        setPlace(r.place);
+        setMemo(r.memo);
+        setShowInput(true);
+    }
+
+    const updateRecord = () => {
+        setShowInput(false);
+    }
+
     // Initialization
     useEffect(() => {
         apiGetRecords();
@@ -112,18 +137,28 @@ export const AlbumPage = () => {
                         <img src={imageURL} onClick={() => setShowImage(false)} style={{ width: "100vw", height: "100vh" }} />
                     </Modal>
 
+                    <Modal isOpen={showInput} className="center">
+                        <div className="popup">
+                            <RecordForm place={place} setPlace={setPlace} memo={memo} setMemo={setMemo} />
+                            <div className="row">
+                                <button className="small-button" onClick={e => updateRecord()}>Done</button>
+                                <button className="small-button-cancel" onClick={e => setShowInput(false)}>Cancel</button>
+                            </div>
+                        </div>
+                    </Modal>
+
                     <PopUpMap isOpen={showMap} setIsOpen={setShowMap} latlon={location} />
 
                     <PopUpConfirm isOpen={showConfirm} message="Do you really want to delete these records?"
-                    callback={confirmed => deleteCheckedRecords(confirmed)} />
+                        callback={confirmed => deleteCheckedRecords(confirmed)} />
 
                     <div className="title">Album</div>
                     <div>
-                        {records.map((r, index) => (
+                        {records.map((r, _) => (
                             <div key={r.id} className="card">
                                 <input className="card-checkbox" type="checkbox" defaultChecked={r.id && (checkedRecords.indexOf(r.id) == -1) ? false : true} onChange={(e) => handleCheckedRecord(r.id, e.target.checked)} />
                                 <img className="card-img" src={thumbnails[`id_${r.id}`]} onClick={() => apiOpenImage(r.id)} />
-                                <div className="card-text">
+                                <div className="card-text" onDoubleClick={e => handleDoubleClick(r)} onTouchStart={e => handleTouchStart(r)} onTouchEnd={e => handleTouchEnd(r)} >
                                     <div>Date: {new Date(r.datetime as string).toLocaleString()}</div>
                                     <div>Place: {r.place}</div>
                                     <div>Memo: {r.memo}</div>

@@ -23,7 +23,8 @@ export const RecordForm: FunctionComponent<FormProps> = ({ place, setPlace, memo
 
             <div id="memo">
                 <div>Memo:</div>
-                <textarea id="memo-input"
+                <textarea
+                    id="memo-input"
                     name="memo"
                     value={memo}
                     onChange={e => setMemo(e.target.value)}
