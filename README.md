@@ -4,9 +4,7 @@ My React exercises
 
 ## Motivation
 
-(1) I want to study React.
-
-(2) Last year I studied Low Code Development Platforms (LCDP) such as OutSystem or Mendix. I want to develop something like a handwritten version of such a web app made possible with LCDP: I use React, Express and Postgres SQL with Heroku PaaS instead of LCDP.
+I am interested in SPA and PWA, so I want to learn React.
 
 ## Note
 
