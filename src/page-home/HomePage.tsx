@@ -6,6 +6,7 @@ import { dataURItoArrayBuffer } from '../util/convert';
 import { authHeaders, baseURL } from "../util/auth";
 
 import { RecordRequest, LatLon } from "../components-common/structure";
+import { RecordForm } from "../components-common/RecordForm";
 import { CameraComp } from './CameraComp';
 import { PopUpMap } from '../components-common/PopUpMap';
 import { PopUp } from "../components-common/PopUpMessage";
@@ -116,60 +117,51 @@ export const HomePage = () => {
     }
 
     return (
-        <div>
+        <>
             {!showCamera &&
                 <div className="default">
                     <div className="title">Home</div>
-                    {latlon.latitude != 0 && latlon.longitude !=0 &&
+                    {latlon.latitude != 0 && latlon.longitude != 0 &&
                         <p className="latlon">Latitude: {latlon.latitude.toFixed(6)}, Longitude: {latlon.longitude.toFixed(6)}</p>
                         || <p className="latlon">Positioning...</p>
                     }
+
+                    <RecordForm place={place} setPlace={setPlace} memo={memo} setMemo={setMemo} />
+
                     <div>
-                        <div id="place">
-                            <label>Place:
+                        {dataURI && <img id="img-temp" src={dataURI} width="35%" />}
+                    </div>
+
+                    {showInputFile &&
+                        <div>
+                            <label>Image file:
                                 <input
-                                    type="text"
-                                    name="place"
-                                    value={place}
-                                    onChange={e => setPlace(e.target.value)}
+                                    type="file"
+                                    name="imageFile"
+                                    className="input-file"
+                                    onChange={e => { e.target.files && handleChange(e.target.files[0]) }}
                                 />
                             </label>
                         </div>
+                    }
 
-                        <div id="memo">
-                            <div>Memo:</div>
-                            <textarea id="memo-input"
-                                name="memo"
-                                value={memo}
-                                onChange={e => setMemo(e.target.value)}
-                                rows={3}
-                            />
-                        </div>
-
-                        {showInputFile &&
-                            <div>
-                                <label>Image file:
-                                    <input
-                                        type="file"
-                                        name="imageFile"
-                                        className="input-file"
-                                        onChange={e => { e.target.files && handleChange(e.target.files[0]) }}
-                                    />
-                                </label>
-                            </div>
-                        }
-
-                        {dataURI && <img id="img-temp" src={dataURI} width="35%" />}
-
-                        <div>
-                            <button className="small-button" type="submit" onClick={() => setShowCamera(true)}>Camera</button>
-                            <button className="small-button" type="submit" onClick={() => setShowInputFile(!showInputFile)}>File</button>
-                        </div>
+                    <div>
+                        <button
+                            className="small-button"
+                            type="submit"
+                            onClick={() => setShowCamera(true)}>Camera
+                        </button>
+                        <button
+                            className="small-button"
+                            type="submit"
+                            onClick={() => setShowInputFile(!showInputFile)}>File
+                        </button>
                     </div>
                 </div>
             }
 
-            {!showCamera &&
+            {
+                !showCamera &&
                 <div className="footer">
                     <button className="small-button" type="submit" onClick={() => setShowMap(true)}>Map</button>
                     <button className="small-button" type="submit" onClick={e => apiPostRecord()}>Upload</button>
@@ -185,6 +177,6 @@ export const HomePage = () => {
 
             <PopUp isOpen={showReject} isAlert={true} message={'Uploading rejected: no imaga data'} />
 
-        </div >
+        </>
     );
 };
