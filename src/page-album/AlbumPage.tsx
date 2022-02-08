@@ -24,7 +24,7 @@ export const AlbumPage = () => {
     const [showInput, setShowInput] = useState<boolean>(false);
     const [place, setPlace] = useState<string>("");
     const [memo, setMemo] = useState<string>("");
-    const [record, setRecord] = useState<RecordResponse|null>(null);
+    const [id, setId] = useState<number|null>(null);
 
     const apiOpenImage = (id: number) => {
         setImageURL("");
@@ -107,16 +107,16 @@ export const AlbumPage = () => {
     }
 
     const apiPutRecord = () => {
-        if (record) {
+        if (id) {
             const method = "PUT";
             const headers = {
                 ...{ 'Content-Type': 'application/json' },
                 ...authHeaders
             };
-            const body = JSON.stringify({ place: record.place, memo: record.memo });
-            fetch(`${baseURL}/records/${record.id}`, { method: method, headers: headers, body: body })
+            const body = JSON.stringify({ place: place, memo: memo });
+            fetch(`${baseURL}/records/${id}`, { method: method, headers: headers, body: body })
                 .then(res => {
-                    setRecord(null);
+                    setId(null);
                     apiGetRecords();
                     console.log(res.status);
                 });
@@ -144,18 +144,18 @@ export const AlbumPage = () => {
     const initiateEdit = (r: RecordResponse) => {
         if (longTouch.includes(r.id)) {
             setLongTouch(longTouch.filter(i => i != r.id));
+            setId(r.id);
             setPlace(r.place);
             setMemo(r.memo);
         }
-        setRecord(r);
         setShowInput(true);
     }
 
     const handleDoubleClick = (r: RecordResponse) => {
         setLongTouch(longTouch.filter(i => i != r.id));
+        setId(r.id);
         setPlace(r.place);
         setMemo(r.memo);
-        setRecord(r);
         setShowInput(true);
     }
 
