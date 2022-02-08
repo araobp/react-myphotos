@@ -24,7 +24,7 @@ export const AlbumPage = () => {
     const [showInput, setShowInput] = useState<boolean>(false);
     const [place, setPlace] = useState<string>("");
     const [memo, setMemo] = useState<string>("");
-    const [record, setRecord] = useState<RecordResponse | null>(null);
+    const [record, setRecord] = useState<RecordResponse|null>(null);
 
     const apiOpenImage = (id: number) => {
         setImageURL("");
@@ -106,6 +106,23 @@ export const AlbumPage = () => {
         setThumbnails(t);
     }
 
+    const apiPutRecord = () => {
+        if (record) {
+            const method = "PUT";
+            const headers = {
+                ...{ 'Content-Type': 'application/json' },
+                ...authHeaders
+            };
+            const body = JSON.stringify({ place: record.place, memo: record.memo });
+            fetch(`${baseURL}/records/${record.id}`, { method: method, headers: headers, body: body })
+                .then(res => {
+                    setRecord(null);
+                    apiGetRecords();
+                    console.log(res.status);
+                });
+        }
+    }
+
     // Initialization
     useEffect(() => {
         apiGetRecords();
@@ -144,7 +161,7 @@ export const AlbumPage = () => {
 
     const updateRecord = () => {
         setShowInput(false);
-        // Update
+        apiPutRecord();
     }
 
     return (
