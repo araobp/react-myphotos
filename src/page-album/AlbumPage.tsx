@@ -24,6 +24,7 @@ export const AlbumPage = () => {
     const [showInput, setShowInput] = useState<boolean>(false);
     const [place, setPlace] = useState<string>("");
     const [memo, setMemo] = useState<string>("");
+    const [record, setRecord] = useState<RecordResponse | null>(null);
 
     const apiOpenImage = (id: number) => {
         setImageURL("");
@@ -105,31 +106,46 @@ export const AlbumPage = () => {
         setThumbnails(t);
     }
 
+    // Initialization
+    useEffect(() => {
+        apiGetRecords();
+    }, []);
+
+    /*** Edit ***/
+
+    const removeId = (id: number) => setLongTouch(longTouch.filter(i => i != id));
+
     const handleTouchStart = (r: RecordResponse) => {
         setLongTouch([...longTouch, r.id]);
         const timer = setTimeout(() => {
-            handleDoubleClick(r);
-        }, 300);
+            initiateEdit(r);
+        }, 1000);
     }
 
-    const handleTouchEnd = (r: RecordResponse) => setLongTouch(longTouch.filter(i => i != r.id));
+    const handleTouchEnd = (r: RecordResponse) => removeId(r.id);
 
-    const handleDoubleClick = (r: RecordResponse) => {
+    const initiateEdit = (r: RecordResponse) => {
         if (longTouch.includes(r.id)) {
+            setLongTouch(longTouch.filter(i => i != r.id));
             setPlace(r.place);
             setMemo(r.memo);
         }
+        setRecord(r);
+        setShowInput(true);
+    }
+
+    const handleDoubleClick = (r: RecordResponse) => {
+        setLongTouch(longTouch.filter(i => i != r.id));
+        setPlace(r.place);
+        setMemo(r.memo);
+        setRecord(r);
         setShowInput(true);
     }
 
     const updateRecord = () => {
         setShowInput(false);
+        // Update
     }
-
-    // Initialization
-    useEffect(() => {
-        apiGetRecords();
-    }, []);
 
     return (
         <>
