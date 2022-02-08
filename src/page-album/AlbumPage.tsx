@@ -109,14 +109,16 @@ export const AlbumPage = () => {
         setLongTouch([...longTouch, r.id]);
         const timer = setTimeout(() => {
             handleDoubleClick(r);
-        }, 500);
+        }, 300);
     }
 
     const handleTouchEnd = (r: RecordResponse) => setLongTouch(longTouch.filter(i => i != r.id));
 
     const handleDoubleClick = (r: RecordResponse) => {
-        setPlace(r.place);
-        setMemo(r.memo);
+        if (longTouch.includes(r.id)) {
+            setPlace(r.place);
+            setMemo(r.memo);
+        }
         setShowInput(true);
     }
 
