@@ -20,11 +20,12 @@ export const AlbumPage = () => {
     const [thumbnails, setThumbnails] = useState<Thumbnails>({});
     const [showConfirm, setShowConfirm] = useState<boolean>(false);
 
-    const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
     const [showInput, setShowInput] = useState<boolean>(false);
     const [place, setPlace] = useState<string>("");
     const [memo, setMemo] = useState<string>("");
     const [id, setId] = useState<number | null>(null);
+
+    const [keyword, setKeyword] = useState<string>("");
 
     const apiOpenImage = (id: number) => {
         setImageURL("");
@@ -130,21 +131,7 @@ export const AlbumPage = () => {
 
     /*** Edit ***/
 
-    const handleTouchStart = (r: RecordResponse) => {
-        const timer = setTimeout(() => {
-            handleDoubleClick(r);
-        }, 500);
-        setTimer(timer);
-    }
-
-    const handleTouchEnd = () => {
-        if (timer) {
-            clearTimeout(timer);
-            setTimer(null);
-        }
-    }
-
-    const handleDoubleClick = (r: RecordResponse) => {
+    const handleOnClick = (r: RecordResponse) => {
         setId(r.id);
         setPlace(r.place);
         setMemo(r.memo);
@@ -179,33 +166,47 @@ export const AlbumPage = () => {
                     <PopUpConfirm isOpen={showConfirm} message="Do you really want to delete these records?"
                         callback={confirmed => deleteCheckedRecords(confirmed)} />
 
-                    <div className="title">Album</div>
+                    <div className="row-space-between">
+                        <div>
+                            <input
+                                type="text"
+                                style={{ width: "50vw" }}
+                                placeholder="Search key work..."
+                                value={keyword}
+                                onChange={e => setKeyword(e.target.value)}
+                            />
+                            <button className="tiny-button" type="submit" onClick={e => setKeyword("")}>Clear</button>
+                        </div>
+                        <div style={{ width: "1rem" }}></div>
+                        <button className="tiny-button" type="submit" onClick={e => setShowConfirm(true)}>Delete</button>
+                    </div>
+
                     <div>
-                        {records.map((r, _) => (
-                            <div key={r.id} className="card">
-                                <input className="card-checkbox" type="checkbox" defaultChecked={r.id && (checkedRecords.indexOf(r.id) == -1) ? false : true} onChange={(e) => handleCheckedRecord(r.id, e.target.checked)} />
-                                <img className="card-img" src={thumbnails[`id_${r.id}`]} onClick={() => apiOpenImage(r.id)} />
-                                <div className="card-text"
-                                    onDoubleClick={e => handleDoubleClick(r)}
-                                    onMouseDown={e => handleTouchStart(r)}
-                                    onMouseUp={e => handleTouchEnd()}
-                                    onTouchStart={e => handleTouchStart(r)}
-                                    onTouchEnd={e => handleTouchEnd()}
-                                    >
-                                    <div>Date: {new Date(r.datetime as string).toLocaleString()}</div>
-                                    <div>Place: {r.place}</div>
-                                    <div>Memo: {r.memo}</div>
+                        {records
+                            .filter(r => r.place.includes(keyword) || r.memo.includes(keyword))
+                            .map((r, _) => (
+                                <div key={r.id} className="card">
+                                    <input className="card-checkbox" type="checkbox" defaultChecked={r.id && (checkedRecords.indexOf(r.id) == -1) ? false : true} onChange={(e) => handleCheckedRecord(r.id, e.target.checked)} />
+                                    <img className="card-img" src={thumbnails[`id_${r.id}`]} onClick={() => apiOpenImage(r.id)} />
+                                    <div className="card-text">
+                                        <div>Date: {new Date(r.datetime as string).toLocaleString()}</div>
+                                        <div>Place: {r.place}</div>
+                                        <div>Memo: {r.memo}</div>
+                                    </div>
+                                    <div className="card-map">
+                                        <button className="tiny-button" onClick={e => openMap(r.latitude, r.longitude)}>Map</button>
+                                        <button className="tiny-button" style={{ marginTop: "10px" }} onClick={e => handleOnClick(r)}>Edit</button>
+                                    </div>
                                 </div>
-                                <div className="card-map">
-                                    <button className="tiny-button" onClick={() => openMap(r.latitude, r.longitude)}>Map</button>
-                                </div>
-                            </div>
-                        ))}
+                            ))}
                     </div>
                 </div>
             </div>
             <div className="footer">
-                <button className="small-button" type="submit" onClick={e => setShowConfirm(true)}>Delete</button>
+                <button className="tiny-button" type="submit" onClick={e => setShowConfirm(true)}>&lt;&lt;</button>
+                <button className="tiny-button" type="submit" onClick={e => setShowConfirm(true)}>&lt;</button>
+                <button className="tiny-button" type="submit" onClick={e => setShowConfirm(true)}>&gt;</button>
+                <button className="tiny-button" type="submit" onClick={e => setShowConfirm(true)}>&gt;&gt;</button>
             </div>
         </>
     );
