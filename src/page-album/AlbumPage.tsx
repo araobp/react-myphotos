@@ -7,6 +7,9 @@ import { PopUpConfirm } from "../components-common/PopUpMessage";
 import { PopUpMap } from '../components-common/PopUpMap';
 import { RecordForm } from "../components-common/RecordForm";
 
+const LIMIT = 10;
+const MAX = 2147483647;
+
 export const AlbumPage = () => {
 
     Modal.setAppElement("#root");
@@ -26,8 +29,6 @@ export const AlbumPage = () => {
     const [id, setId] = useState<number | null>(null);
 
     const [offset, setOffset] = useState<number>(0);
-    const LIMIT = 3;
-    const MAX = 2147483647;
 
     const [keyword, setKeyword] = useState<string>("");
 
