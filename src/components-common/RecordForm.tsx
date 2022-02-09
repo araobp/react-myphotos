@@ -1,4 +1,5 @@
 import { FunctionComponent } from "react";
+import '../App.css';
 
 type FormProps = {
     place: string;
@@ -13,6 +14,7 @@ export const RecordForm: FunctionComponent<FormProps> = ({ place, setPlace, memo
             <div id="place">
                 <label>Place:
                     <input
+                        style={{backgroundColor: "white"}}
                         type="text"
                         name="place"
                         value={place}

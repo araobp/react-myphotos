@@ -5,7 +5,6 @@
   --margin-footer: 3.5rem;
   --default-font-size: 1.1rem;
   --input-font-size: 1.3rem;
-  --input-background-color: #dddddd;
   --navi-footer-background-color: #3e687d;
   text-align: center;
   background: var(--default-background);
@@ -50,7 +49,7 @@ input {
   font-family: Arial;
   margin: 0.2rem;
   font-size: var(--input-font-size);
-  background-color: var(--input-background-color);
+  background-color: white;
 }
 
 .input-file {
@@ -67,7 +66,7 @@ textarea {
   border-style: groove;
   font-family: Arial;
   font-size: var(--input-font-size);
-  background-color: var(--input-background-color);
+  background-color: white;
 }
 
 button {
@@ -175,7 +174,6 @@ button:active {
 
 .popup {
   box-shadow: 1px 2px rgba(0, 0, 0, 0.2);
-  width: 70vw;
   padding: 1rem;
   border: 2px solid #b9d3da;
   background-color: rgb(217, 235, 247);
@@ -185,7 +183,6 @@ button:active {
 
 .popup-alert {
   box-shadow: 1px 2px rgba(0, 0, 0, 0.2);
-  width: 70vw;
   padding: 1rem;
   border: 2px solid #b9d3da;
   background-color: #FF5555;
