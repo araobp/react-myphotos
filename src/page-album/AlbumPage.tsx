@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo } from "react";
 import Modal from "react-modal";
 
 import { authHeaders, baseURL } from "../util/auth";
@@ -24,6 +24,10 @@ export const AlbumPage = () => {
     const [place, setPlace] = useState<string>("");
     const [memo, setMemo] = useState<string>("");
     const [id, setId] = useState<number | null>(null);
+
+    const [offset, setOffset] = useState<number>(0);
+    const LIMIT = 3;
+    const MAX = 2147483647;
 
     const [keyword, setKeyword] = useState<string>("");
 
@@ -55,18 +59,20 @@ export const AlbumPage = () => {
         setCheckedRecords(checkedRecords);
     }
 
-    const apiGetRecords = () => {
+    const apiGetRecords = async () => {
         const method = "GET";
         const headers = {
             ...{ 'Accept': 'application/json' },
             ...authHeaders
         };
-        fetch(`${baseURL}/records`, { method: method, headers: headers })
-            .then(res => res.json())
-            .then(rec => {
-                setRecords(rec);
-                apiGetThumbnails(rec);
-            });
+        const res = await fetch(`${baseURL}/records?limit=${LIMIT}&offset=${offset}`, { method: method, headers: headers });
+        if (res.status == 200) {
+            const rec = await res.json();
+            setRecords(rec);
+            apiGetThumbnails(rec);
+        } else {
+            back();
+        }
     }
 
     const deleteCheckedRecords = (confirmed: boolean) => {
@@ -124,10 +130,24 @@ export const AlbumPage = () => {
         }
     }
 
+    const back = () => {
+        let o = (offset >= LIMIT) ? offset - LIMIT : offset;
+        setOffset(o);
+    }
+
+    const forward = () => {
+        let o = (offset + LIMIT) > MAX ? MAX : offset + LIMIT;
+        setOffset(o);
+    }
+
     // Initialization
     useEffect(() => {
         apiGetRecords();
     }, []);
+
+    useEffect(() => {
+        apiGetRecords();
+    }, [offset]);
 
     /*** Edit ***/
 
@@ -171,7 +191,7 @@ export const AlbumPage = () => {
                             <input
                                 type="text"
                                 style={{ width: "50vw" }}
-                                placeholder="Search key work..."
+                                placeholder="Search key word..."
                                 value={keyword}
                                 onChange={e => setKeyword(e.target.value)}
                             />
@@ -203,11 +223,9 @@ export const AlbumPage = () => {
                 </div>
             </div>
             <div className="footer">
-                <button className="tiny-button" type="submit" onClick={e => setShowConfirm(true)}>&lt;&lt;</button>
-                <button className="tiny-button" type="submit" onClick={e => setShowConfirm(true)}>&lt;</button>
-                <button className="tiny-button" type="submit" onClick={e => setShowConfirm(true)}>&gt;</button>
-                <button className="tiny-button" type="submit" onClick={e => setShowConfirm(true)}>&gt;&gt;</button>
+                <button className="tiny-button" type="submit" onClick={e => back()}>&lt;</button>
+                <button className="tiny-button" type="submit" onClick={e => forward()}>&gt;</button>
             </div>
         </>
     );
-};
+}
