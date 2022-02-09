@@ -191,9 +191,6 @@ export const AlbumPage = () => {
                                     onMouseUp={e => handleTouchEnd()}
                                     onTouchStart={e => handleTouchStart(r)}
                                     onTouchEnd={e => handleTouchEnd()}
-                                    onCopy={e=>{return false}}  // disable cut&paste
-                                    onCut={e=>{return false}}  // disable cut&paste
-                                    onPaste={e=>{return false}}  // disable cut&paste
                                     >
                                     <div>Date: {new Date(r.datetime as string).toLocaleString()}</div>
                                     <div>Place: {r.place}</div>
