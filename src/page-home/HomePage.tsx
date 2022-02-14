@@ -14,6 +14,7 @@ import { PopUp } from "../components-common/PopUpMessage";
 export const HomePage = () => {
 
     const [latlon, setLatLon] = useState<LatLon>({ latitude: 0.0, longitude: 0.0 });
+    const [picLatlon, setPicLatlon] = useState<LatLon>({ latitude: 0.0, longitude: 0.0 });
     const [place, setPlace] = useState<string>(localStorage.getItem("place") || "");
     const [memo, setMemo] = useState<string>(localStorage.getItem("memo") || "");
     const [showInputFile, setShowInputFile] = useState<boolean>(false);
@@ -59,8 +60,8 @@ export const HomePage = () => {
             // POST /records
             const record: RecordRequest = { place: place, memo: memo, latitude: 0.0, longitude: 0.0 };
 
-            record.latitude = latlon.latitude;
-            record.longitude = latlon.longitude;
+            record.latitude = picLatlon.latitude;
+            record.longitude = picLatlon.longitude;
 
             const body = JSON.stringify(record);
             console.log(body);
@@ -104,7 +105,7 @@ export const HomePage = () => {
         if (f) {
             const reader = new FileReader();
             reader.onload = e => {
-                setDataURI(reader.result as string);
+                picTaken(reader.result as string);
             };
             reader.readAsDataURL(f);
         }
@@ -116,11 +117,16 @@ export const HomePage = () => {
         setDataURI(null);
     }
 
+    const picTaken = (dataURI: string|null) => {
+        setPicLatlon(latlon);
+        setDataURI(dataURI);
+    }
+
     return (
         <>
             {!showCamera &&
                 <div className="default">
-                    {latlon.latitude != 0 && latlon.longitude != 0 &&
+                    {(latlon.latitude !== 0) && (latlon.longitude !== 0) &&
                         <p className="latlon">Latitude: {latlon.latitude.toFixed(6)}, Longitude: {latlon.longitude.toFixed(6)}</p>
                         || <p className="latlon">Positioning...</p>
                     }
@@ -168,7 +174,7 @@ export const HomePage = () => {
                 </div>
             }
 
-            <CameraComp isOpen={showCamera} setIsOpen={setShowCamera} setDataURI={setDataURI} />
+            <CameraComp isOpen={showCamera} setIsOpen={setShowCamera} picTaken={picTaken} />
 
             <PopUpMap isOpen={showMap} setIsOpen={setShowMap} latlon={latlon} />
 

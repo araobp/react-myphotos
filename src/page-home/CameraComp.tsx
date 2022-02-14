@@ -9,10 +9,10 @@ import 'react-html5-camera-photo/build/css/index.css';
 type CameraCompProps = {
     isOpen: boolean;
     setIsOpen: (isOpen: boolean) => void;
-    setDataURI: (dataURI: string) => void;
+    picTaken: (dataURI: string) => void;
 }
 
-export const CameraComp: FunctionComponent<CameraCompProps> = ({ isOpen, setIsOpen, setDataURI }: CameraCompProps) => {
+export const CameraComp: FunctionComponent<CameraCompProps> = ({ isOpen, setIsOpen, picTaken }: CameraCompProps) => {
 
     Modal.setAppElement('#root')
 
@@ -25,7 +25,7 @@ export const CameraComp: FunctionComponent<CameraCompProps> = ({ isOpen, setIsOp
     }
 
     const done = () => {
-        setDataURI(temporaryDataURI);
+        picTaken(temporaryDataURI);
         closeCameraComp();
     }
 
