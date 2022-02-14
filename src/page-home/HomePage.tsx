@@ -181,7 +181,6 @@ export const HomePage = () => {
             <PopUp isOpen={showProgress} isAlert={false} message={'Uploading the record to the cloud...'} />
 
             <PopUp isOpen={showReject} isAlert={true} message={'Uploading rejected: no imaga data'} />
-
         </>
     );
 };
