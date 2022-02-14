@@ -1,10 +1,14 @@
 # MY PHOTOS ON REACT (SPA and PWA)
 
-My React exercises
+This project is a master project of my "learning by doing" projects on web app:
+
+- React (TypeScript): SPA and PWA
+- Express (JavaScript): REST API server with Postgres SQL
+- Spring Boot (Java): Non-SPA (classical) web app with Postgres SQL
 
 ## Motivation
 
-I am interested in SPA and PWA, so I want to learn React.
+I need to learn web app technologies for my next job.
 
 ## Note
 
