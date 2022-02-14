@@ -1,6 +1,6 @@
 # MY PHOTOS ON REACT (SPA and PWA)
 
-This project is a master project of my "learning by doing" on web app:
+This project is a master project of my "learning by doing" projects on web app:
 
 - React (TypeScript): SPA and PWA
 - Express (JavaScript): REST API server with Postgres SQL
