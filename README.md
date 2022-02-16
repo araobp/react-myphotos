@@ -6,13 +6,10 @@ This project is a master project of my "learning by doing" projects on web app:
 - Express (JavaScript): REST API server with Postgres SQL
 - Spring Boot (Java): Non-SPA (classical) web app with Postgres SQL
 
-## Motivation
+## SPA and PWA
 
-I need to learn web app technologies for my next job.
-
-## Note
-
-This app is dependent on a REST API server in my other project [heroku-myphotos](https://github.com/araobp/heroku-myphotos).
+- This app runs on Windows, MacOS, Android and iOS.
+- This app is dependent on a REST API server in my other project [heroku-myphotos](https://github.com/araobp/heroku-myphotos).
 
 ## Rough sketch of the app UI
 
