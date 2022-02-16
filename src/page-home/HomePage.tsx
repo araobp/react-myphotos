@@ -125,7 +125,7 @@ export const HomePage = () => {
     return (
         <>
             {!showCamera &&
-                <div className="default">
+                <div className="default" style={{padding: "1vw"}}>
                     {(latlon.latitude !== 0) && (latlon.longitude !== 0) &&
                         <p className="latlon">Latitude: {latlon.latitude.toFixed(6)}, Longitude: {latlon.longitude.toFixed(6)}</p>
                         || <p className="latlon">Positioning...</p>

@@ -21,8 +21,6 @@
   margin-top: var(--margin-navi);
   margin-bottom: var(--margin-footer);
   padding-top: 1rem;
-  padding-left: 0.8rem;
-  padding-right: 0.8rem;
 }
 
 .footer {
@@ -240,31 +238,10 @@ a:active {
 }
 
 /*** AlbumPage ***/
-
-table {
-  width: 90vw;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 0.2rem;
-}
-
-table th {
-  text-align: center;
-  padding: 3px;
-  background-color: rgb(29, 92, 100);
-}
-
-table td {
-  text-align: left;
-  padding: 3px;
-  background-color: rgb(215, 224, 228);
-  color: #333333;
-}
-
 .card {
   display: flex;
   flex-direction: row;
-  margin: 0.5rem;
+  margin-top: 0.5rem;
   padding: 0.3rem;
   background: beige;
   color: #333333;
@@ -282,7 +259,7 @@ table td {
 }
 
 .card-text {
-  margin-left: 0.5rem;
+  margin-left: 0.7rem;
   width: 60vw;
   text-align: left;
 }
