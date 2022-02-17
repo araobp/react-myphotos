@@ -17,7 +17,7 @@ This project is a master project of my "learning by doing" projects on web app:
 
 ## Architecture
 
-I have connected Heroku PaaS to both [react-myphotos](https://github.com/araobp/react-myphotos) and [heroku-myphotos](https://github.com/araobp/heroku-myphotos).
+I have connected Heroku PaaS to both [react-myphotos](https://github.com/araobp/react-myphotos) and [express-myphotos](https://github.com/araobp/express-myphotos).
 
 Heroku PaaS builds and deploys these projects automatically at every commit to GitHub.
 
@@ -39,7 +39,7 @@ Note: enter "login", "password" and "BASE URL"(URL of the REST API server) on th
 
 ## Relationship to my other project on GitHub
 
-react-myphotos(frontend) --- REST API --- [heroku-myphotos](https://github.com/araobp/heroku-myphotos)
+react-myphotos(frontend) --- REST API --- [express-myphotos](https://github.com/araobp/express-myphotos)
 
 ## Issues
 
