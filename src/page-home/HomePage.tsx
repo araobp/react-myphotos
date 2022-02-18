@@ -73,7 +73,7 @@ export const HomePage = () => {
                 },
                 ...authHeaders
             };
-            fetch(`${baseURL}/records`, { method: method, headers: headers, body: body })
+            fetch(`${baseURL}/record`, { method: method, headers: headers, body: body })
                 .then(res => res.json())
                 .then(body => {
                     const id = body.id;
@@ -86,7 +86,7 @@ export const HomePage = () => {
                         ...authHeaders
                     }
                     fetch(
-                        `${baseURL}/photos/${id}`,
+                        `${baseURL}/photo/${id}`,
                         { method: method, headers: headers, body: dataURItoArrayBuffer(dataURI) }
                     )
                         .then(res => {

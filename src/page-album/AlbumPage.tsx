@@ -39,7 +39,7 @@ export const AlbumPage = () => {
             ...{ 'Accept': 'application/octet-stream' },
             ...authHeaders
         }
-        fetch(`${baseURL}/photos/${id}/image`, { method: method, headers: headers })
+        fetch(`${baseURL}/photo/${id}/image`, { method: method, headers: headers })
             .then(res => res.blob())
             .then(data => setImageURL(URL.createObjectURL(data)));
         setShowImage(true);
@@ -66,7 +66,7 @@ export const AlbumPage = () => {
             ...{ 'Accept': 'application/json' },
             ...authHeaders
         };
-        const res = await fetch(`${baseURL}/records?limit=${LIMIT}&offset=${offset}`, { method: method, headers: headers });
+        const res = await fetch(`${baseURL}/record?limit=${LIMIT}&offset=${offset}`, { method: method, headers: headers });
         if (res.status == 200) {
             const rec = await res.json();
             setRecords(rec);
@@ -90,7 +90,7 @@ export const AlbumPage = () => {
             ...authHeaders
         };
         await Promise.all(checkedRecords.map(async id => {
-            const res = await fetch(`${baseURL}/records/${id}`, { method: method, headers: headers });
+            const res = await fetch(`${baseURL}/record/${id}`, { method: method, headers: headers });
             console.log(`status: ${res.status}`);
         }));
         setCheckedRecords([]);
@@ -106,7 +106,7 @@ export const AlbumPage = () => {
         const t: { [k: string]: string } = {};
         await Promise.all(rec.map(async (r: RecordResponse) => {
             if (r.id) {
-                const res = await fetch(`${baseURL}/photos/${r.id}/thumbnail`, { method: method, headers: headers });
+                const res = await fetch(`${baseURL}/photo/${r.id}/thumbnail`, { method: method, headers: headers });
                 const data = await res.blob();
                 t[`id_${r.id}`] = URL.createObjectURL(data);
             }
@@ -122,7 +122,7 @@ export const AlbumPage = () => {
                 ...authHeaders
             };
             const body = JSON.stringify({ place: place, memo: memo });
-            fetch(`${baseURL}/records/${id}`, { method: method, headers: headers, body: body })
+            fetch(`${baseURL}/record/${id}`, { method: method, headers: headers, body: body })
                 .then(res => {
                     setId(null);
                     apiGetRecords();
