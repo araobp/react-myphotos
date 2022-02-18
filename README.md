@@ -6,13 +6,10 @@ This project is a master project of my "learning by doing" projects on web app:
 - Express (JavaScript): REST API server with Postgres SQL
 - Spring Boot (Java): Non-SPA (classical) web app with Postgres SQL
 
-## Motivation
+## SPA and PWA
 
-I need to learn web app technologies for my next job.
-
-## Note
-
-This app is dependent on a REST API server in my other project [heroku-myphotos](https://github.com/araobp/heroku-myphotos).
+- This app runs on Windows, MacOS, Android and iOS.
+- This app is dependent on a REST API server in my other project [express-myphotos](https://github.com/araobp/express-myphotos).
 
 ## Rough sketch of the app UI
 
@@ -20,12 +17,12 @@ This app is dependent on a REST API server in my other project [heroku-myphotos]
 
 ## Architecture
 
-I have connected Heroku PaaS to both [react-myphotos](https://github.com/araobp/react-myphotos) and [heroku-myphotos](https://github.com/araobp/heroku-myphotos).
+I have connected Heroku PaaS to both [react-myphotos](https://github.com/araobp/react-myphotos) and [express-myphotos](https://github.com/araobp/express-myphotos).
 
 Heroku PaaS builds and deploys these projects automatically at every commit to GitHub.
 
 ```
- react-myphotos                    heroku-myphotos
+ react-myphotos                    express-myphotos
 [React web page] --- REST API --- [Express/Node.js]---[Postgres SQL]
 - - - - - - - - -                 - - - - - - - - - - - - - - - - -
 Static web server                         REST API service
@@ -42,7 +39,7 @@ Note: enter "login", "password" and "BASE URL"(URL of the REST API server) on th
 
 ## Relationship to my other project on GitHub
 
-react-myphotos(frontend) --- REST API --- [heroku-myphotos](https://github.com/araobp/heroku-myphotos)
+react-myphotos(frontend) --- REST API --- [express-myphotos](https://github.com/araobp/express-myphotos)
 
 ## Issues
 
