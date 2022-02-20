@@ -3,13 +3,12 @@
 This project is a master project of my "learning by doing" projects on web app:
 
 - React (TypeScript): SPA and PWA
-- Express (JavaScript): REST API server with Postgres SQL
-- Spring Boot (Java): Non-SPA (classical) web app with Postgres SQL
+- Spring Boot (Java) or Express (JavaScript): REST API server with Postgres SQL
 
 ## SPA and PWA
 
 - This app runs on Windows, MacOS, Android and iOS.
-- This app is dependent on a REST API server in my other project [express-myphotos](https://github.com/araobp/express-myphotos).
+- This app is dependent on a REST API server in my other project [spring-myphotos](https://github.com/araobp/spring-myphotos) or [express-myphotos](https://github.com/araobp/express-myphotos).
 
 ## Rough sketch of the app UI
 
