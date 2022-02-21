@@ -194,7 +194,7 @@ export const AlbumPage = () => {
                             <button className="tiny-button" type="submit" onClick={e => setKeyword("")}>Clear</button>
                         </div>
                         <div style={{ width: "1rem" }}></div>
-                        <button className="tiny-button" type="submit" onClick={e => setShowConfirm(true)}>Delete</button>
+                        <button className="tiny-button" style={{ fontSize: "0.8rem" }} type="submit" onClick={e => setShowConfirm(true)}>Delete</button>
                     </div>
 
                     <div>
@@ -219,8 +219,8 @@ export const AlbumPage = () => {
                 </div>
             </div>
             <div className="footer">
-                <button className="tiny-button" type="submit" onClick={e => back()}>&lt;</button>
-                <button className="tiny-button" type="submit" onClick={e => forward()}>&gt;</button>
+                <button className="tiny-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={e => back()}>&lt;</button>
+                <button className="tiny-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={e => forward()}>&gt;</button>
             </div>
         </>
     );
