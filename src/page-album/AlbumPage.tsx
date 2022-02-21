@@ -34,12 +34,11 @@ export const AlbumPage = () => {
 
     const apiOpenImage = (id: number) => {
         setImageURL("");
-        const method = "GET";
         const headers = {
             ...{ 'Accept': 'application/octet-stream' },
             ...authHeaders
         }
-        fetch(`${baseURL}/photo/${id}/image`, { method: method, headers: headers })
+        fetch(`${baseURL}/photo/${id}/image`, { method: "GET", headers: headers })
             .then(res => res.blob())
             .then(data => setImageURL(URL.createObjectURL(data)));
         setShowImage(true);
@@ -61,12 +60,11 @@ export const AlbumPage = () => {
     }
 
     const apiGetRecords = async () => {
-        const method = "GET";
         const headers = {
             ...{ 'Accept': 'application/json' },
             ...authHeaders
         };
-        const res = await fetch(`${baseURL}/record?limit=${LIMIT}&offset=${offset}`, { method: method, headers: headers });
+        const res = await fetch(`${baseURL}/record?limit=${LIMIT}&offset=${offset}`, { method: "GET", headers: headers });
         if (res.status == 200) {
             const rec = await res.json();
             setRecords(rec);
@@ -84,13 +82,12 @@ export const AlbumPage = () => {
     }
 
     const apiDeleteCheckedRecords = async () => {
-        const method = "DELETE";
         const headers = {
             ...{ 'Accept': 'application/json' },
             ...authHeaders
         };
         await Promise.all(checkedRecords.map(async id => {
-            const res = await fetch(`${baseURL}/record/${id}`, { method: method, headers: headers });
+            const res = await fetch(`${baseURL}/record/${id}`, { method: "DELETE", headers: headers });
             console.log(`status: ${res.status}`);
         }));
         setCheckedRecords([]);
@@ -98,7 +95,6 @@ export const AlbumPage = () => {
     }
 
     const apiGetThumbnails = async (rec: Array<RecordResponse>) => {
-        const method = "GET";
         const headers = {
             ...{ 'Accept': 'application/octet-stream' },
             ...authHeaders
@@ -106,7 +102,7 @@ export const AlbumPage = () => {
         const t: { [k: string]: string } = {};
         await Promise.all(rec.map(async (r: RecordResponse) => {
             if (r.id) {
-                const res = await fetch(`${baseURL}/photo/${r.id}/thumbnail`, { method: method, headers: headers });
+                const res = await fetch(`${baseURL}/photo/${r.id}/thumbnail`, { method: "GET", headers: headers });
                 const data = await res.blob();
                 t[`id_${r.id}`] = URL.createObjectURL(data);
             }
@@ -116,13 +112,12 @@ export const AlbumPage = () => {
 
     const apiPutRecord = () => {
         if (id) {
-            const method = "PUT";
             const headers = {
                 ...{ 'Content-Type': 'application/json' },
                 ...authHeaders
             };
             const body = JSON.stringify({ place: place, memo: memo });
-            fetch(`${baseURL}/record/${id}`, { method: method, headers: headers, body: body })
+            fetch(`${baseURL}/record/${id}`, { method: "PUT", headers: headers, body: body })
                 .then(res => {
                     setId(null);
                     apiGetRecords();

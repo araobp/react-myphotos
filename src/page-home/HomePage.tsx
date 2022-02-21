@@ -65,7 +65,6 @@ export const HomePage = () => {
 
             const body = JSON.stringify(record);
             console.log(body);
-            const method: string = "POST";
             const headers = {
                 ...{
                     'Accept': 'application/json',
@@ -73,11 +72,10 @@ export const HomePage = () => {
                 },
                 ...authHeaders
             };
-            fetch(`${baseURL}/record`, { method: method, headers: headers, body: body })
+            fetch(`${baseURL}/record`, { method: "POST", headers: headers, body: body })
                 .then(res => res.json())
                 .then(body => {
                     const id = body.id;
-                    const method = "POST";
                     const headers = {
                         ...{
                             'Accept': 'application/json',
@@ -87,7 +85,7 @@ export const HomePage = () => {
                     }
                     fetch(
                         `${baseURL}/photo/${id}`,
-                        { method: method, headers: headers, body: dataURItoArrayBuffer(dataURI) }
+                        { method: "POST", headers: headers, body: dataURItoArrayBuffer(dataURI) }
                     )
                         .then(res => {
                             console.log(res.status);
