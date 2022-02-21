@@ -3,12 +3,12 @@
 This project is a master project of my "learning by doing" projects on web app:
 
 - React (TypeScript): SPA and PWA
-- Spring Boot (Java) or Express (JavaScript): REST API server with Postgres SQL
+- Spring Boot (Java): REST API server with Postgres SQL
 
 ## SPA and PWA
 
 - This app runs on Windows, MacOS, Android and iOS.
-- This app is dependent on a REST API server in my other project [spring-myphotos](https://github.com/araobp/spring-myphotos) or [express-myphotos](https://github.com/araobp/express-myphotos).
+- This app is dependent on a REST API server in my other project [spring-myphotos](https://github.com/araobp/spring-myphotos).
 
 ## Rough sketch of the app UI
 
@@ -16,16 +16,16 @@ This project is a master project of my "learning by doing" projects on web app:
 
 ## Architecture
 
-I have connected Heroku PaaS to both [react-myphotos](https://github.com/araobp/react-myphotos) and [express-myphotos](https://github.com/araobp/express-myphotos).
+I have connected Heroku PaaS to both [react-myphotos](https://github.com/araobp/react-myphotos) and [spring-myphotos](https://github.com/araobp/spring-myphotos).
 
 Heroku PaaS builds and deploys these projects automatically at every commit to GitHub.
 
 ```
- react-myphotos                    express-myphotos
-[React web page] --- REST API --- [Express/Node.js]---[Postgres SQL]
-- - - - - - - - -                 - - - - - - - - - - - - - - - - -
-Static web server                         REST API service
-hosted by Heroku                          hosted by Heroku
+ react-myphotos                         spring-myphotos
+[React web page] --- REST API --- [Spring MVC]--[Spring Data]--Postgres SQL
+- - - - - - - - -                  - - - - - - - - - - - - - - - - - - - -
+Static web server                           REST API service
+hosted by Heroku                            hosted by Heroku
 ```
 
 ## Running the app locally
