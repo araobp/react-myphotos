@@ -1,11 +1,14 @@
 /*** Common CSS ***/
-.App {
+:root {
   --default-background: #518c84;
   --margin-navi: 3.5rem;
   --margin-footer: 3.5rem;
   --default-font-size: 1.1rem;
   --input-font-size: 1.3rem;
   --navi-footer-background-color: #3e687d;
+}
+
+.App {
   text-align: center;
   background: var(--default-background);
   width: 100%;
@@ -256,7 +259,8 @@ button:active {
 #map-height {
   z-index: 0;
   margin-top: var(--margin-navi);
-  height: calc(100vh - var(--margin-navi));
+  margin-bottom: var(--margin-footer);
+  height: calc(100vh - var(--margin-navi) - var(--margin-footer));
 }
 
 /*** navi ***/
@@ -298,7 +302,7 @@ button:active {
   position: fixed;
   margin-top: var(--margin-navi);
   /* display: none; */
-  width: 35%;
+  width: 40%;
   height: 100vh;
   top: 0;
   left: 0;
