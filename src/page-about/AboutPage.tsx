@@ -5,9 +5,9 @@ export const AboutPage = () => {
         <div className='default'>
             <div>
                 <br></br>
-                <div><a href="https://github.com/araobp">Author</a></div>
+                <div><a className="menu-text" href="https://github.com/araobp">Author</a></div>
                 <br></br>
-                <div><a href="https://github.com/araobp/react-myphotos">Projet page</a></div>
+                <div><a className="menu-text" href="https://github.com/araobp/react-myphotos">Projet page</a></div>
             </div>
         </div>
     );

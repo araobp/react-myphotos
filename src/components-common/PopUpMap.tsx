@@ -13,7 +13,7 @@ export type PopUpMapProps = {
 
 export const PopUpMap: FunctionComponent<PopUpMapProps> = ({ isOpen, setIsOpen, latlon }: PopUpMapProps) => {
     return (
-        <div>
+        <div style={{color: "black"}}>
             <Modal isOpen={isOpen} className="center">
                 <div>
                     <MapContainer center={[latlon.latitude, latlon.longitude]} zoom={17} scrollWheelZoom={false} style={{
@@ -21,7 +21,7 @@ export const PopUpMap: FunctionComponent<PopUpMapProps> = ({ isOpen, setIsOpen, 
                         outline: "#888888 solid 3px"
                     }}>
                         <TileLayer
-                            //    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         />
                         <Marker position={[latlon.latitude, latlon.longitude]}>

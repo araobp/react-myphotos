@@ -188,26 +188,6 @@ button:active {
   margin-right: auto;
 }
 
-a:link {
-  text-decoration: none;
-  color: white;
-}
-
-a:visited {
-  text-decoration: none;
-  color: white;
-}
-
-a:hover {
-  text-decoration: underline;
-  color: antiquewhite;
-}
-
-a:active {
-  text-decoration: underline;
-  color: white;
-}
-
 /*** Home page ***/
 #place {
   text-align: left;
@@ -329,4 +309,24 @@ a:active {
   padding-left: 0.8rem;
   text-align: left;
   font-size: 1.5rem;
+}
+
+a.menu-text:link {
+  text-decoration: none;
+  color: white;
+}
+
+a.menu-text:visited {
+  text-decoration: none;
+  color: white;
+}
+
+a.menu-text:hover {
+  text-decoration: underline;
+  color: antiquewhite;
+}
+
+a.menu-text:active {
+  text-decoration: underline;
+  color: white;
 }
