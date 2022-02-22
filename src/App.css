@@ -252,6 +252,13 @@ button:active {
   width: 20vw;
 }
 
+/*** Map page ***/
+#map-height {
+  z-index: 0;
+  margin-top: var(--margin-navi);
+  height: calc(100vh - var(--margin-navi));
+}
+
 /*** navi ***/
 #navi {
   position: fixed;

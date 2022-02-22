@@ -5,8 +5,9 @@ import { BiMenu } from "react-icons/bi";
 import './App.css';
 import { HomePage } from './page-home/HomePage';
 import { AlbumPage } from './page-album/AlbumPage';
-import { AboutPage } from './page-about/AboutPage';
+import { MapPage } from './page-map/MapPage';
 import { SettingsPage as SettingsPage } from './page-settings/SettingsPage';
+import { AboutPage } from './page-about/AboutPage';
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
         <div id="menu">
           <a href="/" className="menu-text">Home</a>
           <a href="/album" className="menu-text">Album</a>
+          <a href="/map" className="menu-text">Map</a>
           <a href="/settings" className="menu-text">Settings</a>
           <a href="/about" className="menu-text">About</a>
         </div>
@@ -35,6 +37,7 @@ function App() {
           <Routes>
             <Route path='/' element={<HomePage />} />
             <Route path='/album' element={<AlbumPage />} />
+            <Route path='/map' element={<MapPage />} />
             <Route path='/settings' element={<SettingsPage setLoginName={setLoginName}/>} />
             <Route path='/about' element={<AboutPage />} />
           </Routes>
