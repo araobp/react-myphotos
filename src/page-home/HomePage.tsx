@@ -115,7 +115,7 @@ export const HomePage = () => {
         setDataURI(null);
     }
 
-    const picTaken = (dataURI: string|null) => {
+    const picTaken = (dataURI: string | null) => {
         setPicLatlon(latlon);
         setDataURI(dataURI);
     }
@@ -123,7 +123,7 @@ export const HomePage = () => {
     return (
         <>
             {!showCamera &&
-                <div className="default" style={{padding: "1vw"}}>
+                <div className="default" style={{ padding: "1vw" }}>
                     {(latlon.latitude !== 0) && (latlon.longitude !== 0) &&
                         <p className="latlon">Latitude: {latlon.latitude.toFixed(6)}, Longitude: {latlon.longitude.toFixed(6)}</p>
                         || <p className="latlon">Positioning...</p>
@@ -154,11 +154,13 @@ export const HomePage = () => {
                             type="submit"
                             onClick={() => setShowCamera(true)}>Camera
                         </button>
-                        <button
-                            className="small-button"
-                            type="submit"
-                            onClick={() => setShowInputFile(!showInputFile)}>File
-                        </button>
+                        {localStorage.getItem("fileUploadEnabled") == "true" &&
+                            <button
+                                className="small-button"
+                                type="submit"
+                                onClick={() => setShowInputFile(!showInputFile)}>File
+                            </button>
+                        }
                     </div>
                 </div>
             }

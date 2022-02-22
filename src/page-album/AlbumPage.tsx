@@ -1,10 +1,10 @@
-import { useState, useEffect, memo } from "react";
+import { useState, useEffect } from "react";
 import Modal from "react-modal";
 
 import { authHeaders, baseURL } from "../util/auth";
 import { RecordResponse, LatLon, Thumbnails } from "../components-common/structure";
 import { PopUpConfirm } from "../components-common/PopUpMessage";
-import { PopUpMap } from '../components-common/PopUpMap';
+import { PopUpMap } from "../components-common/PopUpMap";
 import { RecordForm } from "../components-common/RecordForm";
 
 const LIMIT = 10;
