@@ -4,6 +4,7 @@ import Modal from "react-modal";
 import { RecordResponse, LatLon } from "../api/structure";
 import { PopUpConfirm } from "../components-common/PopUpMessage";
 import { PopUpMap } from "../components-common/PopUpMap";
+import { PopUpImage } from "../components-common/PopUpImage";
 import { RecordForm } from "../components-common/RecordForm";
 import { forward, backward, LIMIT } from "../util/manipulation";
 import { apiGetRecords, apiGetThumbnails, apiPutRecord, apiGetImage, apiDeleteRecords } from "../api/rest";
@@ -31,12 +32,7 @@ export const AlbumPage = () => {
     const [keyword, setKeyword] = useState<string>("");
 
     const openImage = (id: number) => {
-        setImageURL("");
-        apiGetImage(id, (success, objecURL) => {
-            if (success) {
-                setImageURL(objecURL);
-            }
-        });
+        setId(id);
         setShowImage(true);
     }
 
@@ -110,9 +106,7 @@ export const AlbumPage = () => {
         <>
             <div className="default">
                 <div>
-                    <Modal isOpen={showImage} className="center-img">
-                        <img src={imageURL} onClick={() => setShowImage(false)} style={{ width: "100vw", height: "100vh" }} />
-                    </Modal>
+                    {id && <PopUpImage showImage={showImage} setShowImage={setShowImage} id={id}></PopUpImage>}
 
                     <Modal isOpen={showInput} className="center">
                         <div className="popup">
