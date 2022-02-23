@@ -27,11 +27,12 @@ export const MapComp = ({ records, thumbnails, center, zoom }: MapCompProps) => 
 
             <MapContainer center={center} zoom={zoom} scrollWheelZoom={true} id="map-height">
                 <TileLayer
-                    attribution='&copy; <a href="https://maps.gsi.go.jp/development/ichiran.html">国土地理院</a>'
-                    url="https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png"
+                //    attribution='&copy; <a href="https://maps.gsi.go.jp/development/ichiran.html">国土地理院</a>'
+                //    url="https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png"
+                //
                 // Open Street Map
-                // attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
                 {records.map((r, _) => (
                     <Marker position={[r.latitude, r.longitude]}>
