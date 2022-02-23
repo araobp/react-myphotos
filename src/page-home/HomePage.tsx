@@ -5,7 +5,7 @@ import Modal from "react-modal";
 import { dataURItoArrayBuffer } from '../util/convert';
 import { authHeaders, baseURL } from "../util/auth";
 
-import { RecordRequest, LatLon } from "../components-common/structure";
+import { RecordRequest, LatLon } from "../api/structure";
 import { RecordForm } from "../components-common/RecordForm";
 import { CameraComp } from './CameraComp';
 import { PopUpMap } from '../components-common/PopUpMap';

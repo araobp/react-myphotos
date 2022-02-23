@@ -3,7 +3,7 @@ import Modal from "react-modal";
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 //import "leaflet/dist/leaflet.css";
 
-import { LatLon } from "./structure";
+import { LatLon } from "../api/structure";
 
 export type PopUpMapProps = {
     isOpen: boolean;

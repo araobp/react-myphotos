@@ -1,11 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, SetStateAction } from "react";
 import Modal from "react-modal";
 
 import { authHeaders, baseURL } from "../util/auth";
-import { RecordResponse, LatLon, Thumbnails } from "../components-common/structure";
+import { RecordResponse, LatLon, Thumbnails } from "../api/structure";
 import { PopUpConfirm } from "../components-common/PopUpMessage";
 import { PopUpMap } from "../components-common/PopUpMap";
 import { RecordForm } from "../components-common/RecordForm";
+
+import { apiGetRecords, apiGetThumbnails, apiPutRecord, apiGetImage, apiDeleteRecords } from "../api/rest";
 
 const LIMIT = 10;
 const MAX = 2147483647;
@@ -20,7 +22,7 @@ export const AlbumPage = () => {
     const [imageURL, setImageURL] = useState<string>("");
     const [showMap, setShowMap] = useState<boolean>(false);
     const [location, setLocation] = useState<LatLon>({ latitude: 0.0, longitude: 0.0 });
-    const [thumbnails, setThumbnails] = useState<Thumbnails>({});
+    const [thumbnails, setThumbnails] = useState<Map<string, string>>(new Map<string, string>());
     const [showConfirm, setShowConfirm] = useState<boolean>(false);
 
     const [showInput, setShowInput] = useState<boolean>(false);
@@ -32,15 +34,11 @@ export const AlbumPage = () => {
 
     const [keyword, setKeyword] = useState<string>("");
 
-    const apiOpenImage = (id: number) => {
+    const openImage = (id: number) => {
         setImageURL("");
-        const headers = {
-            ...{ 'Accept': 'application/octet-stream' },
-            ...authHeaders
-        }
-        fetch(`${baseURL}/photo/${id}/image`, { method: "GET", headers: headers })
-            .then(res => res.blob())
-            .then(data => setImageURL(URL.createObjectURL(data)));
+        apiGetImage(id, objecURL => {
+            setImageURL(objecURL);
+        });
         setShowImage(true);
     }
 
@@ -59,74 +57,17 @@ export const AlbumPage = () => {
         setCheckedRecords(checkedRecords);
     }
 
-    const apiGetRecords = async () => {
-        const headers = {
-            ...{ 'Accept': 'application/json' },
-            ...authHeaders
-        };
-        const res = await fetch(`${baseURL}/record?limit=${LIMIT}&offset=${offset}`, { method: "GET", headers: headers });
-        if (res.status == 200) {
-            const rec = await res.json();
-            setRecords(rec);
-            apiGetThumbnails(rec);
-        } else {
-            back();
-        }
-    }
-
     const deleteCheckedRecords = (confirmed: boolean) => {
         setShowConfirm(false);
         if (confirmed) {
-            apiDeleteCheckedRecords();
+            apiDeleteRecords(checkedRecords, success => {
+                setCheckedRecords([]);
+                updateRecordTable();        
+            });
         }
     }
 
-    const apiDeleteCheckedRecords = async () => {
-        const headers = {
-            ...{ 'Accept': 'application/json' },
-            ...authHeaders
-        };
-        await Promise.all(checkedRecords.map(async id => {
-            const res = await fetch(`${baseURL}/record/${id}`, { method: "DELETE", headers: headers });
-            console.log(`status: ${res.status}`);
-        }));
-        setCheckedRecords([]);
-        apiGetRecords();
-    }
-
-    const apiGetThumbnails = async (rec: Array<RecordResponse>) => {
-        const headers = {
-            ...{ 'Accept': 'application/octet-stream' },
-            ...authHeaders
-        };
-        const t: { [k: string]: string } = {};
-        await Promise.all(rec.map(async (r: RecordResponse) => {
-            if (r.id) {
-                const res = await fetch(`${baseURL}/photo/${r.id}/thumbnail`, { method: "GET", headers: headers });
-                const data = await res.blob();
-                t[`id_${r.id}`] = URL.createObjectURL(data);
-            }
-        }));
-        setThumbnails(t);
-    }
-
-    const apiPutRecord = () => {
-        if (id) {
-            const headers = {
-                ...{ 'Content-Type': 'application/json' },
-                ...authHeaders
-            };
-            const body = JSON.stringify({ place: place, memo: memo });
-            fetch(`${baseURL}/record/${id}`, { method: "PUT", headers: headers, body: body })
-                .then(res => {
-                    setId(null);
-                    apiGetRecords();
-                    console.log(res.status);
-                });
-        }
-    }
-
-    const back = () => {
+    const backward = () => {
         let o = (offset >= LIMIT) ? offset - LIMIT : offset;
         setOffset(o);
     }
@@ -136,13 +77,24 @@ export const AlbumPage = () => {
         setOffset(o);
     }
 
+    const updateRecordTable = () => {
+        apiGetRecords(LIMIT, offset, (success, r) => {
+            setRecords(r);
+            if (success) {
+                apiGetThumbnails(r, t => {
+                    setThumbnails(t);
+                });
+            }
+        });
+    }
+
     // Initialization
     useEffect(() => {
-        apiGetRecords();
+        updateRecordTable();
     }, []);
 
     useEffect(() => {
-        apiGetRecords();
+        updateRecordTable();
     }, [offset]);
 
     /*** Edit ***/
@@ -156,7 +108,10 @@ export const AlbumPage = () => {
 
     const updateRecord = () => {
         setShowInput(false);
-        apiPutRecord();
+        id && apiPutRecord(id, place, memo, success => {
+            setId(null);
+            updateRecordTable();
+        });
     }
 
     return (
@@ -203,7 +158,7 @@ export const AlbumPage = () => {
                             .map((r, _) => (
                                 <div key={r.id} className="card">
                                     <input className="card-checkbox" type="checkbox" defaultChecked={r.id && (checkedRecords.indexOf(r.id) == -1) ? false : true} onChange={(e) => handleCheckedRecord(r.id, e.target.checked)} />
-                                    <img className="card-img" src={thumbnails[`id_${r.id}`]} onClick={() => apiOpenImage(r.id)} />
+                                    <img className="card-img" src={thumbnails.get(`id_${r.id}`)} onClick={() => openImage(r.id)} />
                                     <div className="card-text">
                                         <div>Date: {new Date(r.datetime as string).toLocaleString()}</div>
                                         <div>Place: {r.place}</div>
@@ -219,7 +174,7 @@ export const AlbumPage = () => {
                 </div>
             </div>
             <div className="footer">
-                <button className="tiny-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={e => back()}>&lt;</button>
+                <button className="tiny-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={e => backward()}>&lt;</button>
                 <button className="tiny-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={e => forward()}>&gt;</button>
             </div>
         </>
