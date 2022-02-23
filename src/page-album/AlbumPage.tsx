@@ -1,15 +1,12 @@
-import { useState, useEffect, SetStateAction } from "react";
+import { useState, useEffect } from "react";
 import Modal from "react-modal";
 
 import { RecordResponse, LatLon } from "../api/structure";
 import { PopUpConfirm } from "../components-common/PopUpMessage";
 import { PopUpMap } from "../components-common/PopUpMap";
 import { RecordForm } from "../components-common/RecordForm";
-
+import { forward, backward, LIMIT } from "../util/manipulation";
 import { apiGetRecords, apiGetThumbnails, apiPutRecord, apiGetImage, apiDeleteRecords } from "../api/rest";
-
-const LIMIT = 10;
-const MAX = 2147483647;
 
 export const AlbumPage = () => {
 
@@ -68,16 +65,6 @@ export const AlbumPage = () => {
                 }
             });
         }
-    }
-
-    const backward = () => {
-        let o = (offset >= LIMIT) ? offset - LIMIT : offset;
-        setOffset(o);
-    }
-
-    const forward = () => {
-        let o = (offset + LIMIT) > MAX ? MAX : offset + LIMIT;
-        setOffset(o);
     }
 
     const updateRecordTable = () => {
@@ -179,8 +166,8 @@ export const AlbumPage = () => {
                 </div>
             </div>
             <div className="footer">
-                <button className="tiny-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={e => backward()}>&lt;</button>
-                <button className="tiny-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={e => forward()}>&gt;</button>
+                <button className="tiny-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={e => setOffset(backward(offset))}>&lt;</button>
+                <button className="tiny-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={e => setOffset(forward(offset))}>&gt;</button>
             </div>
         </>
     );
