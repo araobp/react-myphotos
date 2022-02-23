@@ -3,16 +3,16 @@ import { LatLngExpression } from "leaflet";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import '../App.css';
 
-import { RecordResponse, Thumbnails } from "../api/structure";
+import { RecordResponse } from "../api/structure";
 
-import { apiGetRecords, apiGetRecordsCallback } from "../api/rest";
+import { apiGetRecords } from "../api/rest";
 
 const position: LatLngExpression = [51.505, -0.09];
 
 export const MapPage = () => {
 
     const [records, setRecords] = useState<Array<RecordResponse>>([]);
-    const [thumbnails, setThumbnails] = useState<Thumbnails>({});
+    const [thumbnails, setThumbnails] = useState<Map<string, string>>(new Map<string, string>());
 
     const backward = () => {
 

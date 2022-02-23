@@ -1,8 +1,7 @@
 import { useState, useEffect, SetStateAction } from "react";
 import Modal from "react-modal";
 
-import { authHeaders, baseURL } from "../util/auth";
-import { RecordResponse, LatLon, Thumbnails } from "../api/structure";
+import { RecordResponse, LatLon } from "../api/structure";
 import { PopUpConfirm } from "../components-common/PopUpMessage";
 import { PopUpMap } from "../components-common/PopUpMap";
 import { RecordForm } from "../components-common/RecordForm";
@@ -36,8 +35,10 @@ export const AlbumPage = () => {
 
     const openImage = (id: number) => {
         setImageURL("");
-        apiGetImage(id, objecURL => {
-            setImageURL(objecURL);
+        apiGetImage(id, (success, objecURL) => {
+            if (success) {
+                setImageURL(objecURL);
+            }
         });
         setShowImage(true);
     }
@@ -62,7 +63,9 @@ export const AlbumPage = () => {
         if (confirmed) {
             apiDeleteRecords(checkedRecords, success => {
                 setCheckedRecords([]);
-                updateRecordTable();        
+                if (success) {
+                    updateRecordTable();
+                }
             });
         }
     }
@@ -79,10 +82,12 @@ export const AlbumPage = () => {
 
     const updateRecordTable = () => {
         apiGetRecords(LIMIT, offset, (success, r) => {
-            setRecords(r);
             if (success) {
-                apiGetThumbnails(r, t => {
-                    setThumbnails(t);
+                setRecords(r);
+                apiGetThumbnails(r, (success, t) => {
+                    if (success) {
+                        setThumbnails(t);
+                    }
                 });
             }
         });

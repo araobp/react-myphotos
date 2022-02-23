@@ -2,14 +2,12 @@ import { useState, useEffect } from "react";
 import '../App.css';
 import Modal from "react-modal";
 
-import { dataURItoArrayBuffer } from '../util/convert';
-import { authHeaders, baseURL } from "../util/auth";
-
-import { RecordRequest, LatLon } from "../api/structure";
+import { LatLon } from "../api/structure";
 import { RecordForm } from "../components-common/RecordForm";
 import { CameraComp } from './CameraComp';
 import { PopUpMap } from '../components-common/PopUpMap';
 import { PopUp } from "../components-common/PopUpMessage";
+import { apiPostRecord } from "../api/rest";
 
 export const HomePage = () => {
 
@@ -48,51 +46,17 @@ export const HomePage = () => {
     }, []);
 
     /*** Upload a record ****************************************/
-    const apiPostRecord = () => {
+    const postRecord = () => {
         if (dataURI) {
-
             setShowProgress(true);
 
             // Save parameters
             localStorage.setItem("place", place);
             localStorage.setItem("memo", memo)
 
-            // POST /records
-            const record: RecordRequest = { place: place, memo: memo, latitude: 0.0, longitude: 0.0 };
-
-            record.latitude = picLatlon.latitude;
-            record.longitude = picLatlon.longitude;
-
-            const body = JSON.stringify(record);
-            console.log(body);
-            const headers = {
-                ...{
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                ...authHeaders
-            };
-            fetch(`${baseURL}/record`, { method: "POST", headers: headers, body: body })
-                .then(res => res.json())
-                .then(body => {
-                    const id = body.id;
-                    const headers = {
-                        ...{
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/octet-stream'
-                        },
-                        ...authHeaders
-                    }
-                    fetch(
-                        `${baseURL}/photo/${id}`,
-                        { method: "POST", headers: headers, body: dataURItoArrayBuffer(dataURI) }
-                    )
-                        .then(res => {
-                            console.log(res.status);
-                            setShowProgress(false);
-                        });
-
-                });
+            apiPostRecord(place, memo, picLatlon, dataURI, success => {
+                setShowProgress(false);
+            });
         } else {
             setShowReject(true);
             setTimeout(() => setShowReject(false), 2000);
@@ -169,7 +133,7 @@ export const HomePage = () => {
                 !showCamera &&
                 <div className="footer">
                     <button className="small-button" type="submit" onClick={() => setShowMap(true)}>Map</button>
-                    <button className="small-button" type="submit" onClick={e => apiPostRecord()}>Upload</button>
+                    <button className="small-button" type="submit" onClick={e => postRecord()}>Upload</button>
                     <button className="small-button" type="submit" onClick={clearInputFields}>Clear</button>
                 </div>
             }
