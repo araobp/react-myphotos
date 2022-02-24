@@ -7,7 +7,7 @@ import { PopUpMap } from "../components-common/PopUpMap";
 import { PopUpImage } from "../components-common/PopUpImage";
 import { RecordForm } from "../components-common/RecordForm";
 import { forward, backward, LIMIT } from "../util/manipulation";
-import { apiGetRecords, apiGetThumbnails, apiPutRecord, apiGetImage, apiDeleteRecords } from "../api/rest";
+import { apiGetRecords, apiGetThumbnails, apiPutRecord, apiDeleteRecords, apiGetCount } from "../api/rest";
 
 export const AlbumPage = () => {
 
@@ -27,6 +27,7 @@ export const AlbumPage = () => {
     const [id, setId] = useState<number | null>(null);
 
     const [offset, setOffset] = useState<number>(0);
+    const [count, setCount] = useState<number>(0);
 
     const [keyword, setKeyword] = useState<string>("");
 
@@ -62,15 +63,23 @@ export const AlbumPage = () => {
     }
 
     const updateRecordTable = async () => {
-        const result = await apiGetRecords(LIMIT, offset);
-        if (result.success) {
-            const records = result.data;
-            setRecords(records);
-            const result2 = await apiGetThumbnails(records);
-            if (result2.success) {
-                const thumbnails = result2.data;
-                setThumbnails(thumbnails);
+        try {
+            const result0 = await apiGetCount();
+            if (result0.success) {
+                setCount(result0.data);
+                const result1 = await apiGetRecords(LIMIT, offset);
+                if (result1.success) {
+                    const records = result1.data;
+                    setRecords(records);
+                    const result2 = await apiGetThumbnails(records);
+                    if (result2.success) {
+                        const thumbnails = result2.data;
+                        setThumbnails(thumbnails);
+                    }
+                }
             }
+        } catch (e) {
+            console.log(e);
         }
     }
 
@@ -162,7 +171,8 @@ export const AlbumPage = () => {
             </div>
             <div className="footer">
                 <button className="tiny-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={e => setOffset(backward(offset))}>&lt;</button>
-                <button className="tiny-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={e => setOffset(forward(offset))}>&gt;</button>
+                <div style={{ fontSize: "1.3rem" }}>{offset+1}/{count}</div>
+                <button className="tiny-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={e => setOffset(forward(offset, count))}>&gt;</button>
             </div>
         </>
     );

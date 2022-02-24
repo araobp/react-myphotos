@@ -10,49 +10,52 @@ export type Result = {
 }
 
 export type ResultRecords = {
-    success: boolean;
-    data: Array<RecordResponse>;
-    reason?: string;
-}
+    data: Array<RecordResponse>
+} & Result;
 
 export type ResultThumbnails = {
-    success: boolean;
     data: Map<string, string>
-    reason?: string;
-}
+} & Result;
 
 export type ResultImage = {
-    success: boolean;
     data: string;
-    reason?: string;
-}
+} & Result;
+
+export type ResultCount = {
+    data: number;
+} & Result;
 
 const INTERNAL_ERROR: string = 'Internal error';
+
+const makeHeaders = (headers: object) => {
+    return { ...headers, ...authHeaders };
+}
+
+const ACCEPT_APPLICATION_JSON = makeHeaders({ 'Accept': 'application/json' });
+const ACCEPT_OCTET_STREAM = makeHeaders({ 'Accept': 'application/octet-stream' });
 
 export const apiPostRecord = async (place: string, memo: string, latlon: LatLon, dataURI: string): Promise<Result> => {
     try {
         const record: RecordRequest = { place: place, memo: memo, latitude: latlon.latitude, longitude: latlon.longitude };
         const body = JSON.stringify(record);
         console.log(body);
-        const headers = {
-            ...{
+        const headers = makeHeaders(
+            {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
-            },
-            ...authHeaders
-        };
+            }
+        );
         const res = await fetch(`${baseURL}/record`, { method: "POST", headers: headers, body: body })
         if (res.status != 200) throw { success: false, reason: 'POST /record failed' };
 
         const data = await res.json();
         const id = data.id;
-        const headers2 = {
-            ...{
+        const headers2 = makeHeaders(
+            {
                 'Accept': 'application/json',
                 'Content-Type': 'application/octet-stream'
-            },
-            ...authHeaders
-        }
+            }
+        );
         const res2 = await fetch(
             `${baseURL}/photo/${id}`,
             { method: "POST", headers: headers2, body: dataURItoArrayBuffer(dataURI) }
@@ -70,10 +73,7 @@ export const apiPostRecord = async (place: string, memo: string, latlon: LatLon,
 
 export const apiPutRecord = async (id: number, place: string, memo: string): Promise<Result> => {
     try {
-        const headers = {
-            ...{ 'Content-Type': 'application/json' },
-            ...authHeaders
-        };
+        const headers = makeHeaders({ 'Content-Type': 'application/json' });
         const body = JSON.stringify({ place: place, memo: memo });
         const res = await fetch(`${baseURL}/record/${id}`, { method: "PUT", headers: headers, body: body });
         if (res.status == 200) {
@@ -88,10 +88,7 @@ export const apiPutRecord = async (id: number, place: string, memo: string): Pro
 }
 
 export const apiGetRecords = async (limit: number, offset: number): Promise<ResultRecords> => {
-    const headers = {
-        ...{ 'Accept': 'application/json' },
-        ...authHeaders
-    };
+    const headers = makeHeaders({ 'Accept': 'application/json' });
     try {
         const res = await fetch(`${baseURL}/record?limit=${limit}&offset=${offset}`, { method: "GET", headers: headers });
         if (res.status == 200) {
@@ -107,15 +104,11 @@ export const apiGetRecords = async (limit: number, offset: number): Promise<Resu
 
 export const apiGetThumbnails = async (rec: Array<RecordResponse>): Promise<ResultThumbnails> => {
     try {
-        const headers = {
-            ...{ 'Accept': 'application/octet-stream' },
-            ...authHeaders
-        };
         const thumbnails = new Map<string, string>();
         let success: boolean = false;
         await Promise.all(rec.map(async (r: RecordResponse) => {
             if (r.id) {
-                const res = await fetch(`${baseURL}/photo/${r.id}/thumbnail`, { method: "GET", headers: headers });
+                const res = await fetch(`${baseURL}/photo/${r.id}/thumbnail`, { method: "GET", headers: ACCEPT_OCTET_STREAM });
                 const data = await res.blob();
                 thumbnails.set(`id_${r.id}`, URL.createObjectURL(data));
                 success = (res.status == 200);
@@ -134,11 +127,7 @@ export const apiGetThumbnails = async (rec: Array<RecordResponse>): Promise<Resu
 
 export const apiGetImage = async (id: number): Promise<ResultImage> => {
     try {
-        const headers = {
-            ...{ 'Accept': 'application/octet-stream' },
-            ...authHeaders
-        }
-        const res = await fetch(`${baseURL}/photo/${id}/image`, { method: "GET", headers: headers });
+        const res = await fetch(`${baseURL}/photo/${id}/image`, { method: "GET", headers: ACCEPT_OCTET_STREAM });
         if (res.status == 200) {
             const data = await res.blob();
             const objectURL = URL.createObjectURL(data);
@@ -152,21 +141,31 @@ export const apiGetImage = async (id: number): Promise<ResultImage> => {
 }
 
 export const apiDeleteRecords = async (checkedRecords: number[]): Promise<Result> => {
-    const headers = {
-        ...{ 'Accept': 'application/json' },
-        ...authHeaders
-    };
     let success = true;
     try {
         await Promise.all(checkedRecords.map(async id => {
-            const res = await fetch(`${baseURL}/record/${id}`, { method: "DELETE", headers: headers });
+            const res = await fetch(`${baseURL}/record/${id}`, { method: "DELETE", headers: ACCEPT_APPLICATION_JSON });
             console.log(`status: ${res.status}`);
             if (res.status != 200) success = false;
         }));
         if (success) {
-            return {success: true};
+            return { success: true };
         } else {
-            return {success: false, reason: 'DELETE records failed'};
+            return { success: false, reason: 'DELETE records failed' };
+        }
+    } catch (e) {
+        throw { success: false, reason: INTERNAL_ERROR };
+    }
+}
+
+export const apiGetCount = async () : Promise<ResultCount> => {
+    try {
+        const res = await fetch(`${baseURL}/management/count`, { method: "GET", headers: ACCEPT_APPLICATION_JSON });
+        if (res.status == 200) {
+            const data = await res.json();
+            return {success: true, data: data.count};
+        } else {
+            throw {success: false, reason: 'GET count failed'};
         }
     } catch (e) {
         throw {success: false, reason: INTERNAL_ERROR};
