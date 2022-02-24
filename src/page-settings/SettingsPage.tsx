@@ -13,15 +13,15 @@ export const SettingsPage = ({ setLoginName }: SettingsPageProps) => {
     const [password, setPassword] = useState<string>(localStorage.getItem("password") || "");
     const [baseURL, setBaseURL] = useState<string>(localStorage.getItem("baseURL") || "");
     const [fileUploadEnabled, setFileUploadEnabled] = useState<string>(localStorage.getItem("fileUploadEnabled") || "false");
+    const [period, setPeriod] = useState<string>(localStorage.getItem("period") || "");
     const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
 
     const saveSettings = () => {
         if (login != "" && password != "") {
             localStorage.setItem("login", login);
             localStorage.setItem("password", password);
+            localStorage.setItem("period", period);
             setLoginName(login);
-            setLogin("");
-            setPassword("");
         }
         if (baseURL != "") {
             localStorage.setItem("baseURL", baseURL);
@@ -41,7 +41,7 @@ export const SettingsPage = ({ setLoginName }: SettingsPageProps) => {
     return (
         <>
             <div className="default" style={{ textAlign: "left", marginLeft: "1rem", marginRight: "1rem" }}>
-                <label>login:
+                <label>Login:
                     <input
                         style={{ width: "16rem" }}
                         type="text"
@@ -51,7 +51,7 @@ export const SettingsPage = ({ setLoginName }: SettingsPageProps) => {
                     />
                 </label>
                 <br />
-                <label>password:
+                <label>Password:
                     <input
                         style={{ width: "16rem" }}
                         type="text"
@@ -61,6 +61,16 @@ export const SettingsPage = ({ setLoginName }: SettingsPageProps) => {
                     />
                 </label>
                 <br />
+                <label>GPS:
+                    <input
+                        style={{ width: "6rem"}}
+                        type="text"
+                        value={period}
+                        onChange={(e) => setPeriod(e.target.value)}
+                        placeholder="period"
+                    />
+                    seconds
+                </label>
                 {showAdvanced &&
                     <div>
                         <label>baseURL:

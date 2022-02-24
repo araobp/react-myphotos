@@ -7,7 +7,8 @@ import { RecordForm } from "../components-common/RecordForm";
 import { CameraComp } from './CameraComp';
 import { PopUpMap } from '../components-common/PopUpMap';
 import { PopUp } from "../components-common/PopUpMessage";
-import { apiPostRecord } from "../api/rest";
+import { apiPostGpsLog, apiPostRecord } from "../api/rest";
+import { Switch } from "../components-common/Switch";
 
 export const HomePage = () => {
 
@@ -22,14 +23,24 @@ export const HomePage = () => {
     const [watchId, setWatchId] = useState<number | null>(null);
     const [showProgress, setShowProgress] = useState<boolean>(false);
     const [showReject, setShowReject] = useState<boolean>(false);
+    const [gpsLoggingEnabled, setGpsLoggingEnabled] = useState<boolean>(false);
+    const [lastGpsLogPostTime, setLastGpsLogPostTime] = useState<Date>(new Date());
 
     Modal.setAppElement("#root");
 
     /*** Geo-location ***********************************************/
     const startWatchingLocation = () => {
+        const period = parseInt(localStorage.getItem("period") || "0") * 1000;  // msec
         const id = navigator.geolocation.watchPosition(position => {
             const { latitude, longitude } = position.coords;
             setLatLon({ latitude, longitude });
+            if (gpsLoggingEnabled) {
+                const now = new Date();
+                if ((now.getTime() - lastGpsLogPostTime.getTime()) > period) {
+                    apiPostGpsLog({ latitude, longitude });
+                    setLastGpsLogPostTime(now);
+                }
+            }
         });
         setWatchId(id);
     };
@@ -83,6 +94,10 @@ export const HomePage = () => {
         setDataURI(dataURI);
     }
 
+    const enableGpsLogging = (enabled: boolean) => {
+        setGpsLoggingEnabled(enabled);
+    }
+
     return (
         <>
             {!showCamera &&
@@ -91,6 +106,10 @@ export const HomePage = () => {
                         <p className="latlon">Latitude: {latlon.latitude.toFixed(6)}, Longitude: {latlon.longitude.toFixed(6)}</p>
                         || <p className="latlon">Positioning...</p>
                     }
+
+                    <div style={{ display: "flex", alignItems: "center" }}>GPS Logging:&nbsp;
+                        <Switch isChecked={gpsLoggingEnabled} onChange={isChecked => enableGpsLogging(isChecked)} />
+                    </div>
 
                     <RecordForm place={place} setPlace={setPlace} memo={memo} setMemo={setMemo} />
 

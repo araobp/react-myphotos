@@ -1,5 +1,5 @@
 import { authHeaders, baseURL } from "../util/auth";
-import { RecordResponse } from "./structure";
+import { GpsLog, RecordResponse } from "./structure";
 
 import { dataURItoArrayBuffer } from "../util/convert";
 import { RecordRequest, LatLon } from "./structure";
@@ -25,7 +25,7 @@ export type ResultCount = {
     data: number;
 } & Result;
 
-const INTERNAL_ERROR: string = 'Internal error';
+const INTERNAL_ERROR: Result = { success: false, reason: 'Internal error' };
 
 const makeHeaders = (headers: object) => {
     return { ...headers, ...authHeaders };
@@ -67,7 +67,7 @@ export const apiPostRecord = async (place: string, memo: string, latlon: LatLon,
             throw { success: false, reason: 'POST photo failed' };
         }
     } catch (e) {
-        throw { success: false, reason: INTERNAL_ERROR };
+        throw INTERNAL_ERROR;
     }
 }
 
@@ -83,7 +83,7 @@ export const apiPutRecord = async (id: number, place: string, memo: string): Pro
             throw { success: false, reason: 'PUT record failed' };
         }
     } catch (e) {
-        throw { success: false, reason: INTERNAL_ERROR };
+        throw INTERNAL_ERROR;
     }
 }
 
@@ -121,7 +121,7 @@ export const apiGetThumbnails = async (rec: Array<RecordResponse>): Promise<Resu
             throw { success: false, reason: 'get thumbnails failed' };
         }
     } catch (e) {
-        throw { success: false, reason: INTERNAL_ERROR };
+        throw INTERNAL_ERROR;
     }
 }
 
@@ -136,7 +136,7 @@ export const apiGetImage = async (id: number): Promise<ResultImage> => {
             throw { success: false, reason: 'GET image failed' };
         }
     } catch (e) {
-        throw { success: false, reason: INTERNAL_ERROR };
+        throw INTERNAL_ERROR;
     }
 }
 
@@ -154,20 +154,42 @@ export const apiDeleteRecords = async (checkedRecords: number[]): Promise<Result
             return { success: false, reason: 'DELETE records failed' };
         }
     } catch (e) {
-        throw { success: false, reason: INTERNAL_ERROR };
+        throw INTERNAL_ERROR;
     }
 }
 
-export const apiGetCount = async () : Promise<ResultCount> => {
+export const apiGetCount = async (): Promise<ResultCount> => {
     try {
         const res = await fetch(`${baseURL}/management/count`, { method: "GET", headers: ACCEPT_APPLICATION_JSON });
         if (res.status == 200) {
             const data = await res.json();
-            return {success: true, data: data.count};
+            return { success: true, data: data.count };
         } else {
-            throw {success: false, reason: 'GET count failed'};
+            throw { success: false, reason: 'GET count failed' };
         }
     } catch (e) {
-        throw {success: false, reason: INTERNAL_ERROR};
+        throw INTERNAL_ERROR;
     }
 }
+
+export const apiPostGpsLog = async (log: GpsLog): Promise<Result> => {
+    try {
+        const body = JSON.stringify(log);
+        console.log(body);
+        const headers = makeHeaders(
+            {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        );
+        const res = await fetch(`${baseURL}/gpslog`, { method: "POST", headers: headers, body: body })
+        if (res.status == 200) {
+            return { success: true };
+        } else {
+            throw { success: false, reason: 'POST gpslog failed' };
+        }
+    } catch (e) {
+        throw INTERNAL_ERROR;
+    }
+}
+

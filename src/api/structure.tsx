@@ -20,3 +20,5 @@ export type LatLon = {
     latitude: number;
     longitude: number;
 }
+
+export type GpsLog = LatLon;
