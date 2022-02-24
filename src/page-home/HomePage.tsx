@@ -46,17 +46,16 @@ export const HomePage = () => {
     }, []);
 
     /*** Upload a record ****************************************/
-    const postRecord = () => {
+    const postRecord = async () => {
         if (dataURI) {
             setShowProgress(true);
 
             // Save parameters
             localStorage.setItem("place", place);
-            localStorage.setItem("memo", memo)
+            localStorage.setItem("memo", memo);
 
-            apiPostRecord(place, memo, picLatlon, dataURI, success => {
-                setShowProgress(false);
-            });
+            const result = await apiPostRecord(place, memo, picLatlon, dataURI);
+            setShowProgress(false);
         } else {
             setShowReject(true);
             setTimeout(() => setShowReject(false), 2000);

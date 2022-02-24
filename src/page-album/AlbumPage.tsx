@@ -16,7 +16,6 @@ export const AlbumPage = () => {
     const [records, setRecords] = useState<Array<RecordResponse>>([]);
     const [checkedRecords, setCheckedRecords] = useState<Array<number>>([]);
     const [showImage, setShowImage] = useState<boolean>(false);
-    const [imageURL, setImageURL] = useState<string>("");
     const [showMap, setShowMap] = useState<boolean>(false);
     const [location, setLocation] = useState<LatLon>({ latitude: 0.0, longitude: 0.0 });
     const [thumbnails, setThumbnails] = useState<Map<string, string>>(new Map<string, string>());
@@ -51,29 +50,28 @@ export const AlbumPage = () => {
         setCheckedRecords(checkedRecords);
     }
 
-    const deleteCheckedRecords = (confirmed: boolean) => {
+    const deleteCheckedRecords = async (confirmed: boolean) => {
         setShowConfirm(false);
         if (confirmed) {
-            apiDeleteRecords(checkedRecords, success => {
-                setCheckedRecords([]);
-                if (success) {
-                    updateRecordTable();
-                }
-            });
+            const result = await apiDeleteRecords(checkedRecords);
+            setCheckedRecords([]);
+            if (result.success) {
+                updateRecordTable();
+            }
         }
     }
 
-    const updateRecordTable = () => {
-        apiGetRecords(LIMIT, offset, (success, r) => {
-            if (success) {
-                setRecords(r);
-                apiGetThumbnails(r, (success, t) => {
-                    if (success) {
-                        setThumbnails(t);
-                    }
-                });
+    const updateRecordTable = async () => {
+        const result = await apiGetRecords(LIMIT, offset);
+        if (result.success) {
+            const records = result.data;
+            setRecords(records);
+            const result2 = await apiGetThumbnails(records);
+            if (result2.success) {
+                const thumbnails = result2.data;
+                setThumbnails(thumbnails);
             }
-        });
+        }
     }
 
     // Initialization
@@ -94,12 +92,15 @@ export const AlbumPage = () => {
         setShowInput(true);
     }
 
-    const updateRecord = () => {
+    const updateRecord = async () => {
         setShowInput(false);
-        id && apiPutRecord(id, place, memo, success => {
+        if (id != null) {
+            const result = await apiPutRecord(id, place, memo);
             setId(null);
-            updateRecordTable();
-        });
+            if (result.success) {
+                updateRecordTable();
+            }
+        }
     }
 
     return (

@@ -17,22 +17,20 @@ export const MapPage = () => {
     const [center, setCenter] = useState<LatLngExpression>(defaultLocation);
     const [offset, setOffset] = useState<number>(0);
 
-    //const map = useMap();
-
-    const updateRecordTable = () => {
-        apiGetRecords(LIMIT, offset, (success, r) => {
-            if (success) {
-                setRecords(r);
-                apiGetThumbnails(r, (success, t) => {
-                    if (success) {
-                        if (r.length > 0) {
-                            setCenter([r[0].latitude, r[0].longitude]);
-                        }
-                        setThumbnails(t);
-                    }
-                });
+    const updateRecordTable = async () => {
+        const result = await apiGetRecords(LIMIT, offset);
+        if (result.success) {
+            const records = result.data;
+            setRecords(records);
+            if (records.length > 0) {
+                setCenter([records[0].latitude, records[0].longitude]);
+                const result = await apiGetThumbnails(records);
+                if (result.success) {
+                    const thumbnails = result.data;
+                    setThumbnails(thumbnails);
+                }
             }
-        });
+        }
     }
 
     // Initialization
@@ -45,8 +43,8 @@ export const MapPage = () => {
     }, [offset]);
 
     return (
-        <> 
-            <MapComp records={records} thumbnails={thumbnails} center={defaultLocation} zoom={10}/>
+        <>
+            <MapComp records={records} thumbnails={thumbnails} center={defaultLocation} zoom={10} />
             <div className="footer">
                 <button className="tiny-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={e => setOffset(backward(offset))}>&lt;</button>
                 <button className="tiny-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={e => setOffset(forward(offset))}>&gt;</button>

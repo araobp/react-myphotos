@@ -4,67 +4,90 @@ import { RecordResponse } from "./structure";
 import { dataURItoArrayBuffer } from "../util/convert";
 import { RecordRequest, LatLon } from "./structure";
 
-export type apiPostRecordCallback = (success: boolean) => void;
+export type Result = {
+    success: boolean;
+    reason?: string;
+}
 
-export const apiPostRecord = (place: string, memo: string, latlon: LatLon, dataURI: string, callback: apiDeleteRecordsCallback) => {
-    const record: RecordRequest = { place: place, memo: memo, latitude: latlon.latitude, longitude: latlon.longitude };
+export type ResultRecords = {
+    success: boolean;
+    data: Array<RecordResponse>;
+    reason?: string;
+}
 
-    const body = JSON.stringify(record);
-    console.log(body);
-    const headers = {
-        ...{
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        ...authHeaders
-    };
+export type ResultThumbnails = {
+    success: boolean;
+    data: Map<string, string>
+    reason?: string;
+}
+
+export type ResultImage = {
+    success: boolean;
+    data: string;
+    reason?: string;
+}
+
+const INTERNAL_ERROR: string = 'Internal error';
+
+export const apiPostRecord = async (place: string, memo: string, latlon: LatLon, dataURI: string): Promise<Result> => {
     try {
-        fetch(`${baseURL}/record`, { method: "POST", headers: headers, body: body })
-            .then(res => res.json())
-            .then(body => {
-                const id = body.id;
-                const headers = {
-                    ...{
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/octet-stream'
-                    },
-                    ...authHeaders
-                }
-                fetch(
-                    `${baseURL}/photo/${id}`,
-                    { method: "POST", headers: headers, body: dataURItoArrayBuffer(dataURI) }
-                )
-                    .then(res => {
-                        console.log(res.status);
-                        callback(res.status == 200);
-                    });
-            });
+        const record: RecordRequest = { place: place, memo: memo, latitude: latlon.latitude, longitude: latlon.longitude };
+        const body = JSON.stringify(record);
+        console.log(body);
+        const headers = {
+            ...{
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            ...authHeaders
+        };
+        const res = await fetch(`${baseURL}/record`, { method: "POST", headers: headers, body: body })
+        if (res.status != 200) throw { success: false, reason: 'POST /record failed' };
+
+        const data = await res.json();
+        const id = data.id;
+        const headers2 = {
+            ...{
+                'Accept': 'application/json',
+                'Content-Type': 'application/octet-stream'
+            },
+            ...authHeaders
+        }
+        const res2 = await fetch(
+            `${baseURL}/photo/${id}`,
+            { method: "POST", headers: headers2, body: dataURItoArrayBuffer(dataURI) }
+        )
+        if (res2.status == 200) {
+            return { success: true };
+        }
+        else {
+            throw { success: false, reason: 'POST photo failed' };
+        }
     } catch (e) {
-        callback(false);
+        throw { success: false, reason: INTERNAL_ERROR };
     }
 }
 
-
-export type apiPutRecordCallback = (success: boolean) => void;
-
-export const apiPutRecord = (id: number, place: string, memo: string, callback: apiPutRecordCallback) => {
-    const headers = {
-        ...{ 'Content-Type': 'application/json' },
-        ...authHeaders
-    };
-    const body = JSON.stringify({ place: place, memo: memo });
+export const apiPutRecord = async (id: number, place: string, memo: string): Promise<Result> => {
     try {
-        fetch(`${baseURL}/record/${id}`, { method: "PUT", headers: headers, body: body })
-            .then(res => callback((res.status == 200))
-            );
+        const headers = {
+            ...{ 'Content-Type': 'application/json' },
+            ...authHeaders
+        };
+        const body = JSON.stringify({ place: place, memo: memo });
+        const res = await fetch(`${baseURL}/record/${id}`, { method: "PUT", headers: headers, body: body });
+        if (res.status == 200) {
+            return { success: true };
+        }
+        else {
+            throw { success: false, reason: 'PUT record failed' };
+        }
     } catch (e) {
-        callback(false);
+        throw { success: false, reason: INTERNAL_ERROR };
     }
 }
 
-export type apiGetRecordsCallback = (success: boolean, records: Array<RecordResponse>) => void;
-
-export const apiGetRecords = async (limit: number, offset: number, callback: apiGetRecordsCallback) => {
+export const apiGetRecords = async (limit: number, offset: number): Promise<ResultRecords> => {
     const headers = {
         ...{ 'Accept': 'application/json' },
         ...authHeaders
@@ -72,25 +95,23 @@ export const apiGetRecords = async (limit: number, offset: number, callback: api
     try {
         const res = await fetch(`${baseURL}/record?limit=${limit}&offset=${offset}`, { method: "GET", headers: headers });
         if (res.status == 200) {
-            const rec = await res.json();
-            callback(true, rec);
+            const records = await res.json();
+            return { success: true, data: records };
         } else {
-            callback(false, new Array<RecordResponse>());  // Return empty records
+            throw { success: false, reason: 'GET records failed' };
         }
     } catch (e) {
-        callback(false, new Array<RecordResponse>());  // Return empty records
+        throw new Error('get records failed');
     }
 }
 
-export type apiGetThumbnailsCallback = (success: boolean, thumbnails: Map<string, string>) => void;
-
-export const apiGetThumbnails = async (rec: Array<RecordResponse>, callback: apiGetThumbnailsCallback) => {
-    const headers = {
-        ...{ 'Accept': 'application/octet-stream' },
-        ...authHeaders
-    };
-    const thumbnails = new Map<string, string>();
+export const apiGetThumbnails = async (rec: Array<RecordResponse>): Promise<ResultThumbnails> => {
     try {
+        const headers = {
+            ...{ 'Accept': 'application/octet-stream' },
+            ...authHeaders
+        };
+        const thumbnails = new Map<string, string>();
         let success: boolean = false;
         await Promise.all(rec.map(async (r: RecordResponse) => {
             if (r.id) {
@@ -100,35 +121,37 @@ export const apiGetThumbnails = async (rec: Array<RecordResponse>, callback: api
                 success = (res.status == 200);
             }
         }));
-        callback(success, thumbnails);
+        if (success) {
+            return { success: true, data: thumbnails };
+        }
+        else {
+            throw { success: false, reason: 'get thumbnails failed' };
+        }
     } catch (e) {
-        callback(false, new Map<string, string>());  // Return empty map
+        throw { success: false, reason: INTERNAL_ERROR };
     }
 }
 
-export type apiGetImageCallback = (succes: boolean, objectURL: string) => void;
-
-export const apiGetImage = async (id: number, callback: apiGetImageCallback) => {
-    const headers = {
-        ...{ 'Accept': 'application/octet-stream' },
-        ...authHeaders
-    }
+export const apiGetImage = async (id: number): Promise<ResultImage> => {
     try {
+        const headers = {
+            ...{ 'Accept': 'application/octet-stream' },
+            ...authHeaders
+        }
         const res = await fetch(`${baseURL}/photo/${id}/image`, { method: "GET", headers: headers });
         if (res.status == 200) {
             const data = await res.blob();
-            callback(true, URL.createObjectURL(data));
+            const objectURL = URL.createObjectURL(data);
+            return { success: true, data: objectURL };
         } else {
-            callback(false, "");
+            throw { success: false, reason: 'GET image failed' };
         }
     } catch (e) {
-        callback(false, "");
+        throw { success: false, reason: INTERNAL_ERROR };
     }
 }
 
-export type apiDeleteRecordsCallback = (success: boolean) => void;
-
-export const apiDeleteRecords = async (checkedRecords: number[], callback: apiDeleteRecordsCallback) => {
+export const apiDeleteRecords = async (checkedRecords: number[]): Promise<Result> => {
     const headers = {
         ...{ 'Accept': 'application/json' },
         ...authHeaders
@@ -140,8 +163,12 @@ export const apiDeleteRecords = async (checkedRecords: number[], callback: apiDe
             console.log(`status: ${res.status}`);
             if (res.status != 200) success = false;
         }));
-        callback(success);
+        if (success) {
+            return {success: true};
+        } else {
+            return {success: false, reason: 'DELETE records failed'};
+        }
     } catch (e) {
-        callback(false);
+        throw {success: false, reason: INTERNAL_ERROR};
     }
 }
