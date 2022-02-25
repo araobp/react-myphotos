@@ -37,8 +37,8 @@ export const HomePage = () => {
             if (gpsLoggingEnabled) {
                 const now = new Date();
                 if ((now.getTime() - lastGpsLogPostTime.getTime()) > period) {
-                    apiPostGpsLog({ latitude, longitude });
-                    setLastGpsLogPostTime(now);
+                    apiPostGpsLog({ latitude, longitude })
+                    .then(_ => setLastGpsLogPostTime(now));
                 }
             }
         });
