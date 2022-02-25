@@ -256,7 +256,7 @@ button:active {
 }
 
 /*** Map page ***/
-#map-height {
+#react-leaflet {
   z-index: 0;
   margin-top: var(--margin-navi);
   margin-bottom: var(--margin-footer);

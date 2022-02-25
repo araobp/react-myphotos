@@ -65,7 +65,7 @@ export const HomePage = () => {
             localStorage.setItem("place", place);
             localStorage.setItem("memo", memo);
 
-            const result = await apiPostRecord(place, memo, picLatlon, dataURI);
+            await apiPostRecord(place, memo, picLatlon, dataURI);
             setShowProgress(false);
         } else {
             setShowReject(true);

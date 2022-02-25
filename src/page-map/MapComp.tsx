@@ -3,6 +3,7 @@ import { useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { RecordResponse } from "../api/structure";
 import { PopUpImage } from "../components-common/PopUpImage";
+import { useMap } from "react-leaflet";
 
 type MapCompProps = {
     records: Array<RecordResponse>
@@ -21,11 +22,19 @@ export const MapComp = ({ records, thumbnails, center, zoom }: MapCompProps) => 
         setShowImage(true);
     }
 
+    const MapRefresh = () => {
+        const map = useMap();
+        map.flyTo(center);
+        return null;
+    }
+
     return (
         <div style={{ overflow: "hidden" }}>
             {id && <PopUpImage showImage={showImage} setShowImage={setShowImage} id={id}></PopUpImage>}
 
-            <MapContainer center={center} zoom={zoom} scrollWheelZoom={true} id="map-height">
+            <div id="mapcomp">
+            <MapContainer center={center} zoom={zoom} scrollWheelZoom={true} id="react-leaflet">
+                <MapRefresh />
                 <TileLayer
                 //    attribution='&copy; <a href="https://maps.gsi.go.jp/development/ichiran.html">国土地理院</a>'
                 //    url="https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png"
@@ -35,7 +44,7 @@ export const MapComp = ({ records, thumbnails, center, zoom }: MapCompProps) => 
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
                 {records.map((r, _) => (
-                    <Marker position={[r.latitude, r.longitude]}>
+                    <Marker key={r.id} position={[r.latitude, r.longitude]}>
                         <Popup>
                             <div>
                                 [{r.place}]<br />
@@ -46,6 +55,7 @@ export const MapComp = ({ records, thumbnails, center, zoom }: MapCompProps) => 
                     </Marker>
                 ))}
             </MapContainer>
+            </div>
         </div>
     );
 }

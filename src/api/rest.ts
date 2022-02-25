@@ -4,28 +4,7 @@ import { GpsLog, RecordResponse } from "./structure";
 import { dataURItoArrayBuffer } from "../util/convert";
 import { RecordRequest, LatLon } from "./structure";
 
-export type Result = {
-    success: boolean;
-    reason?: string;
-}
-
-export type ResultRecords = {
-    data: Array<RecordResponse>
-} & Result;
-
-export type ResultThumbnails = {
-    data: Map<string, string>
-} & Result;
-
-export type ResultImage = {
-    data: string;
-} & Result;
-
-export type ResultCount = {
-    data: number;
-} & Result;
-
-const INTERNAL_ERROR: Result = { success: false, reason: 'Internal error' };
+const INTERNAL_ERROR = 'Internal error';
 
 const makeHeaders = (headers: object) => {
     return { ...headers, ...authHeaders };
@@ -34,7 +13,7 @@ const makeHeaders = (headers: object) => {
 const ACCEPT_APPLICATION_JSON = makeHeaders({ 'Accept': 'application/json' });
 const ACCEPT_OCTET_STREAM = makeHeaders({ 'Accept': 'application/octet-stream' });
 
-export const apiPostRecord = async (place: string, memo: string, latlon: LatLon, dataURI: string): Promise<Result> => {
+export const apiPostRecord = async (place: string, memo: string, latlon: LatLon, dataURI: string): Promise<null> => {
     try {
         const record: RecordRequest = { place: place, memo: memo, latitude: latlon.latitude, longitude: latlon.longitude };
         const body = JSON.stringify(record);
@@ -61,48 +40,48 @@ export const apiPostRecord = async (place: string, memo: string, latlon: LatLon,
             { method: "POST", headers: headers2, body: dataURItoArrayBuffer(dataURI) }
         )
         if (res2.status == 200) {
-            return { success: true };
+            return null;
         }
         else {
-            throw { success: false, reason: 'POST photo failed' };
+            throw new Error('POST photo failed');
         }
     } catch (e) {
-        throw INTERNAL_ERROR;
+        throw new Error(INTERNAL_ERROR);
     }
 }
 
-export const apiPutRecord = async (id: number, place: string, memo: string): Promise<Result> => {
+export const apiPutRecord = async (id: number, place: string, memo: string): Promise<null> => {
     try {
         const headers = makeHeaders({ 'Content-Type': 'application/json' });
         const body = JSON.stringify({ place: place, memo: memo });
         const res = await fetch(`${baseURL}/record/${id}`, { method: "PUT", headers: headers, body: body });
         if (res.status == 200) {
-            return { success: true };
+            return null;
         }
         else {
-            throw { success: false, reason: 'PUT record failed' };
+            throw new Error('PUT record failed');
         }
     } catch (e) {
-        throw INTERNAL_ERROR;
+        throw new Error(INTERNAL_ERROR);
     }
 }
 
-export const apiGetRecords = async (limit: number, offset: number): Promise<ResultRecords> => {
+export const apiGetRecords = async (limit: number, offset: number): Promise<Array<RecordResponse>> => {
     const headers = makeHeaders({ 'Accept': 'application/json' });
     try {
         const res = await fetch(`${baseURL}/record?limit=${limit}&offset=${offset}`, { method: "GET", headers: headers });
         if (res.status == 200) {
             const records = await res.json();
-            return { success: true, data: records };
+            return records;
         } else {
-            throw { success: false, reason: 'GET records failed' };
+            throw new Error('GET records failed');
         }
     } catch (e) {
         throw new Error('get records failed');
     }
 }
 
-export const apiGetThumbnails = async (rec: Array<RecordResponse>): Promise<ResultThumbnails> => {
+export const apiGetThumbnails = async (rec: Array<RecordResponse>): Promise<Map<string, string>> => {
     try {
         const thumbnails = new Map<string, string>();
         let success: boolean = false;
@@ -115,32 +94,32 @@ export const apiGetThumbnails = async (rec: Array<RecordResponse>): Promise<Resu
             }
         }));
         if (success) {
-            return { success: true, data: thumbnails };
+            return thumbnails;
         }
         else {
-            throw { success: false, reason: 'get thumbnails failed' };
+            throw new Error('get thumbnails failed');
         }
     } catch (e) {
-        throw INTERNAL_ERROR;
+        throw new Error(INTERNAL_ERROR);
     }
 }
 
-export const apiGetImage = async (id: number): Promise<ResultImage> => {
+export const apiGetImage = async (id: number): Promise<string> => {
     try {
         const res = await fetch(`${baseURL}/photo/${id}/image`, { method: "GET", headers: ACCEPT_OCTET_STREAM });
         if (res.status == 200) {
             const data = await res.blob();
             const objectURL = URL.createObjectURL(data);
-            return { success: true, data: objectURL };
+            return objectURL;
         } else {
-            throw { success: false, reason: 'GET image failed' };
+            throw new Error('GET image failed');
         }
     } catch (e) {
-        throw INTERNAL_ERROR;
+        throw new Error(INTERNAL_ERROR);
     }
 }
 
-export const apiDeleteRecords = async (checkedRecords: number[]): Promise<Result> => {
+export const apiDeleteRecords = async (checkedRecords: number[]): Promise<null> => {
     let success = true;
     try {
         await Promise.all(checkedRecords.map(async id => {
@@ -149,30 +128,30 @@ export const apiDeleteRecords = async (checkedRecords: number[]): Promise<Result
             if (res.status != 200) success = false;
         }));
         if (success) {
-            return { success: true };
+            return null;
         } else {
-            return { success: false, reason: 'DELETE records failed' };
+            throw new Error('DELETE records failed');
         }
     } catch (e) {
-        throw INTERNAL_ERROR;
+        throw new Error(INTERNAL_ERROR);
     }
 }
 
-export const apiGetCount = async (): Promise<ResultCount> => {
+export const apiGetCount = async (): Promise<number> => {
     try {
         const res = await fetch(`${baseURL}/management/count`, { method: "GET", headers: ACCEPT_APPLICATION_JSON });
         if (res.status == 200) {
             const data = await res.json();
-            return { success: true, data: data.count };
+            return data.count;
         } else {
-            throw { success: false, reason: 'GET count failed' };
+            throw new Error('GET count failed');
         }
     } catch (e) {
-        throw INTERNAL_ERROR;
+        throw new Error(INTERNAL_ERROR);
     }
 }
 
-export const apiPostGpsLog = async (log: GpsLog): Promise<Result> => {
+export const apiPostGpsLog = async (log: GpsLog): Promise<null> => {
     try {
         const body = JSON.stringify(log);
         console.log(body);
@@ -184,12 +163,12 @@ export const apiPostGpsLog = async (log: GpsLog): Promise<Result> => {
         );
         const res = await fetch(`${baseURL}/gpslog`, { method: "POST", headers: headers, body: body })
         if (res.status == 200) {
-            return { success: true };
+            return null;
         } else {
-            throw { success: false, reason: 'POST gpslog failed' };
+            throw new Error('POST gpslog failed');
         }
     } catch (e) {
-        throw INTERNAL_ERROR;
+        throw new Error(INTERNAL_ERROR);
     }
 }
 

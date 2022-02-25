@@ -13,12 +13,10 @@ export const PopUpImage = ({ showImage, setShowImage, id }: PopUpImageProps) => 
 
     const [imageURL, setImageURL] = useState<string>("");
 
-    const getImage = async (id: number) => {
-        const result = await apiGetImage(id);
-        if (result.success) {
-            const objectURL = result.data;
-            setImageURL(objectURL);
-        }
+    const getImage = (id: number) => {
+        apiGetImage(id)
+        .then(objectURL => setImageURL(objectURL))
+        .catch(e => console.log(e));
     }
 
     const closePopUp = () => {

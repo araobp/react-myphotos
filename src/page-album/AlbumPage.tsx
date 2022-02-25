@@ -53,34 +53,30 @@ export const AlbumPage = () => {
 
     const deleteCheckedRecords = async (confirmed: boolean) => {
         setShowConfirm(false);
-        if (confirmed) {
-            const result = await apiDeleteRecords(checkedRecords);
-            setCheckedRecords([]);
-            if (result.success) {
-                updateRecordTable();
-            }
-        }
-    }
-
-    const updateRecordTable = async () => {
         try {
-            const result0 = await apiGetCount();
-            if (result0.success) {
-                setCount(result0.data);
-                const result1 = await apiGetRecords(LIMIT, offset);
-                if (result1.success) {
-                    const records = result1.data;
-                    setRecords(records);
-                    const result2 = await apiGetThumbnails(records);
-                    if (result2.success) {
-                        const thumbnails = result2.data;
-                        setThumbnails(thumbnails);
-                    }
-                }
+            if (confirmed) {
+                await apiDeleteRecords(checkedRecords);
             }
         } catch (e) {
             console.log(e);
+        } finally {
+            updateRecordTable();
+            setCheckedRecords([]);
         }
+    }
+
+    const updateRecordTable = () => {
+        apiGetCount()
+        .then(cnt => {
+            setCount(cnt);
+            return apiGetRecords(LIMIT, offset)
+        })
+        .then(r => {
+            setRecords(r);
+            return apiGetThumbnails(r);
+        })
+        .then (t => setThumbnails(t))
+        .catch(e => console.trace(e));
     }
 
     // Initialization
@@ -101,14 +97,13 @@ export const AlbumPage = () => {
         setShowInput(true);
     }
 
-    const updateRecord = async () => {
+    const updateRecord = () => {
         setShowInput(false);
         if (id != null) {
-            const result = await apiPutRecord(id, place, memo);
             setId(null);
-            if (result.success) {
-                updateRecordTable();
-            }
+            apiPutRecord(id, place, memo)
+            .then(_ => updateRecordTable())
+            .catch(e => console.log(e));
         }
     }
 
@@ -171,7 +166,7 @@ export const AlbumPage = () => {
             </div>
             <div className="footer">
                 <button className="tiny-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={e => setOffset(backward(offset))}>&lt;</button>
-                <div style={{ fontSize: "1.3rem" }}>{offset+1}/{count}</div>
+                <div style={{ fontSize: "1.3rem" }}>{offset + 1}/{count}</div>
                 <button className="tiny-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={e => setOffset(forward(offset, count))}>&gt;</button>
             </div>
         </>
