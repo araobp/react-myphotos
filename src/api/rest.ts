@@ -1,5 +1,5 @@
 import { authHeaders, baseURL } from "../util/auth";
-import { GpsLog, RecordResponse } from "./structure";
+import { GpsLogRequest, GpsLogResponse, RecordResponse } from "./structure";
 
 import { dataURItoArrayBuffer } from "../util/convert";
 import { RecordRequest, LatLon } from "./structure";
@@ -137,21 +137,21 @@ export const apiDeleteRecords = async (checkedRecords: number[]): Promise<null> 
     }
 }
 
-export const apiGetCount = async (): Promise<number> => {
+export const apiGetRecordCount = async (): Promise<number> => {
     try {
-        const res = await fetch(`${baseURL}/management/count`, { method: "GET", headers: ACCEPT_APPLICATION_JSON });
+        const res = await fetch(`${baseURL}/management/record/count`, { method: "GET", headers: ACCEPT_APPLICATION_JSON });
         if (res.status == 200) {
             const data = await res.json();
             return data.count;
         } else {
-            throw new Error('GET count failed');
+            throw new Error('GET record count failed');
         }
     } catch (e) {
         throw new Error(INTERNAL_ERROR);
     }
 }
 
-export const apiPostGpsLog = async (log: GpsLog): Promise<null> => {
+export const apiPostGpsLog = async (log: GpsLogRequest): Promise<null> => {
     try {
         const body = JSON.stringify(log);
         console.log(body);
@@ -171,4 +171,35 @@ export const apiPostGpsLog = async (log: GpsLog): Promise<null> => {
         throw new Error(INTERNAL_ERROR);
     }
 }
+
+export const apiGetGpsLogs = async (limit: number, offset: number): Promise<Array<GpsLogResponse>> => {
+    const headers = makeHeaders({ 'Accept': 'application/json' });
+    try {
+        const res = await fetch(`${baseURL}/gpslog?limit=${limit}&offset=${offset}`, { method: "GET", headers: headers });
+        if (res.status == 200) {
+            const gpsLogs = await res.json();
+            return gpsLogs;
+        } else {
+            throw new Error('GET gpslogs failed');
+        }
+    } catch (e) {
+        throw new Error('get gpslogs failed');
+    }
+}
+
+export const apiGetGpsLogCount = async (): Promise<number> => {
+    try {
+        const res = await fetch(`${baseURL}/management/gpslog/count`, { method: "GET", headers: ACCEPT_APPLICATION_JSON });
+        if (res.status == 200) {
+            const data = await res.json();
+            return data.count;
+        } else {
+            throw new Error('GET gpslog count failed');
+        }
+    } catch (e) {
+        throw new Error(INTERNAL_ERROR);
+    }
+}
+
+
 

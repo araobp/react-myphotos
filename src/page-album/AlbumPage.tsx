@@ -7,7 +7,7 @@ import { PopUpMap } from "../components-common/PopUpMap";
 import { PopUpImage } from "../components-common/PopUpImage";
 import { RecordForm } from "../components-common/RecordForm";
 import { forward, backward, LIMIT } from "../util/manipulation";
-import { apiGetRecords, apiGetThumbnails, apiPutRecord, apiDeleteRecords, apiGetCount } from "../api/rest";
+import { apiGetRecords, apiGetThumbnails, apiPutRecord, apiDeleteRecords, apiGetRecordCount } from "../api/rest";
 
 export const AlbumPage = () => {
 
@@ -66,7 +66,7 @@ export const AlbumPage = () => {
     }
 
     const updateRecordTable = () => {
-        apiGetCount()
+        apiGetRecordCount()
         .then(cnt => {
             setCount(cnt);
             return apiGetRecords(LIMIT, offset)

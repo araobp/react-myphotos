@@ -1,14 +1,9 @@
-// Data structures for the REST API
-
-export type RecordResponse = {
-    id: number;
-    datetime?: string;
-    place: string;
-    memo: string;
+export type LatLon = {
     latitude: number;
     longitude: number;
 }
 
+/***  Data structures for the REST API ***/
 export type RecordRequest = {
     place: string;
     memo: string;
@@ -16,9 +11,20 @@ export type RecordRequest = {
     longitude: number;
 }
 
-export type LatLon = {
+export type RecordResponse = {
+    id: number;
+    datetime: string;
+    place: string;
+    memo: string;
     latitude: number;
     longitude: number;
 }
 
-export type GpsLog = LatLon;
+export type GpsLogRequest = LatLon;
+
+export type GpsLogResponse = {
+    id: number;
+    datetime: string;
+    latitude: number;
+    longitude: number;    
+}

@@ -8,6 +8,7 @@ import { AlbumPage } from './page-album/AlbumPage';
 import { MapPage } from './page-map/MapPage';
 import { SettingsPage as SettingsPage } from './page-settings/SettingsPage';
 import { AboutPage } from './page-about/AboutPage';
+import { LogPage } from "./page-log/LogPage";
 
 function App() {
 
@@ -28,6 +29,7 @@ function App() {
           <a href="/" className="menu-text">Home</a>
           <a href="/album" className="menu-text">Album</a>
           <a href="/map" className="menu-text">Map</a>
+          <a href="/gpslog" className="menu-text">GPS log</a>
           <a href="/settings" className="menu-text">Settings</a>
           <a href="/about" className="menu-text">About</a>
         </div>
@@ -38,6 +40,7 @@ function App() {
             <Route path='/' element={<HomePage />} />
             <Route path='/album' element={<AlbumPage />} />
             <Route path='/map' element={<MapPage />} />
+            <Route path='/gpslog' element={<LogPage />} />
             <Route path='/settings' element={<SettingsPage setLoginName={setLoginName}/>} />
             <Route path='/about' element={<AboutPage />} />
           </Routes>

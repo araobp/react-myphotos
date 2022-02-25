@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import '../App.css';
 
 import { RecordResponse } from "../api/structure";
-import { apiGetRecords, apiGetThumbnails, apiGetCount } from "../api/rest";
+import { apiGetRecords, apiGetThumbnails, apiGetRecordCount } from "../api/rest";
 import { forward, backward, LIMIT } from "../util/manipulation";
-import L, { LatLngExpression } from "leaflet";
+import { LatLngExpression } from "leaflet";
 import { MapComp } from "./MapComp";
 import { DEFAULT_LOCATION } from "../util/constants";
 
@@ -17,7 +17,7 @@ export const MapPage = () => {
     const [count, setCount] = useState<number>(0);
 
     const updateRecordTable = () => {
-        apiGetCount()
+        apiGetRecordCount()
         .then(cnt => {
             setCount(cnt);
             return apiGetRecords(LIMIT, offset);
@@ -44,7 +44,7 @@ export const MapPage = () => {
 
     return (
         <>
-            <MapComp records={records} thumbnails={thumbnails} center={center} zoom={10} />
+            <MapComp records={records} thumbnails={thumbnails} center={center} zoom={11} />
             <div className="footer">
                 <button className="tiny-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={e => setOffset(backward(offset))}>&lt;</button>
                 <div style={{ fontSize: "1.3rem" }}>{offset + 1}/{count}</div>
