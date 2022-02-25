@@ -9,6 +9,7 @@ import { PopUpMap } from '../components-common/PopUpMap';
 import { PopUp } from "../components-common/PopUpMessage";
 import { apiPostGpsLog, apiPostRecord } from "../api/rest";
 import { Switch } from "../components-common/Switch";
+import { start } from "repl";
 
 export const HomePage = () => {
 
@@ -29,7 +30,7 @@ export const HomePage = () => {
     Modal.setAppElement("#root");
 
     /*** Geo-location ***********************************************/
-    const startWatchingLocation = () => {
+    const startWatchingLocation = (gpsLoggingEnabled: boolean) => {
         const period = parseInt(localStorage.getItem("period") || "0") * 1000;  // msec
         const id = navigator.geolocation.watchPosition(position => {
             const { latitude, longitude } = position.coords;
@@ -51,7 +52,7 @@ export const HomePage = () => {
 
     useEffect(() => {
         if ('geolocation' in navigator) {
-            startWatchingLocation();
+            startWatchingLocation(false);
         }
         return () => { stopWatchingLocation() };
     }, []);
@@ -95,7 +96,9 @@ export const HomePage = () => {
     }
 
     const enableGpsLogging = (enabled: boolean) => {
+        stopWatchingLocation();
         setGpsLoggingEnabled(enabled);
+        startWatchingLocation(enabled);
     }
 
     return (
