@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import '../App.css';
 
 import { GpsLogResponse } from "../api/structure";
@@ -8,7 +8,7 @@ import { LatLngExpression } from "leaflet";
 import { LogComp } from "./LogComp";
 import { DEFAULT_LOCATION } from "../util/constants";
 
-export const LogPage = () => {
+export const LogPage: FC<{}> = _ => {
 
     const [gpsLogs, setGpsLogs] = useState<Array<GpsLogResponse>>([]);
     const [center, setCenter] = useState<LatLngExpression>(DEFAULT_LOCATION);

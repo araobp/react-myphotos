@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import Modal from "react-modal";
 import { apiGetImage } from "../api/rest";
 import '../App.css';
@@ -9,7 +9,7 @@ export type PopUpImageProps = {
     id: number
 }
 
-export const PopUpImage = ({ showImage, setShowImage, id }: PopUpImageProps) => {
+export const PopUpImage: FC<PopUpImageProps> = ({ showImage, setShowImage, id }) => {
 
     const [imageURL, setImageURL] = useState<string>("");
 

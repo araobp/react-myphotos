@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, FC } from "react";
 import '../App.css';
 import Modal from "react-modal";
 
@@ -9,9 +9,8 @@ import { PopUpMap } from '../components-common/PopUpMap';
 import { PopUp } from "../components-common/PopUpMessage";
 import { apiPostGpsLog, apiPostRecord } from "../api/rest";
 import { Switch } from "../components-common/Switch";
-import { start } from "repl";
 
-export const HomePage = () => {
+export const HomePage: FC<{}> = _ => {
 
     const [latlon, setLatLon] = useState<LatLon>({ latitude: 0.0, longitude: 0.0 });
     const [picLatlon, setPicLatlon] = useState<LatLon>({ latitude: 0.0, longitude: 0.0 });

@@ -1,4 +1,4 @@
-import { useState, FunctionComponent } from "react";
+import { useState, FC } from "react";
 import Modal from "react-modal";
 import '../App.css';
 
@@ -12,7 +12,7 @@ type CameraCompProps = {
     picTaken: (dataURI: string) => void;
 }
 
-export const CameraComp: FunctionComponent<CameraCompProps> = ({ isOpen, setIsOpen, picTaken }: CameraCompProps) => {
+export const CameraComp: FC<CameraCompProps> = ({ isOpen, setIsOpen, picTaken }) => {
 
     Modal.setAppElement('#root')
 

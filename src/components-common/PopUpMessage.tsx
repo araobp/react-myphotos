@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import { FC } from "react";
 import Modal from "react-modal";
 import '../App.css';
 
@@ -14,7 +14,7 @@ export type PopUpConfirmProps = {
     callback: (confirmed: boolean) => void;
 }
 
-export const PopUp: FunctionComponent<PopUpProps> = ({ isOpen: showPopUp, isAlert, message }: PopUpProps) => {
+export const PopUp: FC<PopUpProps> = ({ isOpen: showPopUp, isAlert, message }) => {
     const className: string = isAlert ? "popup-alert" : "popup";
 
     return (
@@ -28,7 +28,7 @@ export const PopUp: FunctionComponent<PopUpProps> = ({ isOpen: showPopUp, isAler
     );
 }
 
-export const PopUpConfirm: FunctionComponent<PopUpConfirmProps> = ({ isOpen: showPopUp, message, callback }: PopUpConfirmProps) => {
+export const PopUpConfirm: FC<PopUpConfirmProps> = ({ isOpen: showPopUp, message, callback }) => {
     return (
         <>
             <Modal isOpen={showPopUp} className="center">

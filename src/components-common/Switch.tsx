@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FC } from "react";
 import './switch.css';
 
 // [Reference] https://www.w3schools.com/howto/howto_css_switch.asp
@@ -8,7 +8,7 @@ export type SwitchProps = {
     onChange: (isChecked: boolean) => void;
 }
 
-export const Switch: FunctionComponent<SwitchProps> = ({ isChecked, onChange }: SwitchProps) => {
+export const Switch: FC<SwitchProps> = ({ isChecked, onChange }) => {
     return (
         <label className="switch">
             <input type="checkbox" checked={isChecked} onChange={e => onChange(e.target.checked)} />

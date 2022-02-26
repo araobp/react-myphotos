@@ -1,5 +1,5 @@
 import { LatLngExpression } from "leaflet";
-import { useState } from "react";
+import { FC, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { RecordResponse } from "../api/structure";
 import { PopUpImage } from "../components-common/PopUpImage";
@@ -12,7 +12,7 @@ type MapCompProps = {
     zoom: number;
 }
 
-export const MapComp = ({ records, thumbnails, center, zoom }: MapCompProps) => {
+export const MapComp: FC<MapCompProps> = ({ records, thumbnails, center, zoom }) => {
 
     const [id, setId] = useState<number|null>(null);
     const [showImage, setShowImage] = useState<boolean>(false);

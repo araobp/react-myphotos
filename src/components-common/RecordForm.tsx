@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import { FC } from "react";
 import '../App.css';
 
 type FormProps = {
@@ -8,7 +8,7 @@ type FormProps = {
     setMemo: (memo: string) => void;
 }
 
-export const RecordForm: FunctionComponent<FormProps> = ({ place, setPlace, memo, setMemo }: FormProps) => {
+export const RecordForm: FC<FormProps> = ({ place, setPlace, memo, setMemo }) => {
     return (
         <>
             <div id="place">

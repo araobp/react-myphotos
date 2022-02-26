@@ -1,4 +1,4 @@
-import React, { useState, FunctionComponent } from "react";  // named export
+import React, { useState, FunctionComponent, FC } from "react";  // named export
 import '../App.css';
 
 import { Switch } from "../components-common/Switch";
@@ -7,7 +7,7 @@ type SettingsPageProps = {
     setLoginName: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const SettingsPage = ({ setLoginName }: SettingsPageProps) => {
+export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
 
     const [login, setLogin] = useState<string>(localStorage.getItem("login") || "");
     const [password, setPassword] = useState<string>(localStorage.getItem("password") || "");
@@ -63,7 +63,7 @@ export const SettingsPage = ({ setLoginName }: SettingsPageProps) => {
                 <br />
                 <label>GPS:
                     <input
-                        style={{ width: "6rem"}}
+                        style={{ width: "6rem" }}
                         type="text"
                         value={period}
                         onChange={(e) => setPeriod(e.target.value)}

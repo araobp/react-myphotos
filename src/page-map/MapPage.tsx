@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import '../App.css';
 
 import { RecordResponse } from "../api/structure";
@@ -8,7 +8,7 @@ import { LatLngExpression } from "leaflet";
 import { MapComp } from "./MapComp";
 import { DEFAULT_LOCATION } from "../util/constants";
 
-export const MapPage = () => {
+export const MapPage: FC<{}> = _ => {
 
     const [records, setRecords] = useState<Array<RecordResponse>>([]);
     const [thumbnails, setThumbnails] = useState<Map<string, string>>(new Map<string, string>());

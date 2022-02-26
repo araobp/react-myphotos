@@ -2,6 +2,7 @@ import { LatLngExpression } from "leaflet";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { GpsLogResponse } from "../api/structure";
 import { useMap } from "react-leaflet";
+import { FC } from "react";
 
 type LogCompProps = {
     gpsLogs: Array<GpsLogResponse>
@@ -9,7 +10,7 @@ type LogCompProps = {
     zoom: number;
 }
 
-export const LogComp = ({ gpsLogs, center, zoom }: LogCompProps) => {
+export const LogComp: FC<LogCompProps> = ({ gpsLogs, center, zoom }) => {
 
     const MapRefresh = () => {
         const map = useMap();

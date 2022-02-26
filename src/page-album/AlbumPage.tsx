@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, FC } from "react";
 import Modal from "react-modal";
 
 import { RecordResponse, LatLon } from "../api/structure";
@@ -9,7 +9,7 @@ import { RecordForm } from "../components-common/RecordForm";
 import { forward, backward, LIMIT } from "../util/manipulation";
 import { apiGetRecords, apiGetThumbnails, apiPutRecord, apiDeleteRecords, apiGetRecordCount } from "../api/rest";
 
-export const AlbumPage = () => {
+export const AlbumPage: FC<{}> = _ => {
 
     Modal.setAppElement("#root");
 

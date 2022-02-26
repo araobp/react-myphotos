@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import { FC } from "react";
 import Modal from "react-modal";
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 //import "leaflet/dist/leaflet.css";
@@ -11,7 +11,7 @@ export type PopUpMapProps = {
     latlon: LatLon;
 }
 
-export const PopUpMap: FunctionComponent<PopUpMapProps> = ({ isOpen, setIsOpen, latlon }: PopUpMapProps) => {
+export const PopUpMap: FC<PopUpMapProps> = ({ isOpen, setIsOpen, latlon }) => {
     return (
         <div style={{color: "black"}}>
             <Modal isOpen={isOpen} className="center">

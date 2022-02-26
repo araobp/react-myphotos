@@ -1,6 +1,7 @@
+import { FC } from 'react';
 import '../App.css';
 
-export const AboutPage = () => {
+export const AboutPage: FC<{}> = _ => {
     return (
         <div className='default'>
             <div>
