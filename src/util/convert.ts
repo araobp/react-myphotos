@@ -22,3 +22,8 @@ export const dataURItoArrayBuffer = (dataURI: any) => {
     var blob = new Blob([ab], {type: mimeString});
     return blob;
   }
+
+  // Convert UTC to Japan local time
+  export const toLocalTime = (utc: string) => {
+    return new Date(utc).toLocaleString('ja-JP')
+  }

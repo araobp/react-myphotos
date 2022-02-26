@@ -8,6 +8,7 @@ import { PopUpImage } from "../components-common/PopUpImage";
 import { RecordForm } from "../components-common/RecordForm";
 import { forward, backward, LIMIT } from "../util/manipulation";
 import { apiGetRecords, apiGetThumbnails, apiPutRecord, apiDeleteRecords, apiGetRecordCount } from "../api/rest";
+import { toLocalTime } from "../util/convert";
 
 export const AlbumPage: FC<{}> = _ => {
 
@@ -67,16 +68,16 @@ export const AlbumPage: FC<{}> = _ => {
 
     const updateRecordTable = () => {
         apiGetRecordCount()
-        .then(cnt => {
-            setCount(cnt);
-            return apiGetRecords(LIMIT, offset)
-        })
-        .then(r => {
-            setRecords(r);
-            return apiGetThumbnails(r);
-        })
-        .then (t => setThumbnails(t))
-        .catch(e => console.trace(e));
+            .then(cnt => {
+                setCount(cnt);
+                return apiGetRecords(LIMIT, offset)
+            })
+            .then(r => {
+                setRecords(r);
+                return apiGetThumbnails(r);
+            })
+            .then(t => setThumbnails(t))
+            .catch(e => console.trace(e));
     }
 
     // Initialization
@@ -102,8 +103,8 @@ export const AlbumPage: FC<{}> = _ => {
         if (id != null) {
             setId(null);
             apiPutRecord(id, place, memo)
-            .then(_ => updateRecordTable())
-            .catch(e => console.log(e));
+                .then(_ => updateRecordTable())
+                .catch(e => console.log(e));
         }
     }
 
@@ -151,7 +152,7 @@ export const AlbumPage: FC<{}> = _ => {
                                     <input className="card-checkbox" type="checkbox" defaultChecked={r.id && (checkedRecords.indexOf(r.id) == -1) ? false : true} onChange={(e) => handleCheckedRecord(r.id, e.target.checked)} />
                                     <img className="card-img" src={thumbnails.get(`id_${r.id}`)} onClick={() => openImage(r.id)} />
                                     <div className="card-text">
-                                        <div>Date: {new Date(r.datetime as string).toLocaleString()}</div>
+                                        <div>Date: {toLocalTime(r.datetime)}</div>
                                         <div>Place: {r.place}</div>
                                         <div>Memo: {r.memo}</div>
                                     </div>

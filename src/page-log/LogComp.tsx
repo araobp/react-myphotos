@@ -4,6 +4,8 @@ import { GpsLogResponse } from "../api/structure";
 import { useMap } from "react-leaflet";
 import { FC } from "react";
 
+import { toLocalTime} from "../util/convert";
+
 type LogCompProps = {
     gpsLogs: Array<GpsLogResponse>
     center: LatLngExpression;
@@ -35,7 +37,7 @@ export const LogComp: FC<LogCompProps> = ({ gpsLogs, center, zoom }) => {
                     <Marker key={l.id} position={[l.latitude, l.longitude]}>
                         <Popup>
                             <div>
-                                {l.datetime}
+                                {toLocalTime(l.datetime)}
                             </div>
                         </Popup>
                     </Marker>
