@@ -12,6 +12,7 @@ export const LogPage: FC<{}> = _ => {
     const [gpsLogs, setGpsLogs] = useState<Array<GpsLogResponse>>([]);
     const [center, setCenter] = useState<LatLngExpression>(DEFAULT_LOCATION);
     const [current, setCurrent] = useState<number>(POSTGRES_MAX_INTEGER_VALUE);
+    const [index, setIndex] = useState<number>(0);
     const [count, setCount] = useState<number>(0);
 
     const updateGpsLogTable = (direction: FetchDirection) => {
@@ -25,6 +26,11 @@ export const LogPage: FC<{}> = _ => {
                 setGpsLogs(l);
                 setCenter([l[0].latitude, l[0].longitude]);
                 setCurrent(l[0].session);
+                if (direction == FetchDirection.PREVIOUS) {
+                    setIndex(index => index + 1)
+                } else if (direction = FetchDirection.NEXT) {
+                    setIndex(index => index - 1)
+                }
             }
         })
         .catch(e => console.trace(e));
@@ -40,8 +46,7 @@ export const LogPage: FC<{}> = _ => {
             <LogComp gpsLogs={gpsLogs} center={center} zoom={12} />
             <div className="footer">
                 <button className="tiny-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={e => updateGpsLogTable(FetchDirection.NEXT)}>&lt;</button>
-               {/* <div style={{ fontSize: "1.3rem" }}>{current + 1}/{count}</div> */}
-               <div style={{ fontSize: "1.3rem" }}>{current + 1}/{count}</div>
+               <div style={{ fontSize: "1.3rem" }}>{index}/{count}</div>
                 <button className="tiny-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={e => updateGpsLogTable(FetchDirection.PREVIOUS)}>&gt;</button>
             </div>
         </>
