@@ -14,7 +14,7 @@ type MapCompProps = {
 
 export const MapComp: FC<MapCompProps> = ({ records, thumbnails, center, zoom }) => {
 
-    const [id, setId] = useState<number|null>(null);
+    const [id, setId] = useState<number | null>(null);
     const [showImage, setShowImage] = useState<boolean>(false);
 
     const onThumbnailClick = (id: number) => {
@@ -31,17 +31,15 @@ export const MapComp: FC<MapCompProps> = ({ records, thumbnails, center, zoom })
     return (
         <div style={{ overflow: "hidden" }}>
             {id && <PopUpImage showImage={showImage} setShowImage={setShowImage} id={id}></PopUpImage>}
-
-            <div id="mapcomp">
             <MapContainer center={center} zoom={zoom} scrollWheelZoom={true} id="react-leaflet">
                 <MapRefresh />
                 <TileLayer
-                //    attribution='&copy; <a href="https://maps.gsi.go.jp/development/ichiran.html">国土地理院</a>'
-                //    url="https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png"
-                //
-                // Open Street Map
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    //    attribution='&copy; <a href="https://maps.gsi.go.jp/development/ichiran.html">国土地理院</a>'
+                    //    url="https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png"
+                    //
+                    // Open Street Map
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
                 {records.map((r, _) => (
                     <Marker key={r.id} position={[r.latitude, r.longitude]}>
@@ -55,7 +53,6 @@ export const MapComp: FC<MapCompProps> = ({ records, thumbnails, center, zoom })
                     </Marker>
                 ))}
             </MapContainer>
-            </div>
         </div>
     );
 }

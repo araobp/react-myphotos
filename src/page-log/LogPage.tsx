@@ -6,6 +6,7 @@ import { apiGetGpsLogCount, FetchDirection, apiGetSession } from "../api/rest";
 import { LatLngExpression } from "leaflet";
 import { LogComp } from "./LogComp";
 import { DEFAULT_LOCATION, POSTGRES_MAX_INTEGER_VALUE } from "../util/constants";
+import { toLocalTime } from "../util/convert";
 
 export const LogPage: FC<{}> = _ => {
 
@@ -14,6 +15,7 @@ export const LogPage: FC<{}> = _ => {
     const [current, setCurrent] = useState<number>(POSTGRES_MAX_INTEGER_VALUE);
     const [index, setIndex] = useState<number>(0);
     const [count, setCount] = useState<number>(0);
+    const [date, setDate] = useState<string>("");
 
     const updateGpsLogTable = (direction: FetchDirection) => {
         apiGetGpsLogCount()
@@ -26,6 +28,7 @@ export const LogPage: FC<{}> = _ => {
                 setGpsLogs(l);
                 setCenter([l[0].latitude, l[0].longitude]);
                 setCurrent(l[0].session);
+                setDate(toLocalTime(l[0].datetime));
                 if (direction == FetchDirection.PREVIOUS) {
                     setIndex(index => index + 1)
                 } else if (direction = FetchDirection.NEXT) {
@@ -46,7 +49,7 @@ export const LogPage: FC<{}> = _ => {
             <LogComp gpsLogs={gpsLogs} center={center} zoom={12} />
             <div className="footer">
                 <button className="tiny-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={e => updateGpsLogTable(FetchDirection.NEXT)}>&lt;</button>
-               <div style={{ fontSize: "1.3rem" }}>{index}/{count}</div>
+               <div style={{ fontSize: "1.3rem" }}>{date} ({index}/{count})</div>
                 <button className="tiny-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={e => updateGpsLogTable(FetchDirection.PREVIOUS)}>&gt;</button>
             </div>
         </>
