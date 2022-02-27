@@ -35,4 +35,5 @@ export type GpsLogResponse = {
     datetime: string;
     latitude: number;
     longitude: number;
+    session: number
 }

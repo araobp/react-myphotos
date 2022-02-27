@@ -4,6 +4,11 @@ import { GpsLogRequest, GpsLogResponse, RecordResponse } from "./structure";
 import { dataURItoArrayBuffer } from "../util/convert";
 import { RecordRequest, LatLon } from "./structure";
 
+export enum FetchDirection {
+    PREVIOUS = "previous",
+    NEXT = "next"
+}
+
 const INTERNAL_ERROR = 'Internal error';
 
 const makeHeaders = (headers: object) => {
@@ -174,10 +179,10 @@ export const apiPostGpsLog = async (log: GpsLogRequest): Promise<number> => {
     }
 }
 
-export const apiGetGpsLogs = async (limit: number, offset: number): Promise<Array<GpsLogResponse>> => {
+export const apiGetSession = async (current: number, direction: FetchDirection): Promise<Array<GpsLogResponse>> => {
     const headers = makeHeaders({ 'Accept': 'application/json' });
     try {
-        const res = await fetch(`${baseURL}/gpslog?limit=${limit}&offset=${offset}`, { method: "GET", headers: headers });
+        const res = await fetch(`${baseURL}/gpslog?current=${current}&direction=${direction}`, { method: "GET", headers: headers });
         if (res.status == 200) {
             const gpsLogs = await res.json();
             return gpsLogs;

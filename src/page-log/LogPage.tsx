@@ -2,29 +2,29 @@ import { FC, useEffect, useState } from "react";
 import '../App.css';
 
 import { GpsLogResponse } from "../api/structure";
-import { apiGetGpsLogs, apiGetGpsLogCount } from "../api/rest";
-import { forward, backward, LIMIT } from "../util/manipulation";
+import { apiGetGpsLogCount, FetchDirection, apiGetSession } from "../api/rest";
 import { LatLngExpression } from "leaflet";
 import { LogComp } from "./LogComp";
-import { DEFAULT_LOCATION } from "../util/constants";
+import { DEFAULT_LOCATION, POSTGRES_MAX_INTEGER_VALUE } from "../util/constants";
 
 export const LogPage: FC<{}> = _ => {
 
     const [gpsLogs, setGpsLogs] = useState<Array<GpsLogResponse>>([]);
     const [center, setCenter] = useState<LatLngExpression>(DEFAULT_LOCATION);
-    const [offset, setOffset] = useState<number>(0);
+    const [current, setCurrent] = useState<number>(POSTGRES_MAX_INTEGER_VALUE);
     const [count, setCount] = useState<number>(0);
 
-    const updateGpsLogTable = () => {
+    const updateGpsLogTable = (direction: FetchDirection) => {
         apiGetGpsLogCount()
         .then(cnt => {
             setCount(cnt);
-            return apiGetGpsLogs(LIMIT, offset);
+            return apiGetSession(current, direction);
         })
         .then(l => {
             if (l.length > 0) {
                 setGpsLogs(l);
                 setCenter([l[0].latitude, l[0].longitude]);
+                setCurrent(l[0].session);
             }
         })
         .catch(e => console.trace(e));
@@ -32,20 +32,17 @@ export const LogPage: FC<{}> = _ => {
 
     // Initialization
     useEffect(() => {
-        updateGpsLogTable();
+        updateGpsLogTable(FetchDirection.PREVIOUS);
     }, []);
-
-    useEffect(() => {
-        updateGpsLogTable();
-    }, [offset]);
 
     return (
         <>
             <LogComp gpsLogs={gpsLogs} center={center} zoom={12} />
             <div className="footer">
-                <button className="tiny-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={e => setOffset(backward(offset))}>&lt;</button>
-                <div style={{ fontSize: "1.3rem" }}>{offset + 1}/{count}</div>
-                <button className="tiny-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={e => setOffset(forward(offset, count))}>&gt;</button>
+                <button className="tiny-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={e => updateGpsLogTable(FetchDirection.NEXT)}>&lt;</button>
+               {/* <div style={{ fontSize: "1.3rem" }}>{current + 1}/{count}</div> */}
+               <div style={{ fontSize: "1.3rem" }}>{current + 1}/{count}</div>
+                <button className="tiny-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={e => updateGpsLogTable(FetchDirection.PREVIOUS)}>&gt;</button>
             </div>
         </>
     )
