@@ -151,7 +151,7 @@ export const apiGetRecordCount = async (): Promise<number> => {
     }
 }
 
-export const apiPostGpsLog = async (log: GpsLogRequest): Promise<null> => {
+export const apiPostGpsLog = async (log: GpsLogRequest): Promise<number> => {
     try {
         const body = JSON.stringify(log);
         console.log(body);
@@ -163,7 +163,9 @@ export const apiPostGpsLog = async (log: GpsLogRequest): Promise<null> => {
         );
         const res = await fetch(`${baseURL}/gpslog`, { method: "POST", headers: headers, body: body })
         if (res.status == 200) {
-            return null;
+            const data = await res.json();
+            console.log(data);
+            return data.id;
         } else {
             throw new Error('POST gpslog failed');
         }

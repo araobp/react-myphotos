@@ -20,11 +20,19 @@ export type RecordResponse = {
     longitude: number;
 }
 
-export type GpsLogRequest = LatLon;
+export type Id = {
+    id: number
+}
+
+export type GpsLogRequest = {
+    latitude: number;
+    longitude: number;
+    session: number | null;
+}
 
 export type GpsLogResponse = {
     id: number;
     datetime: string;
     latitude: number;
-    longitude: number;    
+    longitude: number;
 }

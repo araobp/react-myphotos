@@ -25,36 +25,48 @@ export const HomePage: FC<{}> = _ => {
     const [showReject, setShowReject] = useState<boolean>(false);
     const [gpsLoggingEnabled, setGpsLoggingEnabled] = useState<boolean>(false);
     const [lastGpsLogPostTime, setLastGpsLogPostTime] = useState<Date>(new Date());
+    const [session, setSession] = useState<number | null>(null);
 
     Modal.setAppElement("#root");
 
     /*** Geo-location ***********************************************/
     const startWatchingLocation = (gpsLoggingEnabled: boolean) => {
-        const period = parseInt(localStorage.getItem("period") || "0") * 1000;  // msec
         const id = navigator.geolocation.watchPosition(position => {
             const { latitude, longitude } = position.coords;
             setLatLon({ latitude, longitude });
-            if (gpsLoggingEnabled) {
-                const now = new Date();
-                if ((now.getTime() - lastGpsLogPostTime.getTime()) > period) {
-                    apiPostGpsLog({ latitude, longitude })
-                    .then(_ => setLastGpsLogPostTime(now));
-                }
-            }
         });
         setWatchId(id);
     };
 
     const stopWatchingLocation = () => {
         watchId && navigator.geolocation.clearWatch(watchId);
+        setSession(null);
     };
 
     useEffect(() => {
         if ('geolocation' in navigator) {
             startWatchingLocation(false);
         }
-        return () => { stopWatchingLocation() };
+        return () => { 
+            stopWatchingLocation();
+        };
     }, []);
+
+    useEffect(() => {
+        if (gpsLoggingEnabled) {
+            const period = parseInt(localStorage.getItem("period") || "0") * 1000;  // msec
+            const now = new Date();
+            if ((now.getTime() - lastGpsLogPostTime.getTime()) > period) {
+                const gpsLogRequest = { ...latlon, ...{session: session} };
+                apiPostGpsLog(gpsLogRequest)
+                    .then(id => {
+                        console.log(id);
+                        setLastGpsLogPostTime(now);
+                        if (session == null) setSession(id);
+                    });
+            }
+        }
+    }, [latlon]);
 
     /*** Upload a record ****************************************/
     const postRecord = async () => {
