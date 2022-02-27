@@ -36,10 +36,6 @@ $ npm start
 
 Note: enter "login", "password" and "BASE URL"(URL of the REST API server) on the Login page of the app for the first time.
 
-## Relationship to my other project on GitHub
-
-react-myphotos(frontend) --- REST API --- [express-myphotos](https://github.com/araobp/express-myphotos)
-
 ## Issues
 
 ### async/await in forEach
