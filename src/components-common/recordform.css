@@ -1,0 +1,21 @@
+#place {
+    text-align: left;
+    margin-bottom: 2px;
+  }
+  
+  #place-input {
+    width: 100%;
+    margin: 0;
+  }
+  
+  #memo {
+    margin-top: 5px;
+    margin-bottom: 2px;
+    text-align: left;
+  }
+  
+  #memo-input {
+    width: 100%;
+    margin: 0;
+  }
+  
