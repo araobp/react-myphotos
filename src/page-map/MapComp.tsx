@@ -4,34 +4,41 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { RecordResponse } from "../api/structure";
 import { PopUpImage } from "../components-common/PopUpImage";
 import { useMap } from "react-leaflet";
+import { DEFAULT_LOCATION } from "../util/constants";
 
 type MapCompProps = {
     records: Array<RecordResponse>
     thumbnails: Map<string, string>
-    center: LatLngExpression;
     zoom: number;
 }
 
-export const MapComp: FC<MapCompProps> = ({ records, thumbnails, center, zoom }) => {
+export const MapComp: FC<MapCompProps> = ({ records, thumbnails, zoom }) => {
 
     const [id, setId] = useState<number | null>(null);
     const [showImage, setShowImage] = useState<boolean>(false);
+    const [currentCenter, setCurrentCenter] = useState<LatLngExpression | null>(null);
 
-    const onThumbnailClick = (id: number) => {
-        setId(id);
+    const onThumbnailClick = (r: RecordResponse) => {
+        setCurrentCenter([r.latitude, r.longitude]);
+        setId(r.id);
         setShowImage(true);
     }
 
     const MapRefresh = () => {
         const map = useMap();
-        map.flyTo(center);
+        if (currentCenter) {
+            map.flyTo(currentCenter)
+        } else if (records.length > 0) {
+            map.flyTo([records[0].latitude, records[0].longitude]);
+        }
         return null;
     }
 
     return (
         <div style={{ overflow: "hidden" }}>
-            {id && <PopUpImage showImage={showImage} setShowImage={setShowImage} id={id}></PopUpImage>}
-            <MapContainer center={center} zoom={zoom} scrollWheelZoom={true} tap={false} id="react-leaflet">
+            {id && <PopUpImage showImage={showImage} setShowImage={setShowImage} id={id} />}
+
+            <MapContainer center={DEFAULT_LOCATION} zoom={zoom} scrollWheelZoom={true} tap={false} id="react-leaflet">
                 <MapRefresh />
                 <TileLayer
                     //    attribution='&copy; <a href="https://maps.gsi.go.jp/development/ichiran.html">国土地理院</a>'
@@ -47,7 +54,7 @@ export const MapComp: FC<MapCompProps> = ({ records, thumbnails, center, zoom })
                             <div>
                                 [{r.place}]<br />
                                 {r.memo}<br />
-                                <img src={thumbnails.get(`id_${r.id}`)} onClick={e => onThumbnailClick(r.id)} />
+                                <img src={thumbnails.get(`id_${r.id}`)} onClick={e => onThumbnailClick(r)} />
                             </div>
                         </Popup>
                     </Marker>

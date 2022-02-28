@@ -13,7 +13,6 @@ export const MapPage: FC<{}> = _ => {
 
     const [records, setRecords] = useState<Array<RecordResponse>>([]);
     const [thumbnails, setThumbnails] = useState<Map<string, string>>(new Map<string, string>());
-    const [center, setCenter] = useState<LatLngExpression>(DEFAULT_LOCATION);
     const [offset, setOffset] = useState<number>(0);
     const [count, setCount] = useState<number>(0);
 
@@ -28,7 +27,6 @@ export const MapPage: FC<{}> = _ => {
                 setRecords(r);
                 apiGetThumbnails(r)
                 .then(t => setThumbnails(t));
-                setCenter([r[0].latitude, r[0].longitude]);
             }
         })
         .catch(e => console.trace(e));
@@ -45,7 +43,7 @@ export const MapPage: FC<{}> = _ => {
 
     return (
         <>
-            <MapComp records={records} thumbnails={thumbnails} center={center} zoom={11} />
+            <MapComp records={records} thumbnails={thumbnails} zoom={11} />
             <PhotoFooter count={count} offset={offset} setOffset={setOffset} />
         </>
     )

@@ -15,8 +15,8 @@ export const PopUpImage: FC<PopUpImageProps> = ({ showImage, setShowImage, id })
 
     const getImage = (id: number) => {
         apiGetImage(id)
-        .then(objectURL => setImageURL(objectURL))
-        .catch(e => console.log(e));
+            .then(objectURL => setImageURL(objectURL))
+            .catch(e => console.log(e));
     }
 
     const closePopUp = () => {
@@ -29,8 +29,10 @@ export const PopUpImage: FC<PopUpImageProps> = ({ showImage, setShowImage, id })
     }, [id]);
 
     return (
-        <Modal isOpen={showImage} className="center-img">
-            <img src={imageURL} onClick={() => closePopUp()} style={{ width: "100vw", height: "100vh" }} />
-        </Modal>
+        <>
+            <Modal isOpen={showImage} className="center-img">
+                <img src={imageURL} onClick={() => closePopUp()} style={{ width: "100vw", height: "100vh" }} />
+            </Modal>
+        </>
     );
 }

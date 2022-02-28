@@ -28,10 +28,10 @@ export const PopUp: FC<PopUpProps> = ({ isOpen: showPopUp, isAlert, message }) =
     );
 }
 
-export const PopUpConfirm: FC<PopUpConfirmProps> = ({ isOpen: showPopUp, message, callback }) => {
+export const PopUpConfirm: FC<PopUpConfirmProps> = ({ isOpen, message, callback }) => {
     return (
         <>
-            <Modal isOpen={showPopUp} className="center">
+            <Modal isOpen={isOpen} className="center">
                 <div className="popup">
                     <p>{message}</p>
                     <div className="row">

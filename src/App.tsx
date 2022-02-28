@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Modal from "react-modal";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { BiMenu } from "react-icons/bi";
 
@@ -16,6 +17,8 @@ function App() {
   const [loginName, setLoginName] = useState<string>(localStorage.getItem("login") || "<Unknown>");
 
   const toggleShowMenu = () => setShowMenu(!showMenu);
+
+  Modal.setAppElement("#root");
 
   return (
     <div className="App">

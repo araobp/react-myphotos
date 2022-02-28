@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import '../App.css';
 
-export const AboutPage: FC<{}> = _ => {
+export const AboutPage: FC = () => {
     return (
         <div className='default'>
             <div>

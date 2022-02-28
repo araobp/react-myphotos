@@ -3,15 +3,13 @@ import '../App.css';
 
 import { GpsLogResponse } from "../api/structure";
 import { apiGetGpsLogCount, FetchDirection, apiGetSession } from "../api/rest";
-import { LatLngExpression } from "leaflet";
 import { LogComp } from "./LogComp";
-import { DEFAULT_LOCATION, POSTGRES_MAX_INTEGER_VALUE } from "../util/constants";
+import { POSTGRES_MAX_INTEGER_VALUE } from "../util/constants";
 import { toLocalTime } from "../util/convert";
 
 export const LogPage: FC<{}> = _ => {
 
     const [gpsLogs, setGpsLogs] = useState<Array<GpsLogResponse>>([]);
-    const [center, setCenter] = useState<LatLngExpression>(DEFAULT_LOCATION);
     const [current, setCurrent] = useState<number>(POSTGRES_MAX_INTEGER_VALUE);
     const [index, setIndex] = useState<number>(0);
     const [count, setCount] = useState<number>(0);
@@ -26,7 +24,6 @@ export const LogPage: FC<{}> = _ => {
         .then(l => {
             if (l.length > 0) {
                 setGpsLogs(l);
-                setCenter([l[0].latitude, l[0].longitude]);
                 setCurrent(l[0].session);
                 setDate(toLocalTime(l[0].datetime));
                 if (direction == FetchDirection.PREVIOUS) {
@@ -46,7 +43,7 @@ export const LogPage: FC<{}> = _ => {
 
     return (
         <>
-            <LogComp gpsLogs={gpsLogs} center={center} zoom={12} />
+            <LogComp gpsLogs={gpsLogs} zoom={12} />
 
             <div className="footer">
                 <button className="tiny-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={e => updateGpsLogTable(FetchDirection.NEXT)}>&lt;</button>

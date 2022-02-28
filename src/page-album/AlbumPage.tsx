@@ -11,9 +11,7 @@ import { apiGetRecords, apiGetThumbnails, apiPutRecord, apiDeleteRecords, apiGet
 import { toLocalTime } from "../util/convert";
 import { PhotoFooter } from "../components-common/PhotoFooter";
 
-export const AlbumPage: FC<{}> = _ => {
-
-    Modal.setAppElement("#root");
+export const AlbumPage: FC = () => {
 
     const [records, setRecords] = useState<Array<RecordResponse>>([]);
     const [checkedRecords, setCheckedRecords] = useState<Array<number>>([]);

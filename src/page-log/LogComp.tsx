@@ -2,27 +2,29 @@ import { LatLngExpression } from "leaflet";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { GpsLogResponse } from "../api/structure";
 import { useMap } from "react-leaflet";
-import { FC } from "react";
+import { FC, useState } from "react";
 
 import { toLocalTime } from "../util/convert";
+import { DEFAULT_LOCATION } from "../util/constants";
 
 type LogCompProps = {
     gpsLogs: Array<GpsLogResponse>
-    center: LatLngExpression;
     zoom: number;
 }
 
-export const LogComp: FC<LogCompProps> = ({ gpsLogs, center, zoom }) => {
+export const LogComp: FC<LogCompProps> = ({ gpsLogs, zoom }) => {
 
     const MapRefresh = () => {
         const map = useMap();
-        map.flyTo(center);
+        if (gpsLogs.length > 0) {
+            map.flyTo([gpsLogs[0].latitude, gpsLogs[0].longitude]);
+        }
         return null;
     }
 
     return (
         <div style={{ overflow: "hidden" }}>
-            <MapContainer center={center} zoom={zoom} scrollWheelZoom={true} tap={false} id="react-leaflet">
+            <MapContainer center={DEFAULT_LOCATION} zoom={zoom} scrollWheelZoom={true} tap={false} id="react-leaflet">
                 <MapRefresh />
                 <TileLayer
                     //    attribution='&copy; <a href="https://maps.gsi.go.jp/development/ichiran.html">国土地理院</a>'
