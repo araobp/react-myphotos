@@ -121,7 +121,7 @@ export const HomePage: FC<{}> = _ => {
                         || <p className="latlon">Positioning...</p>
                     }
 
-                    <div style={{ display: "flex", alignItems: "center" }}>GPS Logging:&nbsp;
+                    <div style={{ display: "flex", alignItems: "center", marginBottom: "0.5rem" }}>GPS Logging:&nbsp;
                         <Switch isChecked={gpsLoggingEnabled} onChange={isChecked => enableGpsLogging(isChecked)} />
                     </div>
 

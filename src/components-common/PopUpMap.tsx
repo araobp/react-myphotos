@@ -16,8 +16,8 @@ export const PopUpMap: FC<PopUpMapProps> = ({ isOpen, setIsOpen, latlon }) => {
         <div style={{color: "black"}}>
             <Modal isOpen={isOpen} className="center">
                 <div>
-                    <MapContainer center={[latlon.latitude, latlon.longitude]} zoom={17} scrollWheelZoom={false} style={{
-                        width: "70vw", height: "70vh",
+                    <MapContainer center={[latlon.latitude, latlon.longitude]} zoom={16} scrollWheelZoom={false} style={{
+                        width: "75vw", height: "75vh",
                         outline: "#888888 solid 3px"
                     }}>
                         <TileLayer
@@ -26,7 +26,7 @@ export const PopUpMap: FC<PopUpMapProps> = ({ isOpen, setIsOpen, latlon }) => {
                         />
                         <Marker position={[latlon.latitude, latlon.longitude]}>
                             <Popup>
-                                A pretty CSS3 popup. <br /> Easily customizable.
+                                {latlon.latitude}, {latlon.longitude}
                             </Popup>
                         </Marker>
                     </MapContainer>

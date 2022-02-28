@@ -43,7 +43,7 @@ export const MapComp: FC<MapCompProps> = ({ records, thumbnails, center, zoom })
                 />
                 {records.map((r, _) => (
                     <Marker key={r.id} position={[r.latitude, r.longitude]}>
-                        <Popup>
+                        <Popup minWidth={128}>
                             <div>
                                 [{r.place}]<br />
                                 {r.memo}<br />

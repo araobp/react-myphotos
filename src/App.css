@@ -144,8 +144,8 @@ button:active {
 }
 
 .center {
-  width: 70vw;
-  height: 70vh;
+  width: 75vw;
+  height: 75vh;
   position: absolute;
   background: transparent;
   top: 50%;
