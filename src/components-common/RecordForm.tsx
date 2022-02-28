@@ -12,15 +12,15 @@ export const RecordForm: FC<FormProps> = ({ place, setPlace, memo, setMemo }) =>
     return (
         <>
             <div id="place">
-                <label>Place:
+                <div>Place:</div>
                     <input
-                        style={{width: "50%"}}
+                        id="place-input"
                         type="text"
                         name="place"
                         value={place}
                         onChange={e => setPlace(e.target.value)}
                     />
-                </label>
+                
             </div>
 
             <div id="memo">
