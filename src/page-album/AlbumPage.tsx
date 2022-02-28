@@ -6,9 +6,10 @@ import { PopUpConfirm } from "../components-common/PopUpMessage";
 import { PopUpMap } from "../components-common/PopUpMap";
 import { PopUpImage } from "../components-common/PopUpImage";
 import { RecordForm } from "../components-common/RecordForm";
-import { forward, backward, LIMIT } from "../util/manipulation";
+import { LIMIT } from "../util/manipulation";
 import { apiGetRecords, apiGetThumbnails, apiPutRecord, apiDeleteRecords, apiGetRecordCount } from "../api/rest";
 import { toLocalTime } from "../util/convert";
+import { PhotoFooter } from "../components-common/PhotoFooter";
 
 export const AlbumPage: FC<{}> = _ => {
 
@@ -112,7 +113,7 @@ export const AlbumPage: FC<{}> = _ => {
         <>
             <div className="default">
                 <div>
-                    {id && <PopUpImage showImage={showImage} setShowImage={setShowImage} id={id}></PopUpImage>}
+                    {id && <PopUpImage showImage={showImage} setShowImage={setShowImage} id={id} />}
 
                     <Modal isOpen={showInput} className="center">
                         <div className="popup">
@@ -165,11 +166,8 @@ export const AlbumPage: FC<{}> = _ => {
                     </div>
                 </div>
             </div>
-            <div className="footer">
-                <button className="tiny-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={e => setOffset(backward(offset))}>&lt;</button>
-                <div style={{ fontSize: "1.3rem" }}>{offset + 1}/{count}</div>
-                <button className="tiny-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={e => setOffset(forward(offset, count))}>&gt;</button>
-            </div>
+
+            <PhotoFooter count={count} offset={offset} setOffset={setOffset} />
         </>
     );
 }

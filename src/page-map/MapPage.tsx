@@ -3,10 +3,11 @@ import '../App.css';
 
 import { RecordResponse } from "../api/structure";
 import { apiGetRecords, apiGetThumbnails, apiGetRecordCount } from "../api/rest";
-import { forward, backward, LIMIT } from "../util/manipulation";
+import { LIMIT } from "../util/manipulation";
 import { LatLngExpression } from "leaflet";
 import { MapComp } from "./MapComp";
 import { DEFAULT_LOCATION } from "../util/constants";
+import { PhotoFooter } from "../components-common/PhotoFooter";
 
 export const MapPage: FC<{}> = _ => {
 
@@ -45,11 +46,7 @@ export const MapPage: FC<{}> = _ => {
     return (
         <>
             <MapComp records={records} thumbnails={thumbnails} center={center} zoom={11} />
-            <div className="footer">
-                <button className="tiny-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={e => setOffset(backward(offset))}>&lt;</button>
-                <div style={{ fontSize: "1.3rem" }}>{offset + 1}/{count}</div>
-                <button className="tiny-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={e => setOffset(forward(offset, count))}>&gt;</button>
-            </div>
+            <PhotoFooter count={count} offset={offset} setOffset={setOffset} />
         </>
     )
 }

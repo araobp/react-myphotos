@@ -47,9 +47,10 @@ export const LogPage: FC<{}> = _ => {
     return (
         <>
             <LogComp gpsLogs={gpsLogs} center={center} zoom={12} />
+
             <div className="footer">
                 <button className="tiny-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={e => updateGpsLogTable(FetchDirection.NEXT)}>&lt;</button>
-               <div style={{ fontSize: "1.3rem" }}>{date} ({index}/{count})</div>
+               <div style={{ fontSize: "1rem" }}>{date} ({index}/{count})</div>
                 <button className="tiny-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={e => updateGpsLogTable(FetchDirection.PREVIOUS)}>&gt;</button>
             </div>
         </>

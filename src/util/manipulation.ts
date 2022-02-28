@@ -1,5 +1,4 @@
-const POSTGRES_SQL_MAX_INT_VALUE = 2147483647;
-export const LIMIT = 10;
+export const LIMIT: number = parseInt(localStorage.getItem("limit") || "10");
 
 export const backward = (offset: number) => {
     return (offset >= LIMIT) ? offset - LIMIT : offset;

@@ -9,8 +9,9 @@ import { PopUpMap } from '../components-common/PopUpMap';
 import { PopUp } from "../components-common/PopUpMessage";
 import { apiPostGpsLog, apiPostRecord } from "../api/rest";
 import { Switch } from "../components-common/Switch";
+import { PERIOD } from "../util/constants";
 
-export const HomePage: FC<{}> = _ => {
+export const HomePage: FC = () => {
 
     const [latlon, setLatLon] = useState<LatLon>({ latitude: 0.0, longitude: 0.0 });
     const [picLatlon, setPicLatlon] = useState<LatLon>({ latitude: 0.0, longitude: 0.0 });
@@ -54,9 +55,8 @@ export const HomePage: FC<{}> = _ => {
 
     useEffect(() => {
         if (gpsLoggingEnabled) {
-            const period = parseInt(localStorage.getItem("period") || "0") * 1000;  // msec
             const now = new Date();
-            if ((now.getTime() - lastGpsLogPostTime.getTime()) > period) {
+            if ((now.getTime() - lastGpsLogPostTime.getTime()) > PERIOD) {
                 const gpsLogRequest = { ...latlon, ...{session: session} };
                 apiPostGpsLog(gpsLogRequest)
                     .then(id => {

@@ -14,6 +14,7 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
     const [baseURL, setBaseURL] = useState<string>(localStorage.getItem("baseURL") || "");
     const [fileUploadEnabled, setFileUploadEnabled] = useState<string>(localStorage.getItem("fileUploadEnabled") || "false");
     const [period, setPeriod] = useState<string>(localStorage.getItem("period") || "");
+    const [limit, setLimit] = useState<string>(localStorage.getItem("limit") || "");
     const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
 
     const saveSettings = () => {
@@ -21,6 +22,7 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
             localStorage.setItem("login", login);
             localStorage.setItem("password", password);
             localStorage.setItem("period", period);
+            localStorage.setItem("limit", limit);
             setLoginName(login);
         }
         if (baseURL != "") {
@@ -60,30 +62,43 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
                         placeholder="password"
                     />
                 </label>
-                <br />
-                <label>GPS:
-                    <input
-                        style={{ width: "6rem" }}
-                        type="text"
-                        value={period}
-                        onChange={(e) => setPeriod(e.target.value)}
-                        placeholder="period"
-                    />
-                    seconds
-                </label>
                 {showAdvanced &&
                     <div>
-                        <label>baseURL:
+                        <br />
+                        <label>GPS:
                             <input
-                                style={{ width: "28rem" }}
+                                style={{ width: "6rem" }}
                                 type="text"
-                                value={baseURL}
-                                onChange={(e) => setBaseURL(e.target.value)}
-                                placeholder="BASE URL"
+                                value={period}
+                                onChange={(e) => setPeriod(e.target.value)}
+                                placeholder="period"
                             />
+                            seconds
                         </label>
                         <br />
-                        <div style={{ display: "flex", alignItems: "center" }}>File Upload:&nbsp;<Switch isChecked={fileUploadEnabled == "true"} onChange={isChecked => OnFileUploadEnabled(isChecked)} />
+                        <label>Images:
+                            <input
+                                style={{ width: "6rem" }}
+                                type="text"
+                                value={limit}
+                                onChange={(e) => setLimit(e.target.value)}
+                                placeholder="number"
+                            />
+                            per page
+                        </label>
+                        <div>
+                            <label>baseURL:
+                                <input
+                                    style={{ width: "28rem" }}
+                                    type="text"
+                                    value={baseURL}
+                                    onChange={(e) => setBaseURL(e.target.value)}
+                                    placeholder="BASE URL"
+                                />
+                            </label>
+                            <br />
+                            <div style={{ display: "flex", alignItems: "center" }}>File Upload:&nbsp;<Switch isChecked={fileUploadEnabled == "true"} onChange={isChecked => OnFileUploadEnabled(isChecked)} />
+                            </div>
                         </div>
                     </div>
                 }
