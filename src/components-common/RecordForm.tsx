@@ -14,7 +14,7 @@ export const RecordForm: FC<FormProps> = ({ place, setPlace, memo, setMemo }) =>
             <div id="place">
                 <label>Place:
                     <input
-                        id="place-input"
+                        style={{width: "50%"}}
                         type="text"
                         name="place"
                         value={place}
