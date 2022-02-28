@@ -42,7 +42,7 @@ export const CameraComp: FC<CameraCompProps> = ({ isOpen, setIsOpen, picTaken })
         <>
             {isOpen && !imagePopUpIsOpen &&
                 <div className="center-img">
-                    <Camera onTakePhoto={(uri: any) => { handleTakePhoto(uri) }} imageType={IMAGE_TYPES.JPG}
+                    <Camera idealResolution={{width: 600, height: 800}} onTakePhoto={(uri: any) => { handleTakePhoto(uri) }} imageType={IMAGE_TYPES.JPG}
                         idealFacingMode={FACING_MODES.ENVIRONMENT} isImageMirror={false} />
                     <button className="small-button" onClick={closeCameraComp}>Close</button>
                 </div>
