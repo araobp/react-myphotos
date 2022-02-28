@@ -22,7 +22,7 @@ export const LogComp: FC<LogCompProps> = ({ gpsLogs, center, zoom }) => {
 
     return (
         <div style={{ overflow: "hidden" }}>
-            <MapContainer center={center} zoom={zoom} scrollWheelZoom={true} id="react-leaflet">
+            <MapContainer center={center} zoom={zoom} scrollWheelZoom={true} tap={false} id="react-leaflet">
                 <MapRefresh />
                 <TileLayer
                     //    attribution='&copy; <a href="https://maps.gsi.go.jp/development/ichiran.html">国土地理院</a>'

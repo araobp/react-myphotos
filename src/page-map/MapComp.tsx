@@ -31,7 +31,7 @@ export const MapComp: FC<MapCompProps> = ({ records, thumbnails, center, zoom })
     return (
         <div style={{ overflow: "hidden" }}>
             {id && <PopUpImage showImage={showImage} setShowImage={setShowImage} id={id}></PopUpImage>}
-            <MapContainer center={center} zoom={zoom} scrollWheelZoom={true} id="react-leaflet">
+            <MapContainer center={center} zoom={zoom} scrollWheelZoom={true} tap={false} id="react-leaflet">
                 <MapRefresh />
                 <TileLayer
                     //    attribution='&copy; <a href="https://maps.gsi.go.jp/development/ichiran.html">国土地理院</a>'
@@ -42,7 +42,7 @@ export const MapComp: FC<MapCompProps> = ({ records, thumbnails, center, zoom })
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
                 {records.map((r, _) => (
-                    <Marker key={r.id} position={[r.latitude, r.longitude]}>
+                    <Marker key={r.id} position={[r.latitude, r.longitude]} >
                         <Popup minWidth={128}>
                             <div>
                                 [{r.place}]<br />
