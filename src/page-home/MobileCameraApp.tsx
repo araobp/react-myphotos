@@ -19,6 +19,7 @@ export const MobileCameraApp: FC<MobileCameraAppProps> = ({ isOpen, setDataURI }
         <>
             {isOpen &&
                 <input
+                    style={{ display: "none" }}
                     accept="image/*"
                     type="file"
                     capture="environment"
