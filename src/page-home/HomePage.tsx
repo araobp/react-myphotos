@@ -9,7 +9,8 @@ import { PopUpMap } from '../components-common/PopUpMap';
 import { PopUp } from "../components-common/PopUpMessage";
 import { apiPostGpsLog, apiPostRecord } from "../api/rest";
 import { Switch } from "../components-common/Switch";
-import { PERIOD } from "../util/constants";
+import { MOBILE_CAMERA_APP_ENABLED, PERIOD } from "../util/constants";
+import { MobileCameraApp } from "./MobileCameraApp";
 
 export const HomePage: FC = () => {
 
@@ -48,7 +49,7 @@ export const HomePage: FC = () => {
         if ('geolocation' in navigator) {
             startWatchingLocation(false);
         }
-        return () => { 
+        return () => {
             stopWatchingLocation();
         };
     }, []);
@@ -57,7 +58,7 @@ export const HomePage: FC = () => {
         if (gpsLoggingEnabled) {
             const now = new Date();
             if ((now.getTime() - lastGpsLogPostTime.getTime()) > PERIOD) {
-                const gpsLogRequest = { ...latlon, ...{session: session} };
+                const gpsLogRequest = { ...latlon, ...{ session: session } };
                 apiPostGpsLog(gpsLogRequest)
                     .then(id => {
                         console.log(id);
@@ -166,7 +167,11 @@ export const HomePage: FC = () => {
                 </div>
             }
 
-            <CameraComp isOpen={showCamera} setIsOpen={setShowCamera} picTaken={picTaken} />
+            {!MOBILE_CAMERA_APP_ENABLED &&
+                <CameraComp isOpen={showCamera} setIsOpen={setShowCamera} picTaken={picTaken} />}
+            {MOBILE_CAMERA_APP_ENABLED &&
+                <MobileCameraApp isOpen={showCamera} setDataURI={setDataURI} />
+            }
 
             <PopUpMap isOpen={showMap} setIsOpen={setShowMap} latlon={latlon} />
 
