@@ -121,10 +121,6 @@ export const HomePage: FC = () => {
                         || <p className="latlon">Positioning...</p>
                     }
 
-                    <div style={{ display: "flex", alignItems: "center", marginBottom: "0.5rem" }}>GPS Logging:&nbsp;
-                        <Switch isChecked={gpsLoggingEnabled} onChange={isChecked => enableGpsLogging(isChecked)} />
-                    </div>
-
                     <RecordForm place={place} setPlace={setPlace} memo={memo} setMemo={setMemo} />
 
                     <div>

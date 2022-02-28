@@ -65,17 +65,6 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
                 {showAdvanced &&
                     <div>
                         <br />
-                        <label>GPS:
-                            <input
-                                style={{ width: "6rem" }}
-                                type="text"
-                                value={period}
-                                onChange={(e) => setPeriod(e.target.value)}
-                                placeholder="period"
-                            />
-                            seconds
-                        </label>
-                        <br />
                         <label>Images:
                             <input
                                 style={{ width: "6rem" }}
