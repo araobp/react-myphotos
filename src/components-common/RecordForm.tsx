@@ -1,5 +1,5 @@
 import { FC } from "react";
-import './recordcomp.css';
+import './recordform.css';
 
 type FormProps = {
     place: string;
