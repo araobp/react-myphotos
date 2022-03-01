@@ -15,6 +15,7 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
     const [fileUploadEnabled, setFileUploadEnabled] = useState<string>(localStorage.getItem("fileUploadEnabled") || "false");
     const [period, setPeriod] = useState<string>(localStorage.getItem("period") || "");
     const [limit, setLimit] = useState<string>(localStorage.getItem("limit") || "");
+    const [resolution, setResolution] = useState<string>(localStorage.getItem("resolution") || "");
     const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
 
     const saveSettings = () => {
@@ -23,6 +24,7 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
             localStorage.setItem("password", password);
             localStorage.setItem("period", period);
             localStorage.setItem("limit", limit);
+            localStorage.setItem("resolution", resolution);
             setLoginName(login);
         }
         if (baseURL != "") {
@@ -65,6 +67,18 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
                 {showAdvanced &&
                     <div>
                         <br />
+                        <label>Camera resolution:
+                            <input
+                                style={{ width: "6rem" }}
+                                type="text"
+                                value={resolution}
+                                onChange={(e) => setResolution(e.target.value)}
+                                placeholder="factor"
+                            />
+                            (range: 0 ~ 1)
+                        </label>
+
+                        <br />
                         <label>Images:
                             <input
                                 style={{ width: "6rem" }}
@@ -75,6 +89,7 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
                             />
                             per page
                         </label>
+
                         <div>
                             <label>baseURL:
                                 <input

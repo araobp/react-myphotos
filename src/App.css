@@ -103,6 +103,18 @@ button:active {
   color: white;
 }
 
+.small-button-retry {
+  width: 8rem;
+  height: 2.4rem;
+  margin: 8px;
+  border: 2px solid white;
+  padding: 0.2em;
+  font-size: 1.1em;
+  border-radius: 5px;
+  background: #4e9249;
+  color: white;
+}
+
 .small-button-cancel {
   width: 8rem;
   height: 2.4rem;

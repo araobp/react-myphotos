@@ -5,6 +5,7 @@ import '../App.css';
 // Camera
 import Camera, { FACING_MODES, IMAGE_TYPES } from 'react-html5-camera-photo';
 import 'react-html5-camera-photo/build/css/index.css';
+import { RESOLUTION } from "../util/constants";
 
 type CameraCompProps = {
     isOpen: boolean;
@@ -42,9 +43,8 @@ export const CameraComp: FC<CameraCompProps> = ({ isOpen, setIsOpen, picTaken })
         <>
             {isOpen && !imagePopUpIsOpen &&
                 <div className="center-img">
-                    <Camera isMaxResolution sizeFactor={0.7} onTakePhoto={(uri: any) => { handleTakePhoto(uri) }} imageType={IMAGE_TYPES.JPG}
+                    <Camera isMaxResolution sizeFactor={RESOLUTION} onTakePhoto={(uri: any) => { handleTakePhoto(uri) }} imageType={IMAGE_TYPES.JPG}
                         idealFacingMode={FACING_MODES.ENVIRONMENT} isImageMirror={false} />
-                    <button className="small-button" onClick={closeCameraComp}>Close</button>
                 </div>
             }
             
@@ -53,7 +53,8 @@ export const CameraComp: FC<CameraCompProps> = ({ isOpen, setIsOpen, picTaken })
                     <img src={temporaryDataURI} style={{ width: "100vw", height: "80vh" }} />
                     <div className="row">
                         <button className="small-button" onClick={done} >Done</button>
-                        <button className="small-button-cancel" onClick={closeImagePopUp} >Cancel</button>
+                        <button className="small-button-retry" onClick={closeImagePopUp} >Retry</button>
+                        <button className="small-button-cancel" onClick={closeCameraComp}>Cancel</button>
                     </div>
                 </div>
             </Modal>

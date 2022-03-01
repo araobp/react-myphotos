@@ -6,4 +6,4 @@ export const POSTGRES_MAX_INTEGER_VALUE: number = 2147483647;  // 4bytes
 
 export const PERIOD = parseInt(localStorage.getItem("period") || "0") * 1000;  // msec
 
-export const MOBILE_CAMERA_APP_ENABLED = (localStorage.getItem("mobileCameraAppEnabled") == "true") ? true : false; 
+export const RESOLUTION = parseFloat(localStorage.getItem("resolution") || "1.0"); 
