@@ -8,8 +8,7 @@ import { CameraComp } from './CameraComp';
 import { PopUpMap } from '../components-common/PopUpMap';
 import { PopUp } from "../components-common/PopUpMessage";
 import { apiPostGpsLog, apiPostRecord } from "../api/rest";
-import { MOBILE_CAMERA_APP_ENABLED, PERIOD } from "../util/constants";
-import { MobileCameraApp } from "./MobileCameraApp";
+import { PERIOD } from "../util/constants";
 
 export const HomePage: FC = () => {
 
@@ -166,12 +165,7 @@ export const HomePage: FC = () => {
                 </div>
             }
 
-            {!MOBILE_CAMERA_APP_ENABLED &&
-                <CameraComp isOpen={showCamera} setIsOpen={setShowCamera} picTaken={picTaken} />
-            }
-            {MOBILE_CAMERA_APP_ENABLED &&
-                <MobileCameraApp isOpen={showCamera} setDataURI={setDataURI} />
-            }
+            <CameraComp isOpen={showCamera} setIsOpen={setShowCamera} picTaken={picTaken} />
 
             <PopUpMap isOpen={showMap} setIsOpen={setShowMap} latlon={latlon} />
 

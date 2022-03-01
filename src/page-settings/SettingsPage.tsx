@@ -13,7 +13,6 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
     const [password, setPassword] = useState<string>(localStorage.getItem("password") || "");
     const [baseURL, setBaseURL] = useState<string>(localStorage.getItem("baseURL") || "");
     const [fileUploadEnabled, setFileUploadEnabled] = useState<string>(localStorage.getItem("fileUploadEnabled") || "false");
-    const [mobileCameraAppEnabled, setMobileCameraAppEnabled] = useState<string>(localStorage.getItem("mobileCameraAppEnabled") || "false");
     const [period, setPeriod] = useState<string>(localStorage.getItem("period") || "");
     const [limit, setLimit] = useState<string>(localStorage.getItem("limit") || "");
     const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
@@ -29,7 +28,6 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
         if (baseURL != "") {
             localStorage.setItem("baseURL", baseURL);
         }
-        localStorage.setItem("mobileCameraAppEnabled", mobileCameraAppEnabled);
         localStorage.setItem("fileUploadEnabled", fileUploadEnabled);
     }
 
@@ -39,11 +37,6 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
 
     const OnFileUploadEnabled = (isChecked: boolean) => {
         isChecked ? setFileUploadEnabled("true") : setFileUploadEnabled("false");
-        console.log(isChecked);
-    }
-
-    const OnMobileCameraAppEnabled = (isChecked: boolean) => {
-        isChecked ? setMobileCameraAppEnabled("true") : setMobileCameraAppEnabled("false");
         console.log(isChecked);
     }
 
@@ -92,10 +85,6 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
                                     placeholder="BASE URL"
                                 />
                             </label>
-
-                            <br />
-                            <div style={{ marginTop: "0.5rem", display: "flex", alignItems: "center" }}>Mobile Camera app:&nbsp;<Switch isChecked={mobileCameraAppEnabled == "true"} onChange={isChecked => OnMobileCameraAppEnabled(isChecked)} />
-                            </div>
 
                             <br />
                             <div style={{ display: "flex", alignItems: "center" }}>File Upload:&nbsp;<Switch isChecked={fileUploadEnabled == "true"} onChange={isChecked => OnFileUploadEnabled(isChecked)} />
