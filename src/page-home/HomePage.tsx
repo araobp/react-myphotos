@@ -31,7 +31,7 @@ export const HomePage: FC = () => {
     const [session, setSession] = useState<number | null>(null);
 
     const inputRef = useRef<HTMLInputElement>(null);
-    
+
     Modal.setAppElement("#root");
 
     /*** Geo-location ***********************************************/
@@ -57,7 +57,7 @@ export const HomePage: FC = () => {
 
     const onFileButtonClick = () => {
         setShowInputFile(true);
-        inputRef.current?.click();
+        inputRef?.current?.click();
     }
 
     useEffect(() => {
@@ -148,33 +148,31 @@ export const HomePage: FC = () => {
                         {dataURI && <img id="img-temp" src={dataURI} width="35%" />}
                     </div>
 
-                    {showInputFile &&
-                        <div>
-                            <label>Image file:
-                                <input
-                                    type="file"
-                                    name="imageFile"
-                                    className="input-file"
-                                    accept="image/*"
-                                    capture="environment"
-                                    ref={inputRef}
-                                    onChange={e => { e.target.files && handleChange(e.target.files[0]) }}
-                                />
-                            </label>
-                        </div>
-                    }
+                    <div>
+                        <label>
+                            <input style={{ width: 0, height: 0 }}
+                                type="file"
+                                name="imageFile"
+                                className="input-file"
+                                accept="image/*"
+                                capture="environment"
+                                ref={inputRef}
+                                onChange={e => { e.target.files && handleChange(e.target.files[0]) }}
+                            />
+                        </label>
+                    </div>
 
                     <div>
                         <button
                             className="small-button"
                             type="submit"
-                            onClick={() => setShowCamera(true)}>Camera
+                            onClick={() => setShowCamera(true)}>WebCam
                         </button>
                         {localStorage.getItem("fileUploadEnabled") == "true" &&
                             <button
                                 className="small-button"
                                 type="submit"
-                                onClick={() => onFileButtonClick()}>File
+                                onClick={() => onFileButtonClick()}>Camera
                             </button>
                         }
                     </div>
