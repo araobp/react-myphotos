@@ -30,8 +30,33 @@ export const HomePage: FC = () => {
 
     const inputRef = useRef<HTMLInputElement>(null);
 
+    // This is to hide a "choose file" button in a HTML input element, and to lauch 
+    // a mobile camera app automatically without pressing a choose file button.
     const onCameraButtonClicked = () => {
         inputRef?.current?.click();
+    }
+
+    const clearInputFields = () => {
+        setPlace("");
+        setMemo("");
+        setDataURI(null);
+    }
+
+    const picTaken = (dataURI: string | null) => {
+        setPicLatlon(latlon);
+        setPicAddress(address);
+        setDataURI(dataURI);
+    }
+
+    const handleChange = (f: File | null) => {
+        if (f) {
+            const reader = new FileReader();
+            reader.onload = e => {
+                picTaken(reader.result as string);
+                if (WEBCAM_EABLED) setPicAddress("");  // In case of file upload
+            };
+            reader.readAsDataURL(f);
+        }
     }
 
     /*** Geo-location ***********************************************/
@@ -80,29 +105,6 @@ export const HomePage: FC = () => {
         }
     }
 
-    const handleChange = (f: File | null) => {
-        if (f) {
-            const reader = new FileReader();
-            reader.onload = e => {
-                picTaken(reader.result as string);
-                setPicAddress("");
-            };
-            reader.readAsDataURL(f);
-        }
-    }
-
-    const clearInputFields = () => {
-        setPlace("");
-        setMemo("");
-        setDataURI(null);
-    }
-
-    const picTaken = (dataURI: string | null) => {
-        setPicLatlon(latlon);
-        setPicAddress(address);
-        setDataURI(dataURI);
-    }
-
     return (
         <>
             {!showWebcam &&
@@ -117,10 +119,12 @@ export const HomePage: FC = () => {
 
                     <RecordForm place={place} setPlace={setPlace} memo={memo} setMemo={setMemo} />
 
+                    {/*  Show a captured image */}
                     <div>
                         {dataURI && <img id="img-temp" src={dataURI} width="35%" />}
                     </div>
 
+                    {/* Use Mobile Camera App (or read an image file in case of Mac or PC) */}
                     <input style={{ display: "none" }}
                         type="file"
                         name="imageFile"
