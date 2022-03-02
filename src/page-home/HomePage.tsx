@@ -2,18 +2,21 @@ import { useState, useEffect, FC } from "react";
 import '../App.css';
 import Modal from "react-modal";
 
-import { LatLon } from "../api/structure";
+import { LatLon } from "../api-myphotos/structure";
 import { RecordForm } from "../components-common/RecordForm";
 import { CameraComp } from './CameraComp';
 import { PopUpMap } from '../components-common/PopUpMap';
 import { PopUp } from "../components-common/PopUpMessage";
-import { apiPostGpsLog, apiPostRecord } from "../api/rest";
+import { apiPostGpsLog, apiPostRecord } from "../api-myphotos/myphotos";
 import { PERIOD } from "../util/constants";
+import { apiGetAddressByLocation } from "../api-nominatim/nominatim";
 
 export const HomePage: FC = () => {
 
     const [latlon, setLatLon] = useState<LatLon>({ latitude: 0.0, longitude: 0.0 });
     const [picLatlon, setPicLatlon] = useState<LatLon>({ latitude: 0.0, longitude: 0.0 });
+    const [address, setAddress] = useState<string>("");
+    const [picAddress, setPicAddress] = useState<string>("");
     const [place, setPlace] = useState<string>(localStorage.getItem("place") || "");
     const [memo, setMemo] = useState<string>(localStorage.getItem("memo") || "");
     const [showInputFile, setShowInputFile] = useState<boolean>(false);
@@ -34,6 +37,7 @@ export const HomePage: FC = () => {
         const id = navigator.geolocation.watchPosition(position => {
             const { latitude, longitude } = position.coords;
             setLatLon({ latitude, longitude });
+            lookUpAddressByLocation(latitude, longitude);
         });
         setWatchId(id);
     };
@@ -42,6 +46,12 @@ export const HomePage: FC = () => {
         watchId && navigator.geolocation.clearWatch(watchId);
         setSession(null);
     };
+
+    const lookUpAddressByLocation = (latitude: number, longitude: number) => {
+        apiGetAddressByLocation(latitude, longitude)
+            .then(address => setAddress(address))
+            .catch(e => console.log(e));
+    }
 
     useEffect(() => {
         if ('geolocation' in navigator) {
@@ -76,7 +86,7 @@ export const HomePage: FC = () => {
             localStorage.setItem("place", place);
             localStorage.setItem("memo", memo);
 
-            await apiPostRecord(place, memo, picLatlon, dataURI);
+            await apiPostRecord(place, memo, picLatlon, picAddress, dataURI);
             setShowProgress(false);
         } else {
             setShowReject(true);
@@ -89,6 +99,7 @@ export const HomePage: FC = () => {
             const reader = new FileReader();
             reader.onload = e => {
                 picTaken(reader.result as string);
+                setPicAddress("");
             };
             reader.readAsDataURL(f);
         }
@@ -102,6 +113,7 @@ export const HomePage: FC = () => {
 
     const picTaken = (dataURI: string | null) => {
         setPicLatlon(latlon);
+        setPicAddress(address);
         setDataURI(dataURI);
     }
 
@@ -116,8 +128,11 @@ export const HomePage: FC = () => {
             {!showCamera &&
                 <div className="default" style={{ padding: "1vw" }}>
                     {(latlon.latitude !== 0) && (latlon.longitude !== 0) &&
-                        <p className="latlon">Latitude: {latlon.latitude.toFixed(6)}, Longitude: {latlon.longitude.toFixed(6)}</p>
-                        || <p className="latlon">Positioning...</p>
+                        <>
+                            <div className="latlon">Latitude: {latlon.latitude.toFixed(6)}, Longitude: {latlon.longitude.toFixed(6)}</div>
+                            <div className="latlon">{address}</div>
+                        </>
+                        || <div className="latlon">Positioning...</div>
                     }
 
                     <RecordForm place={place} setPlace={setPlace} memo={memo} setMemo={setMemo} />
@@ -167,11 +182,11 @@ export const HomePage: FC = () => {
 
             <CameraComp isOpen={showCamera} setIsOpen={setShowCamera} picTaken={picTaken} />
 
-            <PopUpMap isOpen={showMap} setIsOpen={setShowMap} latlon={latlon} />
+            {showMap && <PopUpMap setIsOpen={setShowMap} latlon={latlon} />}
 
-            <PopUp isOpen={showProgress} isAlert={false} message={'Uploading the record to the cloud...'} />
+            {showProgress && <PopUp isAlert={false} message={'Uploading the record to the cloud...'} />}
 
-            <PopUp isOpen={showReject} isAlert={true} message={'Uploading rejected: no imaga data'} />
+            {showReject && <PopUp isAlert={true} message={'Uploading rejected: no imaga data'} />}
         </>
     );
 };

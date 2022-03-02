@@ -1,8 +1,8 @@
 import { FC, useEffect, useState } from "react";
 import '../App.css';
 
-import { RecordResponse } from "../api/structure";
-import { apiGetRecords, apiGetThumbnails, apiGetRecordCount } from "../api/rest";
+import { RecordResponse } from "../api-myphotos/structure";
+import { apiGetRecords, apiGetThumbnails, apiGetRecordCount } from "../api-myphotos/myphotos";
 import { LIMIT } from "../util/manipulation";
 import { LatLngExpression } from "leaflet";
 import { MapComp } from "./MapComp";

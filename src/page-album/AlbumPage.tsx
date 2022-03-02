@@ -1,26 +1,28 @@
 import { useState, useEffect, FC } from "react";
 import Modal from "react-modal";
 
-import { RecordResponse, LatLon } from "../api/structure";
+import { RecordResponse, LatLon } from "../api-myphotos/structure";
 import { PopUpConfirm } from "../components-common/PopUpMessage";
 import { PopUpMap } from "../components-common/PopUpMap";
 import { PopUpImage } from "../components-common/PopUpImage";
 import { RecordForm } from "../components-common/RecordForm";
 import { LIMIT } from "../util/manipulation";
-import { apiGetRecords, apiGetThumbnails, apiPutRecord, apiDeleteRecords, apiGetRecordCount } from "../api/rest";
+import { apiGetRecords, apiGetThumbnails, apiPutRecord, apiDeleteRecords, apiGetRecordCount, apiGetImage, apiGetPhotoAttribute } from "../api-myphotos/myphotos";
 import { toLocalTime } from "../util/convert";
 import { PhotoFooter } from "../components-common/PhotoFooter";
+import { Panorama } from "../components-common/Panorama";
+import { CloseFooter } from "../components-common/CloseFooter";
 
 export const AlbumPage: FC = () => {
 
     const [records, setRecords] = useState<Array<RecordResponse>>([]);
     const [checkedRecords, setCheckedRecords] = useState<Array<number>>([]);
     const [showImage, setShowImage] = useState<boolean>(false);
+    const [showPanorama, setShowPanorama] = useState<boolean>(false);
     const [showMap, setShowMap] = useState<boolean>(false);
     const [location, setLocation] = useState<LatLon>({ latitude: 0.0, longitude: 0.0 });
     const [thumbnails, setThumbnails] = useState<Map<string, string>>(new Map<string, string>());
     const [showConfirm, setShowConfirm] = useState<boolean>(false);
-
     const [showInput, setShowInput] = useState<boolean>(false);
     const [place, setPlace] = useState<string>("");
     const [memo, setMemo] = useState<string>("");
@@ -31,9 +33,21 @@ export const AlbumPage: FC = () => {
 
     const [keyword, setKeyword] = useState<string>("");
 
-    const openImage = (id: number) => {
+    const openPhotoViewer = (id: number) => {
         setId(id);
-        setShowImage(true);
+        apiGetPhotoAttribute(id)
+            .then(photoAttribute => {
+                console.log(photoAttribute);
+                if (photoAttribute.equirectangular) {
+                    setShowPanorama(true);
+                } else {
+                    setShowImage(true);
+                }
+            })
+            .catch(e => {  // Note: in case a equirectangular value is not present in the row of the table
+                // console.log(e);
+                setShowImage(true);
+            });
     }
 
     const openMap = (latitude: number, longitude: number) => {
@@ -79,6 +93,10 @@ export const AlbumPage: FC = () => {
             .catch(e => console.trace(e));
     }
 
+    const onPanoramaClose = () => {
+        setShowPanorama(false);
+    }
+
     // Initialization
     useEffect(() => {
         updateRecordTable();
@@ -111,7 +129,9 @@ export const AlbumPage: FC = () => {
         <>
             <div className="default">
                 <div>
-                    {id && <PopUpImage showImage={showImage} setShowImage={setShowImage} id={id} />}
+                    {showImage && id && <PopUpImage setShowImage={setShowImage} id={id} />}
+
+                    {showPanorama && id && <Panorama id={id} />}
 
                     <Modal isOpen={showInput} className="center">
                         <div className="popup">
@@ -123,49 +143,61 @@ export const AlbumPage: FC = () => {
                         </div>
                     </Modal>
 
-                    <PopUpMap isOpen={showMap} setIsOpen={setShowMap} latlon={location} />
+                    {showMap && <PopUpMap setIsOpen={setShowMap} latlon={location} /> }
 
-                    <PopUpConfirm isOpen={showConfirm} message="Do you really want to delete these records?"
-                        callback={confirmed => deleteCheckedRecords(confirmed)} />
+                    {showConfirm &&
+                    <PopUpConfirm message="Do you really want to delete these records?"
+                    callback={confirmed => deleteCheckedRecords(confirmed)} />
+                    }
 
-                    <div className="row-space-between">
-                        <div>
-                            <input
-                                type="text"
-                                style={{ width: "50vw" }}
-                                placeholder="Search key word..."
-                                value={keyword}
-                                onChange={e => setKeyword(e.target.value)}
-                            />
-                            <button className="tiny-button" type="submit" onClick={e => setKeyword("")}>Clear</button>
-                        </div>
-                        <div style={{ width: "1rem" }}></div>
-                        <button className="tiny-button" style={{ fontSize: "0.8rem" }} type="submit" onClick={e => setShowConfirm(true)}>Delete</button>
-                    </div>
-
-                    <div>
-                        {records
-                            .filter(r => r.place.includes(keyword) || r.memo.includes(keyword))
-                            .map((r, _) => (
-                                <div key={r.id} className="card">
-                                    <input className="card-checkbox" type="checkbox" defaultChecked={r.id && (checkedRecords.indexOf(r.id) == -1) ? false : true} onChange={(e) => handleCheckedRecord(r.id, e.target.checked)} />
-                                    <img className="card-img" src={thumbnails.get(`id_${r.id}`)} onClick={() => openImage(r.id)} />
-                                    <div className="card-text">
-                                        <div>Date: {toLocalTime(r.datetime)}</div>
-                                        <div>Place: {r.place}</div>
-                                        <div>Memo: {r.memo}</div>
-                                    </div>
-                                    <div className="card-map">
-                                        <button className="tiny-button" onClick={e => openMap(r.latitude, r.longitude)}>Map</button>
-                                        <button className="tiny-button" style={{ marginTop: "10px" }} onClick={e => handleOnClick(r)}>Edit</button>
-                                    </div>
+                    {!showPanorama &&
+                        <>
+                            <div className="row-space-between">
+                                <div>
+                                    <input
+                                        type="text"
+                                        style={{ width: "50vw" }}
+                                        placeholder="Search key word..."
+                                        value={keyword}
+                                        onChange={e => setKeyword(e.target.value)}
+                                    />
+                                    <button className="tiny-button" type="submit" onClick={e => setKeyword("")}>Clear</button>
                                 </div>
-                            ))}
-                    </div>
+                                <div style={{ width: "1rem" }}></div>
+                                <button className="tiny-button" style={{ fontSize: "0.8rem" }} type="submit" onClick={e => setShowConfirm(true)}>Delete</button>
+                            </div>
+
+                            <div>
+                                {records
+                                    .filter(r => r.place.includes(keyword) || r.memo.includes(keyword))
+                                    .map((r, _) => (
+                                        <div key={r.id} className="card">
+                                            <input className="card-checkbox" type="checkbox" defaultChecked={r.id && (checkedRecords.indexOf(r.id) == -1) ? false : true} onChange={(e) => handleCheckedRecord(r.id, e.target.checked)} />
+                                            <img className="card-img" src={thumbnails.get(`id_${r.id}`)} onClick={() => openPhotoViewer(r.id)} />
+                                            <div className="card-text">
+                                                <div>Date: {toLocalTime(r.datetime)}</div>
+                                                <div>Address: {r.address}</div>
+                                                <div>Place: {r.place}</div>
+                                                <div>Memo: {r.memo}</div>
+                                            </div>
+                                            <div className="card-map">
+                                                <button className="tiny-button" onClick={e => openMap(r.latitude, r.longitude)}>Map</button>
+                                                <button className="tiny-button" style={{ marginTop: "10px" }} onClick={e => handleOnClick(r)}>Edit</button>
+                                            </div>
+                                        </div>
+                                    ))}
+                            </div>
+                        </>
+                    }
                 </div>
             </div>
 
-            <PhotoFooter count={count} offset={offset} setOffset={setOffset} />
+            {!showPanorama &&
+                <PhotoFooter count={count} offset={offset} setOffset={setOffset} />
+            }
+            {showPanorama &&
+                <CloseFooter onClose={onPanoramaClose} />
+            }
         </>
     );
 }

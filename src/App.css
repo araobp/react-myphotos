@@ -254,9 +254,18 @@ button:active {
   width: 20vw;
 }
 
-/*** Map page ***/
 #react-leaflet {
   z-index: 0;
+  margin-top: var(--margin-navi);
+  margin-bottom: var(--margin-footer);
+  height: calc(100vh - var(--margin-navi) - var(--margin-footer));
+}
+
+#panorama {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
   margin-top: var(--margin-navi);
   margin-bottom: var(--margin-footer);
   height: calc(100vh - var(--margin-navi) - var(--margin-footer));

@@ -1,26 +1,18 @@
-import { authHeaders, baseURL } from "../util/auth";
-import { GpsLogRequest, GpsLogResponse, RecordResponse } from "./structure";
+import { authHeaders, baseURL } from "./myphotosAuth";
+import { GpsLogRequest, GpsLogResponse, PhotoAttribute, RecordResponse } from "./structure";
 
 import { dataURItoArrayBuffer } from "../util/convert";
 import { RecordRequest, LatLon } from "./structure";
+import { ACCEPT_APPLICATION_JSON, ACCEPT_OCTET_STREAM, INTERNAL_ERROR, makeHeaders } from "./common";
 
 export enum FetchDirection {
     PREVIOUS = "previous",
     NEXT = "next"
 }
 
-const INTERNAL_ERROR = 'Internal error';
-
-const makeHeaders = (headers: object) => {
-    return { ...headers, ...authHeaders };
-}
-
-const ACCEPT_APPLICATION_JSON = makeHeaders({ 'Accept': 'application/json' });
-const ACCEPT_OCTET_STREAM = makeHeaders({ 'Accept': 'application/octet-stream' });
-
-export const apiPostRecord = async (place: string, memo: string, latlon: LatLon, dataURI: string): Promise<null> => {
+export const apiPostRecord = async (place: string, memo: string, latlon: LatLon, address: string, dataURI: string): Promise<null> => {
     try {
-        const record: RecordRequest = { place: place, memo: memo, latitude: latlon.latitude, longitude: latlon.longitude };
+        const record: RecordRequest = { place: place, memo: memo, latitude: latlon.latitude, longitude: latlon.longitude, address: address };
         const body = JSON.stringify(record);
         console.log(body);
         const headers = makeHeaders(
@@ -83,6 +75,19 @@ export const apiGetRecords = async (limit: number, offset: number): Promise<Arra
         }
     } catch (e) {
         throw new Error('get records failed');
+    }
+}
+
+export const apiGetPhotoAttribute = async (id: number): Promise<PhotoAttribute> => {
+    try {
+        const res = await fetch(`${baseURL}/photo/${id}/attribute`, { method: "GET", headers: ACCEPT_APPLICATION_JSON });
+        if (res.status == 200) {
+            return await res.json();
+        } else {
+            throw new Error('GET photo attribute failed');
+        }
+    } catch (e) {
+        throw new Error(INTERNAL_ERROR);
     }
 }
 

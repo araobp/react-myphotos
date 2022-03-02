@@ -3,23 +3,21 @@ import Modal from "react-modal";
 import '../App.css';
 
 export type PopUpProps = {
-    isOpen: boolean;
     isAlert: boolean;
     message: string;
 }
 
 export type PopUpConfirmProps = {
-    isOpen: boolean;
     message: string;
     callback: (confirmed: boolean) => void;
 }
 
-export const PopUp: FC<PopUpProps> = ({ isOpen: showPopUp, isAlert, message }) => {
+export const PopUp: FC<PopUpProps> = ({ isAlert, message }) => {
     const className: string = isAlert ? "popup-alert" : "popup";
 
     return (
         <>
-            <Modal isOpen={showPopUp} className="center">
+            <Modal isOpen={true} className="center">
                 <div className={className}>
                     <p>{message}</p>
                 </div>
@@ -28,10 +26,10 @@ export const PopUp: FC<PopUpProps> = ({ isOpen: showPopUp, isAlert, message }) =
     );
 }
 
-export const PopUpConfirm: FC<PopUpConfirmProps> = ({ isOpen, message, callback }) => {
+export const PopUpConfirm: FC<PopUpConfirmProps> = ({ message, callback }) => {
     return (
         <>
-            <Modal isOpen={isOpen} className="center">
+            <Modal isOpen={true} className="center">
                 <div className="popup">
                     <p>{message}</p>
                     <div className="row">

@@ -42,6 +42,13 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
         console.log(isChecked);
     }
 
+    const onResolutionChanged= (factor: string) => {
+        const v = parseFloat(factor);
+        if (v != NaN && v > 0 && v < 1) {
+            setResolution(factor);
+        } 
+    }
+
     return (
         <>
             <div className="default" style={{ textAlign: "left", marginLeft: "1rem", marginRight: "1rem" }}>
@@ -50,7 +57,7 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
                         style={{ width: "16rem" }}
                         type="text"
                         value={login}
-                        onChange={(e) => setLogin(e.target.value)}
+                        onChange={e => setLogin(e.target.value)}
                         placeholder="login"
                     />
                 </label>
@@ -60,19 +67,19 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
                         style={{ width: "16rem" }}
                         type="text"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={e => setPassword(e.target.value)}
                         placeholder="password"
                     />
                 </label>
                 {showAdvanced &&
                     <div>
                         <br />
-                        <label>Camera resolution:
+                        <label>Resolution:
                             <input
                                 style={{ width: "6rem" }}
                                 type="text"
                                 value={resolution}
-                                onChange={(e) => setResolution(e.target.value)}
+                                onChange={e => onResolutionChanged(e.target.value)}
                                 placeholder="factor"
                             />
                             (range: 0 ~ 1)
@@ -84,7 +91,7 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
                                 style={{ width: "6rem" }}
                                 type="text"
                                 value={limit}
-                                onChange={(e) => setLimit(e.target.value)}
+                                onChange={e => setLimit(e.target.value)}
                                 placeholder="number"
                             />
                             per page
@@ -96,7 +103,7 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
                                     style={{ width: "28rem" }}
                                     type="text"
                                     value={baseURL}
-                                    onChange={(e) => setBaseURL(e.target.value)}
+                                    onChange={e => setBaseURL(e.target.value)}
                                     placeholder="BASE URL"
                                 />
                             </label>

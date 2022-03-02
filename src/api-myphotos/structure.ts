@@ -9,6 +9,7 @@ export type RecordRequest = {
     memo: string;
     latitude: number;
     longitude: number;
+    address: string;
 }
 
 export type RecordResponse = {
@@ -18,6 +19,7 @@ export type RecordResponse = {
     memo: string;
     latitude: number;
     longitude: number;
+    address: string;
 }
 
 export type Id = {
@@ -36,4 +38,8 @@ export type GpsLogResponse = {
     latitude: number;
     longitude: number;
     session: number
+}
+
+export type PhotoAttribute = {
+    equirectangular: boolean;
 }

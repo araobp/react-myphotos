@@ -1,17 +1,16 @@
 import { FC, useEffect, useState } from "react";
 import Modal from "react-modal";
-import { apiGetImage } from "../api/rest";
+import { apiGetImage } from "../api-myphotos/myphotos";
 import '../App.css';
 
 export type PopUpImageProps = {
-    showImage: boolean;
     setShowImage: (state: boolean) => void;
     id: number
 }
 
-export const PopUpImage: FC<PopUpImageProps> = ({ showImage, setShowImage, id }) => {
+export const PopUpImage: FC<PopUpImageProps> = ({ setShowImage, id}) => {
 
-    const [imageURL, setImageURL] = useState<string>("");
+    const [imageURL, setImageURL] = useState<string>();
 
     const getImage = (id: number) => {
         apiGetImage(id)
@@ -30,8 +29,8 @@ export const PopUpImage: FC<PopUpImageProps> = ({ showImage, setShowImage, id })
 
     return (
         <>
-            <Modal isOpen={showImage} className="center-img">
-                <img src={imageURL} onClick={() => closePopUp()} style={{ width: "100vw", height: "100vh" }} />
+            <Modal isOpen={true} className="center-img">
+                {imageURL && <img src={imageURL} onClick={() => closePopUp()} style={{ width: "100vw", height: "100vh" }} />}
             </Modal>
         </>
     );
