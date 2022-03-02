@@ -1,4 +1,4 @@
-import { useState, useEffect, FC } from "react";
+import { useState, useEffect, FC, useRef } from "react";
 import '../App.css';
 import Modal from "react-modal";
 
@@ -30,6 +30,8 @@ export const HomePage: FC = () => {
     const [lastGpsLogPostTime, setLastGpsLogPostTime] = useState<Date>(new Date());
     const [session, setSession] = useState<number | null>(null);
 
+    const inputRef = useRef<HTMLInputElement>(null);
+    
     Modal.setAppElement("#root");
 
     /*** Geo-location ***********************************************/
@@ -51,6 +53,11 @@ export const HomePage: FC = () => {
         apiGetAddressByLocation(latitude, longitude)
             .then(address => setAddress(address))
             .catch(e => console.log(e));
+    }
+
+    const onFileButtonClick = () => {
+        setShowInputFile(true);
+        inputRef.current?.click();
     }
 
     useEffect(() => {
@@ -150,6 +157,7 @@ export const HomePage: FC = () => {
                                     className="input-file"
                                     accept="image/*"
                                     capture="environment"
+                                    ref={inputRef}
                                     onChange={e => { e.target.files && handleChange(e.target.files[0]) }}
                                 />
                             </label>
@@ -166,7 +174,7 @@ export const HomePage: FC = () => {
                             <button
                                 className="small-button"
                                 type="submit"
-                                onClick={() => setShowInputFile(!showInputFile)}>File
+                                onClick={() => onFileButtonClick()}>File
                             </button>
                         }
                     </div>
