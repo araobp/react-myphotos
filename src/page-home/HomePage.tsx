@@ -148,6 +148,7 @@ export const HomePage: FC = () => {
                                     type="file"
                                     name="imageFile"
                                     className="input-file"
+                                    capture
                                     onChange={e => { e.target.files && handleChange(e.target.files[0]) }}
                                 />
                             </label>
