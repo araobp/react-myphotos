@@ -10,7 +10,7 @@ import { LIMIT } from "../util/manipulation";
 import { apiGetRecords, apiGetThumbnails, apiPutRecord, apiDeleteRecords, apiGetRecordCount, apiGetImage, apiGetPhotoAttribute } from "../api-myphotos/myphotos";
 import { toLocalTime } from "../util/convert";
 import { PhotoFooter } from "../components-common/PhotoFooter";
-import { Panorama } from "../components-common/Panorama";
+import { Panorama } from "../panolens/Panorama";
 import { CloseFooter } from "../components-common/CloseFooter";
 
 export const AlbumPage: FC = () => {
