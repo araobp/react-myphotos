@@ -13,18 +13,14 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
     const [password, setPassword] = useState<string>(localStorage.getItem("password") || "");
     const [baseURL, setBaseURL] = useState<string>(localStorage.getItem("baseURL") || "");
     const [webcamEnabled, setWebcamEnabled] = useState<string>(localStorage.getItem("webcamEnabled") || "false");
-    const [period, setPeriod] = useState<string>(localStorage.getItem("period") || "");
     const [limit, setLimit] = useState<string>(localStorage.getItem("limit") || "");
-    const [resolution, setResolution] = useState<string>(localStorage.getItem("resolution") || "");
     const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
 
     const saveSettings = () => {
         if (login != "" && password != "") {
             localStorage.setItem("login", login);
             localStorage.setItem("password", password);
-            localStorage.setItem("period", period);
             localStorage.setItem("limit", limit);
-            localStorage.setItem("resolution", resolution);
             setLoginName(login);
         }
         if (baseURL != "") {
@@ -40,13 +36,6 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
     const onWebcamEnabled = (isChecked: boolean) => {
         isChecked ? setWebcamEnabled("true") : setWebcamEnabled("false");
         console.log(isChecked);
-    }
-
-    const onResolutionChanged= (factor: string) => {
-        const v = parseFloat(factor);
-        if (v != NaN && v > 0 && v < 1) {
-            setResolution(factor);
-        } 
     }
 
     return (
@@ -73,18 +62,6 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
                 </label>
                 {showAdvanced &&
                     <div>
-                        <br />
-                        <label>Resolution:
-                            <input
-                                style={{ width: "6rem" }}
-                                type="text"
-                                value={resolution}
-                                onChange={e => onResolutionChanged(e.target.value)}
-                                placeholder="factor"
-                            />
-                            (range: 0 ~ 1)
-                        </label>
-
                         <br />
                         <label>Images:
                             <input

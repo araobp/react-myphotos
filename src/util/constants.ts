@@ -4,6 +4,6 @@ export const DEFAULT_LOCATION: LatLngExpression = [35.68124505309657, 139.767139
 
 export const POSTGRES_MAX_INTEGER_VALUE: number = 2147483647;  // 4bytes 
 
-export const PERIOD = parseInt(localStorage.getItem("period") || "0") * 1000;  // msec
+export const RESOLUTION = 0.7;
 
-export const RESOLUTION = parseFloat(localStorage.getItem("resolution") || "1.0"); 
+export const WEBCAM_EABLED = (localStorage.getItem("webcamEnabled") == "true") ? true : false;

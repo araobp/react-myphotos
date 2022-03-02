@@ -7,9 +7,9 @@ import { RecordForm } from "../components-common/RecordForm";
 import { CameraComp } from './CameraComp';
 import { PopUpMap } from '../components-common/PopUpMap';
 import { PopUp } from "../components-common/PopUpMessage";
-import { apiPostGpsLog, apiPostRecord } from "../api-myphotos/myphotos";
-import { PERIOD } from "../util/constants";
+import { apiPostRecord } from "../api-myphotos/myphotos";
 import { apiGetAddressByLocation } from "../api-nominatim/nominatim";
+import { WEBCAM_EABLED } from "../util/constants";
 
 export const HomePage: FC = () => {
 
@@ -19,20 +19,20 @@ export const HomePage: FC = () => {
     const [picAddress, setPicAddress] = useState<string>("");
     const [place, setPlace] = useState<string>(localStorage.getItem("place") || "");
     const [memo, setMemo] = useState<string>(localStorage.getItem("memo") || "");
-    const [showInputFile, setShowInputFile] = useState<boolean>(false);
     const [showWebcam, setShowWebcam] = useState<boolean>(false);
     const [dataURI, setDataURI] = useState<string | null>(null);
     const [showMap, setShowMap] = useState<boolean>(false);
     const [watchId, setWatchId] = useState<number | null>(null);
     const [showProgress, setShowProgress] = useState<boolean>(false);
     const [showReject, setShowReject] = useState<boolean>(false);
-    const [gpsLoggingEnabled, setGpsLoggingEnabled] = useState<boolean>(false);
-    const [lastGpsLogPostTime, setLastGpsLogPostTime] = useState<Date>(new Date());
-    const [session, setSession] = useState<number | null>(null);
+
+    Modal.setAppElement("#root");
 
     const inputRef = useRef<HTMLInputElement>(null);
 
-    Modal.setAppElement("#root");
+    const onCameraButtonClicked = () => {
+        inputRef?.current?.click();
+    }
 
     /*** Geo-location ***********************************************/
     const startWatchingLocation = (gpsLoggingEnabled: boolean) => {
@@ -46,18 +46,12 @@ export const HomePage: FC = () => {
 
     const stopWatchingLocation = () => {
         watchId && navigator.geolocation.clearWatch(watchId);
-        setSession(null);
     };
 
     const lookUpAddressByLocation = (latitude: number, longitude: number) => {
         apiGetAddressByLocation(latitude, longitude)
             .then(address => setAddress(address))
             .catch(e => console.log(e));
-    }
-
-    const onFileButtonClick = () => {
-        setShowInputFile(true);
-        inputRef?.current?.click();
     }
 
     useEffect(() => {
@@ -68,21 +62,6 @@ export const HomePage: FC = () => {
             stopWatchingLocation();
         };
     }, []);
-
-    useEffect(() => {
-        if (gpsLoggingEnabled) {
-            const now = new Date();
-            if ((now.getTime() - lastGpsLogPostTime.getTime()) > PERIOD) {
-                const gpsLogRequest = { ...latlon, ...{ session: session } };
-                apiPostGpsLog(gpsLogRequest)
-                    .then(id => {
-                        console.log(id);
-                        setLastGpsLogPostTime(now);
-                        if (session == null) setSession(id);
-                    });
-            }
-        }
-    }, [latlon]);
 
     /*** Upload a record ****************************************/
     const postRecord = async () => {
@@ -124,12 +103,6 @@ export const HomePage: FC = () => {
         setDataURI(dataURI);
     }
 
-    const enableGpsLogging = (enabled: boolean) => {
-        stopWatchingLocation();
-        setGpsLoggingEnabled(enabled);
-        startWatchingLocation(enabled);
-    }
-
     return (
         <>
             {!showWebcam &&
@@ -148,7 +121,7 @@ export const HomePage: FC = () => {
                         {dataURI && <img id="img-temp" src={dataURI} width="35%" />}
                     </div>
 
-                    <input style={{ width: 0, height: 0 }}
+                    <input style={{ display: "none" }}
                         type="file"
                         name="imageFile"
                         className="input-file"
@@ -158,20 +131,29 @@ export const HomePage: FC = () => {
                         onChange={e => { e.target.files && handleChange(e.target.files[0]) }}
                     />
 
-                    <>
-                        {localStorage.getItem("webcamEnabled") == "true" &&
+                    {WEBCAM_EABLED &&
+                        <div>
                             <button
                                 className="small-button"
                                 type="submit"
                                 onClick={() => setShowWebcam(true)}>WebCam
                             </button>
-                        }
-                        <button
-                            className="small-button"
-                            type="submit"
-                            onClick={() => onFileButtonClick()}>Camera
-                        </button>
-                    </>
+                            <button
+                                className="small-button"
+                                type="submit"
+                                onClick={() => onCameraButtonClicked()}>File
+                            </button>
+                        </div>
+                    }
+                    {!WEBCAM_EABLED &&
+                        <div>
+                            <button
+                                className="small-button"
+                                type="submit"
+                                onClick={() => onCameraButtonClicked()}>Camera
+                            </button>
+                        </div>
+                    }
                 </div>
             }
 
