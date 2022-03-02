@@ -12,7 +12,7 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
     const [login, setLogin] = useState<string>(localStorage.getItem("login") || "");
     const [password, setPassword] = useState<string>(localStorage.getItem("password") || "");
     const [baseURL, setBaseURL] = useState<string>(localStorage.getItem("baseURL") || "");
-    const [fileUploadEnabled, setFileUploadEnabled] = useState<string>(localStorage.getItem("fileUploadEnabled") || "false");
+    const [webcamEnabled, setWebcamEnabled] = useState<string>(localStorage.getItem("webcamEnabled") || "false");
     const [period, setPeriod] = useState<string>(localStorage.getItem("period") || "");
     const [limit, setLimit] = useState<string>(localStorage.getItem("limit") || "");
     const [resolution, setResolution] = useState<string>(localStorage.getItem("resolution") || "");
@@ -30,15 +30,15 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
         if (baseURL != "") {
             localStorage.setItem("baseURL", baseURL);
         }
-        localStorage.setItem("fileUploadEnabled", fileUploadEnabled);
+        localStorage.setItem("webcamEnabled", webcamEnabled);
     }
 
     const toggleAdvancedSetting = () => {
         setShowAdvanced(!showAdvanced);
     }
 
-    const OnFileUploadEnabled = (isChecked: boolean) => {
-        isChecked ? setFileUploadEnabled("true") : setFileUploadEnabled("false");
+    const onWebcamEnabled = (isChecked: boolean) => {
+        isChecked ? setWebcamEnabled("true") : setWebcamEnabled("false");
         console.log(isChecked);
     }
 
@@ -109,7 +109,7 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
                             </label>
 
                             <br />
-                            <div style={{ display: "flex", alignItems: "center" }}>File Upload:&nbsp;<Switch isChecked={fileUploadEnabled == "true"} onChange={isChecked => OnFileUploadEnabled(isChecked)} />
+                            <div style={{ display: "flex", alignItems: "center" }}>WebCam:&nbsp;<Switch isChecked={webcamEnabled == "true"} onChange={isChecked => onWebcamEnabled(isChecked)} />
                             </div>
                         </div>
                     </div>

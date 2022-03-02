@@ -20,7 +20,7 @@ export const HomePage: FC = () => {
     const [place, setPlace] = useState<string>(localStorage.getItem("place") || "");
     const [memo, setMemo] = useState<string>(localStorage.getItem("memo") || "");
     const [showInputFile, setShowInputFile] = useState<boolean>(false);
-    const [showCamera, setShowCamera] = useState<boolean>(false);
+    const [showWebcam, setShowWebcam] = useState<boolean>(false);
     const [dataURI, setDataURI] = useState<string | null>(null);
     const [showMap, setShowMap] = useState<boolean>(false);
     const [watchId, setWatchId] = useState<number | null>(null);
@@ -132,7 +132,7 @@ export const HomePage: FC = () => {
 
     return (
         <>
-            {!showCamera &&
+            {!showWebcam &&
                 <div className="default" style={{ padding: "1vw" }}>
                     {(latlon.latitude !== 0) && (latlon.longitude !== 0) &&
                         <>
@@ -148,39 +148,35 @@ export const HomePage: FC = () => {
                         {dataURI && <img id="img-temp" src={dataURI} width="35%" />}
                     </div>
 
-                    <div>
-                        <label>
-                            <input style={{ width: 0, height: 0 }}
-                                type="file"
-                                name="imageFile"
-                                className="input-file"
-                                accept="image/*"
-                                capture="environment"
-                                ref={inputRef}
-                                onChange={e => { e.target.files && handleChange(e.target.files[0]) }}
-                            />
-                        </label>
-                    </div>
+                    <input style={{ width: 0, height: 0 }}
+                        type="file"
+                        name="imageFile"
+                        className="input-file"
+                        accept="image/*"
+                        capture="environment"
+                        ref={inputRef}
+                        onChange={e => { e.target.files && handleChange(e.target.files[0]) }}
+                    />
 
-                    <div>
-                        <button
-                            className="small-button"
-                            type="submit"
-                            onClick={() => setShowCamera(true)}>WebCam
-                        </button>
-                        {localStorage.getItem("fileUploadEnabled") == "true" &&
+                    <>
+                        {localStorage.getItem("webcamEnabled") == "true" &&
                             <button
                                 className="small-button"
                                 type="submit"
-                                onClick={() => onFileButtonClick()}>Camera
+                                onClick={() => setShowWebcam(true)}>WebCam
                             </button>
                         }
-                    </div>
+                        <button
+                            className="small-button"
+                            type="submit"
+                            onClick={() => onFileButtonClick()}>Camera
+                        </button>
+                    </>
                 </div>
             }
 
             {
-                !showCamera &&
+                !showWebcam &&
                 <div className="footer">
                     <button className="small-button" type="submit" onClick={() => setShowMap(true)}>Map</button>
                     <button className="small-button" type="submit" onClick={e => postRecord()}>Upload</button>
@@ -188,7 +184,7 @@ export const HomePage: FC = () => {
                 </div>
             }
 
-            <CameraComp isOpen={showCamera} setIsOpen={setShowCamera} picTaken={picTaken} />
+            <CameraComp isOpen={showWebcam} setIsOpen={setShowWebcam} picTaken={picTaken} />
 
             {showMap && <PopUpMap setIsOpen={setShowMap} latlon={latlon} />}
 
