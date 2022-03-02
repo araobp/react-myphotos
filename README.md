@@ -57,6 +57,14 @@ Go to public/index.html and include the CDN hosted leaflet.css:
   crossorigin=""/>
 ```
 
+## Panolens
+
+To avoid type check error, add a file "panolens.d.ts" including the following line:
+
+```
+declare module 'panolens';
+```
+
 ## References
 
 - W3 schools: https://www.w3schools.com/
