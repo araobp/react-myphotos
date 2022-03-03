@@ -4,12 +4,13 @@ import Modal from "react-modal";
 
 import { LatLon } from "../api-myphotos/structure";
 import { RecordForm } from "../components-common/RecordForm";
-import { CameraComp } from './CameraComp';
+import { WebcamComp } from './WebcamComp';
 import { PopUpMap } from '../components-common/PopUpMap';
 import { PopUp } from "../components-common/PopUpMessage";
 import { apiPostRecord } from "../api-myphotos/myphotos";
 import { apiGetAddressByLocation } from "../api-nominatim/nominatim";
 import { WEBCAM_EABLED } from "../util/constants";
+import { MobileCamera } from "./MobileCamera";
 
 export const HomePage: FC = () => {
 
@@ -19,8 +20,9 @@ export const HomePage: FC = () => {
     const [picAddress, setPicAddress] = useState<string>("");
     const [place, setPlace] = useState<string>(localStorage.getItem("place") || "");
     const [memo, setMemo] = useState<string>(localStorage.getItem("memo") || "");
-    const [showWebcam, setShowWebcam] = useState<boolean>(false);
-    const [dataURI, setDataURI] = useState<string | null>(null);
+    const [launchMobileCamera, setLaunchMobileCamera] = useState<boolean>(false);
+    const [launchWebcam, setLaunchWebcam] = useState<boolean>(false);
+    const [imageURL, setImageURL] = useState<string | null>(null);
     const [showMap, setShowMap] = useState<boolean>(false);
     const [watchId, setWatchId] = useState<number | null>(null);
     const [showProgress, setShowProgress] = useState<boolean>(false);
@@ -28,35 +30,24 @@ export const HomePage: FC = () => {
 
     Modal.setAppElement("#root");
 
-    const inputRef = useRef<HTMLInputElement>(null);
-
-    // This is to hide a "choose file" button in a HTML input element, and to lauch 
-    // a mobile camera app automatically without pressing a choose file button.
     const onCameraButtonClicked = () => {
-        inputRef?.current?.click();
+        setLaunchMobileCamera(true);
     }
 
     const clearInputFields = () => {
         setPlace("");
         setMemo("");
-        setDataURI(null);
+        setImageURL(null);
     }
 
-    const picTaken = (dataURI: string | null) => {
+    const onPicTaken = (imageURL: string | null) => {
         setPicLatlon(latlon);
         setPicAddress(address);
-        setDataURI(dataURI);
-    }
-
-    const handleChange = (f: File | null) => {
-        if (f) {
-            const reader = new FileReader();
-            reader.onload = e => {
-                picTaken(reader.result as string);
-                if (WEBCAM_EABLED) setPicAddress("");  // In case of file upload
-            };
-            reader.readAsDataURL(f);
+        if (imageURL) {
+            setImageURL(imageURL);
         }
+        setLaunchWebcam(false);
+        setLaunchMobileCamera(false);
     }
 
     /*** Geo-location ***********************************************/
@@ -90,14 +81,14 @@ export const HomePage: FC = () => {
 
     /*** Upload a record ****************************************/
     const postRecord = async () => {
-        if (dataURI) {
+        if (imageURL) {
             setShowProgress(true);
 
             // Save parameters
             localStorage.setItem("place", place);
             localStorage.setItem("memo", memo);
 
-            await apiPostRecord(place, memo, picLatlon, picAddress, dataURI);
+            await apiPostRecord(place, memo, picLatlon, picAddress, imageURL);
             setShowProgress(false);
         } else {
             setShowReject(true);
@@ -107,70 +98,60 @@ export const HomePage: FC = () => {
 
     return (
         <>
-            {!showWebcam &&
-                <div className="default" style={{ padding: "1vw" }}>
-                    {(latlon.latitude !== 0) && (latlon.longitude !== 0) &&
-                        <>
-                            <div className="latlon">Latitude: {latlon.latitude.toFixed(6)}, Longitude: {latlon.longitude.toFixed(6)}</div>
-                            <div className="latlon">{address}</div>
-                        </>
-                        || <div className="latlon">Positioning...</div>
-                    }
+            <MobileCamera launch={launchMobileCamera} onPicTaken={onPicTaken} />
 
-                    <RecordForm place={place} setPlace={setPlace} memo={memo} setMemo={setMemo} />
+            {!launchWebcam &&
+                <>
+                    <div className="default" style={{ padding: "1vw" }}>
+                        {(latlon.latitude !== 0) && (latlon.longitude !== 0) &&
+                            <>
+                                <div className="latlon">Latitude: {latlon.latitude.toFixed(6)}, Longitude: {latlon.longitude.toFixed(6)}</div>
+                                <div className="latlon">{address}</div>
+                            </>
+                            || <div className="latlon">Positioning...</div>
+                        }
 
-                    {/*  Show a captured image */}
-                    <div>
-                        {dataURI && <img id="img-temp" src={dataURI} width="35%" />}
+                        <RecordForm place={place} setPlace={setPlace} memo={memo} setMemo={setMemo} />
+
+                        {/*  Show a captured image */}
+                        <div>
+                            {imageURL && <img id="img-temp" src={imageURL} width="35%" />}
+                        </div>
+
+                        {WEBCAM_EABLED &&
+                            <div>
+                                <button
+                                    className="small-button"
+                                    type="submit"
+                                    onClick={() => setLaunchWebcam(true)}>WebCam
+                                </button>
+                                <button
+                                    className="small-button"
+                                    type="submit"
+                                    onClick={() => onCameraButtonClicked()}>File
+                                </button>
+                            </div>
+                        }
+                        {!WEBCAM_EABLED &&
+                            <div>
+                                <button
+                                    className="small-button"
+                                    type="submit"
+                                    onClick={() => onCameraButtonClicked()}>Camera
+                                </button>
+                            </div>
+                        }
                     </div>
 
-                    {/* Use Mobile Camera App (or read an image file in case of Mac or PC) */}
-                    <input style={{ display: "none" }}
-                        type="file"
-                        name="imageFile"
-                        className="input-file"
-                        accept="image/*"
-                        capture="environment"
-                        ref={inputRef}
-                        onChange={e => { e.target.files && handleChange(e.target.files[0]) }}
-                    />
-
-                    {WEBCAM_EABLED &&
-                        <div>
-                            <button
-                                className="small-button"
-                                type="submit"
-                                onClick={() => setShowWebcam(true)}>WebCam
-                            </button>
-                            <button
-                                className="small-button"
-                                type="submit"
-                                onClick={() => onCameraButtonClicked()}>File
-                            </button>
-                        </div>
-                    }
-                    {!WEBCAM_EABLED &&
-                        <div>
-                            <button
-                                className="small-button"
-                                type="submit"
-                                onClick={() => onCameraButtonClicked()}>Camera
-                            </button>
-                        </div>
-                    }
-                </div>
+                    <div className="footer">
+                        <button className="small-button" type="submit" onClick={() => setShowMap(true)}>Map</button>
+                        <button className="small-button" type="submit" onClick={e => postRecord()}>Upload</button>
+                        <button className="small-button" type="submit" onClick={clearInputFields}>Clear</button>
+                    </div>
+                </>
             }
 
-            {
-                !showWebcam &&
-                <div className="footer">
-                    <button className="small-button" type="submit" onClick={() => setShowMap(true)}>Map</button>
-                    <button className="small-button" type="submit" onClick={e => postRecord()}>Upload</button>
-                    <button className="small-button" type="submit" onClick={clearInputFields}>Clear</button>
-                </div>
-            }
-
-            <CameraComp isOpen={showWebcam} setIsOpen={setShowWebcam} picTaken={picTaken} />
+            {launchWebcam && <WebcamComp onPicTaken={onPicTaken} />}
 
             {showMap && <PopUpMap setIsOpen={setShowMap} latlon={latlon} />}
 

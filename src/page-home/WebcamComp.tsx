@@ -7,13 +7,12 @@ import Camera, { FACING_MODES, IMAGE_TYPES } from 'react-html5-camera-photo';
 import 'react-html5-camera-photo/build/css/index.css';
 import { RESOLUTION } from "../util/constants";
 
-type CameraCompProps = {
-    isOpen: boolean;
-    setIsOpen: (isOpen: boolean) => void;
-    picTaken: (dataURI: string) => void;
+type WebcamCompProps = {
+    onPicTaken: (imageURL: string) => void;
 }
 
-export const CameraComp: FC<CameraCompProps> = ({ isOpen, setIsOpen, picTaken }) => {
+// HTML5 camera component
+export const WebcamComp: FC<WebcamCompProps> = ({ onPicTaken }) => {
 
     Modal.setAppElement('#root')
 
@@ -26,13 +25,12 @@ export const CameraComp: FC<CameraCompProps> = ({ isOpen, setIsOpen, picTaken })
     }
 
     const done = () => {
-        picTaken(temporaryDataURI);
+        onPicTaken(temporaryDataURI);
         closeCameraComp();
     }
 
     const closeCameraComp = () => {
         setImagePopUpIsOpen(false);
-        setIsOpen(false);
     }
 
     const closeImagePopUp = () => {
@@ -41,7 +39,7 @@ export const CameraComp: FC<CameraCompProps> = ({ isOpen, setIsOpen, picTaken })
 
     return (
         <>
-            {isOpen && !imagePopUpIsOpen &&
+            {!imagePopUpIsOpen &&
                 <div className="center-img">
                     <Camera isMaxResolution sizeFactor={RESOLUTION} onTakePhoto={(uri: any) => { handleTakePhoto(uri) }} imageType={IMAGE_TYPES.JPG}
                         idealFacingMode={FACING_MODES.ENVIRONMENT} isImageMirror={false} />
