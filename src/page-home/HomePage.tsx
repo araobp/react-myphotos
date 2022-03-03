@@ -30,9 +30,7 @@ export const HomePage: FC = () => {
 
     Modal.setAppElement("#root");
 
-    const onCameraButtonClicked = () => {
-        setLaunchMobileCamera(true);
-    }
+    const onCameraButtonClicked = () => setLaunchMobileCamera(true);
 
     const clearInputFields = () => {
         setPlace("");

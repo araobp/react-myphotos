@@ -25,17 +25,17 @@ export const WebcamComp: FC<WebcamCompProps> = ({ onPicTaken }) => {
     }
 
     const done = () => {
+        closeImagePopUp();
         onPicTaken(temporaryDataURI);
-        closeCameraComp();
     }
 
-    const closeCameraComp = () => {
-        setImagePopUpIsOpen(false);
+    const cancel = () => {
+        closeImagePopUp();
+        setTemporaryDataURI("");
+        onPicTaken("");
     }
-
-    const closeImagePopUp = () => {
-        setImagePopUpIsOpen(false);
-    }
+    
+    const closeImagePopUp = () => setImagePopUpIsOpen(false);
 
     return (
         <>
@@ -52,7 +52,7 @@ export const WebcamComp: FC<WebcamCompProps> = ({ onPicTaken }) => {
                     <div className="row">
                         <button className="small-button" onClick={done} >Done</button>
                         <button className="small-button-retry" onClick={closeImagePopUp} >Retry</button>
-                        <button className="small-button-cancel" onClick={closeCameraComp}>Cancel</button>
+                        <button className="small-button-cancel" onClick={cancel}>Cancel</button>
                     </div>
                 </div>
             </Modal>

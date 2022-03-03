@@ -1,7 +1,10 @@
 // https://nominatim.org/
 const baseURL = 'https://nominatim.openstreetmap.org';
 
-const headers = { 'Accept': 'application/json' };
+const headers = {
+     'Accept': 'application/json',
+     'Accept-Language': 'ja'
+};
 
 export const apiGetAddressByLocation = async (latitude: number, longitude: number) => {
     try {

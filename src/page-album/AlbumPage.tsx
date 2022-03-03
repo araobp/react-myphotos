@@ -93,9 +93,7 @@ export const AlbumPage: FC = () => {
             .catch(e => console.trace(e));
     }
 
-    const onPanoramaClose = () => {
-        setShowPanorama(false);
-    }
+    const onPanoramaClose = () => setShowPanorama(false);
 
     // Initialization
     useEffect(() => {

@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef } from "react";
+import { FC, memo, useEffect, useRef } from "react";
 
 type MobileCameraProps = {
     launch: boolean;
@@ -6,7 +6,7 @@ type MobileCameraProps = {
 }
 
 // Use Mobile Camera App on Android/iOS (or read an image file in case of Mac/PC)
-export const MobileCamera: FC<MobileCameraProps> = ({ launch, onPicTaken }) => {
+export const MobileCamera: FC<MobileCameraProps> = memo(({ launch, onPicTaken }) => {
 
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -51,4 +51,4 @@ export const MobileCamera: FC<MobileCameraProps> = ({ launch, onPicTaken }) => {
             />
         </>
     );
-}
+});

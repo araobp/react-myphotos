@@ -1,7 +1,7 @@
 import { authHeaders, baseURL } from "./myphotosAuth";
 import { GpsLogRequest, GpsLogResponse, PhotoAttribute, RecordResponse } from "./structure";
 
-import { dataURItoArrayBuffer } from "../util/convert";
+import { dataURItoBlob } from "../util/convert";
 import { RecordRequest, LatLon } from "./structure";
 import { ACCEPT_APPLICATION_JSON, ACCEPT_OCTET_STREAM, INTERNAL_ERROR, makeHeaders } from "./common";
 
@@ -34,7 +34,7 @@ export const apiPostRecord = async (place: string, memo: string, latlon: LatLon,
         );
         const res2 = await fetch(
             `${baseURL}/photo/${id}`,
-            { method: "POST", headers: headers2, body: dataURItoArrayBuffer(dataURI) }
+            { method: "POST", headers: headers2, body: dataURItoBlob(dataURI) }
         )
         if (res2.status == 200) {
             return null;
