@@ -140,11 +140,11 @@ export const AlbumPage: FC = () => {
                         </div>
                     </Modal>
 
-                    {showMap && <PopUpMap setIsOpen={setShowMap} latlon={location} /> }
+                    {showMap && <PopUpMap setIsOpen={setShowMap} latlon={location} />}
 
                     {showConfirm &&
-                    <PopUpConfirm message="Do you really want to delete these records?"
-                    callback={confirmed => deleteCheckedRecords(confirmed)} />
+                        <PopUpConfirm message="Do you really want to delete these records?"
+                            callback={confirmed => deleteCheckedRecords(confirmed)} />
                     }
 
                     {!showPanorama &&
@@ -188,13 +188,6 @@ export const AlbumPage: FC = () => {
                     }
                 </div>
             </div>
-
-            {!showPanorama &&
-                <PhotoFooter count={count} offset={offset} setOffset={setOffset} />
-            }
-            {showPanorama &&
-                <CloseFooter onClose={onPanoramaClose} />
-            }
         </>
     );
 }

@@ -4,10 +4,7 @@ import '../App.css';
 import { RecordResponse } from "../api-myphotos/structure";
 import { apiGetRecords, apiGetThumbnails, apiGetRecordCount } from "../api-myphotos/myphotos";
 import { LIMIT } from "../util/manipulation";
-import { LatLngExpression } from "leaflet";
 import { MapComp } from "./MapComp";
-import { DEFAULT_LOCATION } from "../util/constants";
-import { PhotoFooter } from "../components-common/PhotoFooter";
 
 export const MapPage: FC<{}> = _ => {
 
@@ -43,8 +40,7 @@ export const MapPage: FC<{}> = _ => {
 
     return (
         <>
-            <MapComp records={records} thumbnails={thumbnails} zoom={11} />
-            <PhotoFooter count={count} offset={offset} setOffset={setOffset} />
+            <MapComp records={records} thumbnails={thumbnails} count={count} offset={offset} setOffset={setOffset} zoom={11} />
         </>
     )
 }
