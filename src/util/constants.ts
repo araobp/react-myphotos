@@ -8,4 +8,5 @@ export const RESOLUTION = 0.7;
 
 export const WEBCAM_EABLED = (localStorage.getItem("webcamEnabled") == "true") ? true : false;
 
+export const THETA_ENABLED = (localStorage.getItem("thetaEnabled") == "true") ? true : false;
 export const PANORAMA_FOV = 80;

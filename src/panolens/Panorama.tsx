@@ -1,8 +1,8 @@
 import * as PANOLENS from "panolens";
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import { apiGetImage } from "../api-myphotos/myphotos";
+import { PopUp } from "../components-common/PopUpMessage";
 import { PANORAMA_FOV } from "../util/constants";
-
 
 export type PanoramaProps = {
     id: number;
@@ -11,7 +11,11 @@ export type PanoramaProps = {
 // This function uses Panolens from https://pchen66.github.io/Panolens/
 export const Panorama: FC<PanoramaProps> = ({ id }) => {
 
+    const [showProgress, setShowProgress] = useState<boolean>(false);
+    
     useEffect(() => {
+        setShowProgress(true);
+
         apiGetImage(id)
         .then(imageURL => {
             const panorama = new PANOLENS.ImagePanorama(imageURL);
@@ -21,11 +25,14 @@ export const Panorama: FC<PanoramaProps> = ({ id }) => {
             viewer.add(panorama);
             viewer.setCameraFov(PANORAMA_FOV);
         })
-        .catch(e => console.log(e));
+        .catch(e => console.log(e))
+        .finally(() => setShowProgress(false));
+
     }, [id]);
 
     return (
         <>
+            {showProgress && <PopUp isAlert={false} message={'Downloading the image from the cloud...'} />}
             <div id="panorama" />
         </>
     );

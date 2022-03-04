@@ -92,7 +92,7 @@ export const AlbumPage: FC = () => {
             .catch(e => console.trace(e));
     }
 
-    const onPanoramaClose = () => setShowPanorama(false);
+    const onClosePanorama = () => setShowPanorama(false);
 
     // Initialization
     useEffect(() => {
@@ -187,6 +187,9 @@ export const AlbumPage: FC = () => {
                         </>
                     }
                 </div>
+
+                {!showPanorama && <PhotoFooter count={count} offset={offset} setOffset={setOffset} />}
+                {showPanorama && <CloseFooter onClose={onClosePanorama} />}
             </div>
         </>
     );

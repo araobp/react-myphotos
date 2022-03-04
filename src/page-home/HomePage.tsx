@@ -9,9 +9,11 @@ import { PopUpMap } from '../components-common/PopUpMap';
 import { PopUp } from "../components-common/PopUpMessage";
 import { apiPostRecord } from "../api-myphotos/myphotos";
 import { apiGetAddressByLocation } from "../api-nominatim/nominatim";
-import { WEBCAM_EABLED } from "../util/constants";
+import { THETA_ENABLED, WEBCAM_EABLED } from "../util/constants";
 import { MobileCameraComp } from "./MobileCameraComp";
 import { FileInputComp } from "./FileInput";
+import { takePicture } from "./ThetaComp";
+import { BlobToDataURI } from "../util/convert";
 
 export const HomePage: FC = () => {
 
@@ -32,6 +34,14 @@ export const HomePage: FC = () => {
     Modal.setAppElement("#root");
 
     const onCameraButtonClicked = () => setLaunchMobileCamera(true);
+
+    const onThetaButtonClicked = async () => {
+        const blob = await takePicture();
+        const imageURL = BlobToDataURI(blob);
+        setPicLatlon(latlon);
+        setPicAddress(address);
+        setImageURL(imageURL);
+    }
 
     const clearInputFields = () => {
         setPlace("");
@@ -133,6 +143,15 @@ export const HomePage: FC = () => {
                                 type="submit"
                                 onClick={() => onCameraButtonClicked()}>Camera
                             </button>
+                        }
+                        {THETA_ENABLED &&
+                            <div>
+                                <button
+                                    className="small-button"
+                                    type="submit"
+                                    onClick={() => onThetaButtonClicked()}>Theta
+                                </button>
+                            </div>
                         }
                     </div>
 

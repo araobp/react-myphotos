@@ -1,5 +1,6 @@
 import React, { useState, FunctionComponent, FC } from "react";  // named export
 import '../App.css';
+import { PopUp } from "../components-common/PopUpMessage";
 
 import { Switch } from "../components-common/Switch";
 
@@ -13,8 +14,10 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
     const [password, setPassword] = useState<string>(localStorage.getItem("password") || "");
     const [baseURL, setBaseURL] = useState<string>(localStorage.getItem("baseURL") || "");
     const [webcamEnabled, setWebcamEnabled] = useState<string>(localStorage.getItem("webcamEnabled") || "false");
+    const [thetaEnabled, setThetaEnabled] = useState<string>(localStorage.getItem("thetaEnabled") || "false");
     const [limit, setLimit] = useState<string>(localStorage.getItem("limit") || "");
     const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
+    const [showProgress, setShowProgress] = useState<boolean>(false);
 
     const saveSettings = () => {
         if (login != "" && password != "") {
@@ -27,6 +30,10 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
             localStorage.setItem("baseURL", baseURL);
         }
         localStorage.setItem("webcamEnabled", webcamEnabled);
+        localStorage.setItem("thetaEnabled", thetaEnabled);
+
+        setTimeout(() => setShowProgress(false), 1000);
+        setShowProgress(true);
     }
 
     const toggleAdvancedSetting = () => {
@@ -35,7 +42,10 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
 
     const onWebcamEnabled = (isChecked: boolean) => {
         isChecked ? setWebcamEnabled("true") : setWebcamEnabled("false");
-        console.log(isChecked);
+    }
+
+    const onThetaEnabled = (isChecked: boolean) => {
+        isChecked ? setThetaEnabled("true") : setThetaEnabled("false");
     }
 
     return (
@@ -86,7 +96,13 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
                             </label>
 
                             <br />
-                            <div style={{ display: "flex", alignItems: "center" }}>Mac/PC mode:&nbsp;<Switch isChecked={webcamEnabled == "true"} onChange={isChecked => onWebcamEnabled(isChecked)} />
+                            <div style={{ display: "flex", alignItems: "center" }}>RICOH Theta:&nbsp;
+                                <Switch isChecked={thetaEnabled == "true"} onChange={isChecked => onThetaEnabled(isChecked)} />
+                            </div>
+
+                            <br />
+                            <div style={{ display: "flex", alignItems: "center" }}>Mac/PC mode:&nbsp;
+                                <Switch isChecked={webcamEnabled == "true"} onChange={isChecked => onWebcamEnabled(isChecked)} />
                             </div>
                         </div>
                     </div>
@@ -99,6 +115,9 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
             <div className="footer">
                 <button className="small-button" type="submit" onClick={e => saveSettings()}>Submit</button>
             </div>
+
+            {showProgress && <PopUp isAlert={false} message={'Parameters saved'} />}
+
         </>
 
     );
