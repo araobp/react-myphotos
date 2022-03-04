@@ -45,7 +45,6 @@ export const AlbumPage: FC = () => {
                 }
             })
             .catch(e => {  // Note: in case a equirectangular value is not present in the row of the table
-                // console.log(e);
                 setShowImage(true);
             });
     }

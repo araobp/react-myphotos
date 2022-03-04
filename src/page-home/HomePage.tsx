@@ -10,7 +10,8 @@ import { PopUp } from "../components-common/PopUpMessage";
 import { apiPostRecord } from "../api-myphotos/myphotos";
 import { apiGetAddressByLocation } from "../api-nominatim/nominatim";
 import { WEBCAM_EABLED } from "../util/constants";
-import { MobileCamera } from "./MobileCamera";
+import { MobileCameraComp } from "./MobileCameraComp";
+import { FileInputComp } from "./FileInput";
 
 export const HomePage: FC = () => {
 
@@ -96,7 +97,7 @@ export const HomePage: FC = () => {
 
     return (
         <>
-            <MobileCamera launch={launchMobileCamera} onPicTaken={onPicTaken} />
+            <MobileCameraComp launch={launchMobileCamera} onPicTaken={onPicTaken} />
 
             {!launchWebcam &&
                 <>
@@ -123,21 +124,15 @@ export const HomePage: FC = () => {
                                     type="submit"
                                     onClick={() => setLaunchWebcam(true)}>WebCam
                                 </button>
-                                <button
-                                    className="small-button"
-                                    type="submit"
-                                    onClick={() => onCameraButtonClicked()}>File
-                                </button>
+                                <FileInputComp onPicTaken={onPicTaken} />
                             </div>
                         }
                         {!WEBCAM_EABLED &&
-                            <div>
-                                <button
-                                    className="small-button"
-                                    type="submit"
-                                    onClick={() => onCameraButtonClicked()}>Camera
-                                </button>
-                            </div>
+                            <button
+                                className="small-button"
+                                type="submit"
+                                onClick={() => onCameraButtonClicked()}>Camera
+                            </button>
                         }
                     </div>
 

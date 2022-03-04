@@ -86,7 +86,7 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
                             </label>
 
                             <br />
-                            <div style={{ display: "flex", alignItems: "center" }}>WebCam:&nbsp;<Switch isChecked={webcamEnabled == "true"} onChange={isChecked => onWebcamEnabled(isChecked)} />
+                            <div style={{ display: "flex", alignItems: "center" }}>Mac/PC mode:&nbsp;<Switch isChecked={webcamEnabled == "true"} onChange={isChecked => onWebcamEnabled(isChecked)} />
                             </div>
                         </div>
                     </div>
