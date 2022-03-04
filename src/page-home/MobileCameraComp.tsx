@@ -1,4 +1,4 @@
-import { FC, memo, useEffect, useRef } from "react";
+import { FC, useLayoutEffect, useRef } from "react";
 
 type MobileCameraProps = {
     launch: boolean;
@@ -6,7 +6,7 @@ type MobileCameraProps = {
 }
 
 // Use Mobile Camera App on Android/iOS
-export const MobileCameraComp: FC<MobileCameraProps> = memo(({ launch, onPicTaken }) => {
+export const MobileCameraComp: FC<MobileCameraProps> = ({ launch, onPicTaken }) => {
 
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -23,7 +23,9 @@ export const MobileCameraComp: FC<MobileCameraProps> = memo(({ launch, onPicTake
         }
     }
 
-    useEffect(() => {
+    // Note: useEffect() does not work in Safari.
+    // [Reference] https://stackoverflow.com/questions/66783577/inputfile-current-click-inside-useeffect-doesnt-work-in-safari
+    useLayoutEffect(() => {
         if (launch) {
             inputRef?.current?.click();
         }
@@ -43,4 +45,4 @@ export const MobileCameraComp: FC<MobileCameraProps> = memo(({ launch, onPicTake
             />
         </>
     );
-});
+};
