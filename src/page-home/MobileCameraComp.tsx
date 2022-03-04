@@ -10,8 +10,8 @@ export const MobileCameraComp: FC<MobileCameraProps> = ({ launch, onPicTaken }) 
 
     const inputRef = useRef<HTMLInputElement>(null);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files) {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement> | null) => {
+        if (e?.target?.files) {
             const f = e.target.files[0];
             const reader = new FileReader();
             reader.onload = _ => {
@@ -42,6 +42,7 @@ export const MobileCameraComp: FC<MobileCameraProps> = ({ launch, onPicTaken }) 
                 capture="environment"
                 ref={inputRef}
                 onChange={e => handleChange(e)}
+                onClick={e=> handleChange(null)}
             />
         </>
     );

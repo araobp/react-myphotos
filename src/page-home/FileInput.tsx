@@ -7,8 +7,8 @@ type FileInputCompProps = {
 
 export const FileInputComp: FC<FileInputCompProps> = ({ onPicTaken }) => {
 
-    const onFileChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files) {
+    const onFileChanged = (e: React.ChangeEvent<HTMLInputElement>| null) => {
+        if (e?.target?.files) {
             const f = e.target.files[0];
             const reader = new FileReader();
             reader.onload = _ => {
@@ -27,6 +27,7 @@ export const FileInputComp: FC<FileInputCompProps> = ({ onPicTaken }) => {
             className="input-file"
             accept="image/*"
             onChange={e => onFileChanged(e)}
+            onClick={e => onFileChanged(null)}
         />
     );
 }
