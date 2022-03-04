@@ -1,7 +1,7 @@
 import * as PANOLENS from "panolens";
 import { FC, useEffect, useState } from "react";
 import { apiGetImage } from "../api-myphotos/myphotos";
-import { PopUp } from "../components-common/PopUpMessage";
+import { PopUpMessage } from "../components-common/PopUpMessage";
 import { PANORAMA_FOV } from "../util/constants";
 
 export type PanoramaProps = {
@@ -32,7 +32,7 @@ export const Panorama: FC<PanoramaProps> = ({ id }) => {
 
     return (
         <>
-            {showProgress && <PopUp isAlert={false} message={'Downloading the image from the cloud...'} />}
+            {showProgress && <PopUpMessage isAlert={false} message={'Downloading the image from the cloud...'} />}
             <div id="panorama" />
         </>
     );

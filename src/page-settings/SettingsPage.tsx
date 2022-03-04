@@ -1,6 +1,6 @@
-import React, { useState, FunctionComponent, FC } from "react";  // named export
+import React, { useState, FC } from "react";
 import '../App.css';
-import { PopUp } from "../components-common/PopUpMessage";
+import { PopUpMessage } from "../components-common/PopUpMessage";
 
 import { Switch } from "../components-common/Switch";
 
@@ -116,7 +116,7 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
                 <button className="small-button" type="submit" onClick={e => saveSettings()}>Submit</button>
             </div>
 
-            {showProgress && <PopUp isAlert={false} message={'Parameters saved'} />}
+            {showProgress && <PopUpMessage message={'Parameters saved'} />}
 
         </>
 

@@ -1,4 +1,4 @@
-import { useState, useEffect, FC, useRef } from "react";
+import { useState, useEffect, FC } from "react";
 import '../App.css';
 import Modal from "react-modal";
 
@@ -6,7 +6,7 @@ import { LatLon } from "../api-myphotos/structure";
 import { RecordForm } from "../components-common/RecordForm";
 import { WebcamComp } from './WebcamComp';
 import { PopUpMap } from '../components-common/PopUpMap';
-import { PopUp } from "../components-common/PopUpMessage";
+import { PopUpMessage } from "../components-common/PopUpMessage";
 import { apiPostRecord } from "../api-myphotos/myphotos";
 import { apiGetAddressByLocation } from "../api-nominatim/nominatim";
 import { THETA_ENABLED, WEBCAM_EABLED } from "../util/constants";
@@ -165,11 +165,11 @@ export const HomePage: FC = () => {
 
             {launchWebcam && <WebcamComp onPicTaken={onPicTaken} />}
 
-            {showMap && <PopUpMap setIsOpen={setShowMap} latlon={latlon} />}
+            {showMap && <PopUpMap onPopUpClosed={() => setShowMap(false)} latlon={latlon} />}
 
-            {showProgress && <PopUp isAlert={false} message={'Uploading the record to the cloud...'} />}
+            {showProgress && <PopUpMessage message={'Uploading the record to the cloud...'} />}
 
-            {showReject && <PopUp isAlert={true} message={'Uploading rejected: no imaga data'} />}
+            {showReject && <PopUpMessage isAlert={true} message={'Uploading rejected: no imaga data'} />}
         </>
     );
 };

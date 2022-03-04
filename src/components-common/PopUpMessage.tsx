@@ -3,16 +3,16 @@ import Modal from "react-modal";
 import '../App.css';
 
 export type PopUpProps = {
-    isAlert: boolean;
+    isAlert?: boolean;
     message: string;
 }
 
 export type PopUpConfirmProps = {
     message: string;
-    callback: (confirmed: boolean) => void;
+    onConfirm: (confirmed: boolean) => void;
 }
 
-export const PopUp: FC<PopUpProps> = ({ isAlert, message }) => {
+export const PopUpMessage: FC<PopUpProps> = ({ isAlert = false, message }) => {
     const className: string = isAlert ? "popup-alert" : "popup";
 
     return (
@@ -26,15 +26,15 @@ export const PopUp: FC<PopUpProps> = ({ isAlert, message }) => {
     );
 }
 
-export const PopUpConfirm: FC<PopUpConfirmProps> = ({ message, callback }) => {
+export const PopUpConfirm: FC<PopUpConfirmProps> = ({ message, onConfirm }) => {
     return (
         <>
             <Modal isOpen={true} className="center">
                 <div className="popup">
                     <p>{message}</p>
                     <div className="row">
-                        <button className="small-button-cancel" onClick={() => callback(false)}>Cancel</button>
-                        <button className="small-button-confirm" onClick={() => callback(true)}>Delete</button>
+                        <button className="small-button-cancel" onClick={() => onConfirm(false)}>Cancel</button>
+                        <button className="small-button-confirm" onClick={() => onConfirm(true)}>Delete</button>
                     </div>
                 </div>
             </Modal>

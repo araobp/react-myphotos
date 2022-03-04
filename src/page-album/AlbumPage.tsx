@@ -126,7 +126,7 @@ export const AlbumPage: FC = () => {
         <>
             <div className="default">
                 <div>
-                    {showImage && id && <PopUpImage setShowImage={setShowImage} id={id} />}
+                    {showImage && id && <PopUpImage onPopUpClosed={() => setShowImage(false)} id={id} />}
 
                     {showPanorama && id && <Panorama id={id} />}
 
@@ -140,11 +140,11 @@ export const AlbumPage: FC = () => {
                         </div>
                     </Modal>
 
-                    {showMap && <PopUpMap setIsOpen={setShowMap} latlon={location} />}
+                    {showMap && <PopUpMap onPopUpClosed={() => setShowMap(false)} latlon={location} />}
 
                     {showConfirm &&
                         <PopUpConfirm message="Do you really want to delete these records?"
-                            callback={confirmed => deleteCheckedRecords(confirmed)} />
+                            onConfirm={confirmed => deleteCheckedRecords(confirmed)} />
                     }
 
                     {!showPanorama &&

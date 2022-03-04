@@ -4,11 +4,11 @@ import { apiGetImage } from "../api-myphotos/myphotos";
 import '../App.css';
 
 export type PopUpImageProps = {
-    setShowImage: (state: boolean) => void;
+    onPopUpClosed: () => void;
     id: number
 }
 
-export const PopUpImage: FC<PopUpImageProps> = ({ setShowImage, id}) => {
+export const PopUpImage: FC<PopUpImageProps> = ({ onPopUpClosed, id}) => {
 
     const [imageURL, setImageURL] = useState<string>();
 
@@ -19,7 +19,7 @@ export const PopUpImage: FC<PopUpImageProps> = ({ setShowImage, id}) => {
     }
 
     const closePopUp = () => {
-        setShowImage(false);
+        onPopUpClosed();
     }
 
     useEffect(() => {

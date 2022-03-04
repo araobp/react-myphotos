@@ -6,11 +6,11 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import { LatLon } from "../api-myphotos/structure";
 
 export type PopUpMapProps = {
-    setIsOpen: (isOpen: boolean) => void;
+    onPopUpClosed: () => void;
     latlon: LatLon;
 }
 
-export const PopUpMap: FC<PopUpMapProps> = ({ setIsOpen, latlon }) => {
+export const PopUpMap: FC<PopUpMapProps> = ({ onPopUpClosed, latlon }) => {
     return (
         <div style={{color: "black"}}>
             <Modal isOpen={true} className="center">
@@ -30,7 +30,7 @@ export const PopUpMap: FC<PopUpMapProps> = ({ setIsOpen, latlon }) => {
                         </Marker>
                     </MapContainer>
 
-                    <button className="small-button" onClick={() => setIsOpen(false)}>Close</button>
+                    <button className="small-button" onClick={e => onPopUpClosed()}>Close</button>
                 </div>
             </Modal>
         </div>

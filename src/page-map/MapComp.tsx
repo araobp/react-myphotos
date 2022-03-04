@@ -64,8 +64,8 @@ export const MapComp: FC<MapCompProps> = ({ records, thumbnails, count, offset, 
 
     return (
         <div style={{ overflow: "hidden" }}>
-            {showImage && id && <PopUpImage setShowImage={setShowImage} id={id} />}
-            {showPanorama && id && <Panorama id={id}/>}
+            {showImage && id && <PopUpImage onPopUpClosed={() => setShowImage(false)} id={id} />}
+            {showPanorama && id && <Panorama id={id} />}
 
             {!showPanorama &&
                 <MapContainer center={DEFAULT_LOCATION} zoom={zoom} scrollWheelZoom={true} tap={false} id="react-leaflet">
