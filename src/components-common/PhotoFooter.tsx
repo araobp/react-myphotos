@@ -1,6 +1,10 @@
 import { FC } from "react";
-import { backward, forward, LIMIT } from "../util/manipulation";
+import { LIMIT } from "../util/constants";
 import '../App.css';
+
+const backward = (offset: number) => (offset >= LIMIT) ? offset - LIMIT : offset;
+
+const forward = (offset: number, count: number) => ((offset + LIMIT) >= count) ? offset : offset + LIMIT;
 
 export type PhotoFooterProps = {
     count: number;

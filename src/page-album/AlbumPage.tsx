@@ -6,7 +6,7 @@ import { PopUpConfirm } from "../components-common/PopUpMessage";
 import { PopUpMap } from "../components-common/PopUpMap";
 import { PopUpImage } from "../components-common/PopUpImage";
 import { RecordForm } from "../components-common/RecordForm";
-import { LIMIT } from "../util/manipulation";
+import { LIMIT } from "../util/constants";
 import { apiGetRecords, apiGetThumbnails, apiPutRecord, apiDeleteRecords, apiGetRecordCount, apiGetImage, apiGetPhotoAttribute } from "../api-myphotos/myphotos";
 import { toLocalTime } from "../util/convert";
 import { PhotoFooter } from "../components-common/PhotoFooter";

@@ -9,11 +9,11 @@ import { PopUpMap } from '../components-common/PopUpMap';
 import { PopUpMessage } from "../components-common/PopUpMessage";
 import { apiPostRecord } from "../api-myphotos/myphotos";
 import { apiGetAddressByLocation } from "../api-nominatim/nominatim";
-import { THETA_ENABLED, WEBCAM_EABLED } from "../util/constants";
+import { FILE_INPUT_ENABLED, MOBILE_CAMERA_ENABLED, WEBCAM_EABLED } from "../util/constants";
 import { MobileCameraComp } from "./MobileCameraComp";
 import { FileInputComp } from "./FileInput";
-import { takePicture } from "./ThetaComp";
-import { BlobToDataURI } from "../util/convert";
+//import { takePicture } from "../api-osc/osc";
+//import { BlobToDataURI } from "../util/convert";
 
 export const HomePage: FC = () => {
 
@@ -35,6 +35,7 @@ export const HomePage: FC = () => {
 
     const onCameraButtonClicked = () => setLaunchMobileCamera(true);
 
+    /*
     const onThetaButtonClicked = async () => {
         const blob = await takePicture();
         const imageURL = BlobToDataURI(blob);
@@ -42,6 +43,7 @@ export const HomePage: FC = () => {
         setPicAddress(address);
         setImageURL(imageURL);
     }
+    */
 
     const clearInputFields = () => {
         setPlace("");
@@ -134,16 +136,20 @@ export const HomePage: FC = () => {
                                     type="submit"
                                     onClick={() => setLaunchWebcam(true)}>WebCam
                                 </button>
-                                <FileInputComp onPicTaken={onPicTaken} />
                             </div>
                         }
-                        {!WEBCAM_EABLED &&
+
+                        {MOBILE_CAMERA_ENABLED &&
                             <button
                                 className="small-button"
                                 type="submit"
                                 onClick={() => onCameraButtonClicked()}>Camera
                             </button>
                         }
+
+                        {FILE_INPUT_ENABLED && <FileInputComp onPicTaken={onPicTaken} />}
+
+                        {/*
                         {THETA_ENABLED &&
                             <div>
                                 <button
@@ -153,6 +159,7 @@ export const HomePage: FC = () => {
                                 </button>
                             </div>
                         }
+                    */}
                     </div>
 
                     <div className="footer">

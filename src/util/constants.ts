@@ -4,9 +4,18 @@ export const DEFAULT_LOCATION: LatLngExpression = [35.68124505309657, 139.767139
 
 export const POSTGRES_MAX_INTEGER_VALUE: number = 2147483647;  // 4bytes 
 
-export const RESOLUTION = 0.7;
+export const LIMIT: number = parseInt(localStorage.getItem("limit") || "10");
+
+export const RESOLUTION: number = parseInt(localStorage.getItem("limit") || "0.6");
+
+export const PANORAMA_FOV = 80;
 
 export const WEBCAM_EABLED = (localStorage.getItem("webcamEnabled") == "true") ? true : false;
 
+export const MOBILE_CAMERA_ENABLED = (localStorage.getItem("mobileCameraEnabled") == "true") ? true : false;
+
+export const FILE_INPUT_ENABLED = (localStorage.getItem("fileInputEnabled") == "true") ? true : false;
+
+/*
 export const THETA_ENABLED = (localStorage.getItem("thetaEnabled") == "true") ? true : false;
-export const PANORAMA_FOV = 80;
+*/

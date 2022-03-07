@@ -1,4 +1,5 @@
 import React, { useState, FC } from "react";
+import { isCallChain } from "typescript";
 import '../App.css';
 import { PopUpMessage } from "../components-common/PopUpMessage";
 
@@ -14,6 +15,9 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
     const [password, setPassword] = useState<string>(localStorage.getItem("password") || "");
     const [baseURL, setBaseURL] = useState<string>(localStorage.getItem("baseURL") || "");
     const [webcamEnabled, setWebcamEnabled] = useState<string>(localStorage.getItem("webcamEnabled") || "false");
+    const [resolution, setResolution] = useState<string>(localStorage.getItem("resolution") || "");
+    const [mobileCameraEnabled, setMobileCameraEnabled] = useState<string>(localStorage.getItem("mobileCameraEnabled") || "false");
+    const [fileInputEnabled, setFileInputEnabled] = useState<string>(localStorage.getItem("fileInputEnabled") || "false");
     const [thetaEnabled, setThetaEnabled] = useState<string>(localStorage.getItem("thetaEnabled") || "false");
     const [limit, setLimit] = useState<string>(localStorage.getItem("limit") || "");
     const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
@@ -30,6 +34,9 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
             localStorage.setItem("baseURL", baseURL);
         }
         localStorage.setItem("webcamEnabled", webcamEnabled);
+        localStorage.setItem("resolution", resolution);
+        localStorage.setItem("mobileCameraEnabled", mobileCameraEnabled);
+        localStorage.setItem("fileInputEnabled", fileInputEnabled);
         localStorage.setItem("thetaEnabled", thetaEnabled);
 
         setTimeout(() => setShowProgress(false), 1000);
@@ -42,6 +49,14 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
 
     const onWebcamEnabled = (isChecked: boolean) => {
         isChecked ? setWebcamEnabled("true") : setWebcamEnabled("false");
+    }
+
+    const onMobileCameraEnabled = (isChecked: boolean) => {
+        isChecked ? setMobileCameraEnabled("true") : setMobileCameraEnabled("false");
+    }
+
+    const onFileInputEnabled = (isChecked: boolean) => {
+        isChecked ? setFileInputEnabled("true") : setFileInputEnabled("false");
     }
 
     const onThetaEnabled = (isChecked: boolean) => {
@@ -72,17 +87,7 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
                 </label>
                 {showAdvanced &&
                     <div>
-                        <br />
-                        <label>Images:
-                            <input
-                                style={{ width: "6rem" }}
-                                type="text"
-                                value={limit}
-                                onChange={e => setLimit(e.target.value)}
-                                placeholder="number"
-                            />
-                            per page
-                        </label>
+                        <hr />
 
                         <div>
                             <label>baseURL:
@@ -94,17 +99,48 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
                                     placeholder="BASE URL"
                                 />
                             </label>
+                        </div>
 
+                        <label>Images:
+                            <input
+                                style={{ width: "6rem" }}
+                                type="text"
+                                value={limit}
+                                onChange={e => setLimit(e.target.value)}
+                                placeholder="number"
+                            />
+                            per page
+                        </label>
+
+                        <div style={{ display: "flex", alignItems: "center", marginTop: "8px" }}>WebCam:&nbsp;
+                            <Switch isChecked={webcamEnabled == "true"} onChange={isChecked => onWebcamEnabled(isChecked)} />
+                        </div>
+
+                        <label>Resolution:
+                            <input
+                                style={{ width: "6rem" }}
+                                type="text"
+                                value={resolution}
+                                onChange={e => setResolution(e.target.value)}
+                                placeholder="0.0 ~ 1.0"
+                            />
+                        </label>
+
+                        <div style={{ display: "flex", alignItems: "center", marginTop: "8px" }}>Camera:&nbsp;
+                            <Switch isChecked={mobileCameraEnabled == "true"} onChange={isChecked => onMobileCameraEnabled(isChecked)} />
+                        </div>
+
+                        <div style={{ display: "flex", alignItems: "center", marginTop: "8px" }}>File:&nbsp;
+                            <Switch isChecked={fileInputEnabled == "true"} onChange={isChecked => onFileInputEnabled(isChecked)} />
+                        </div>
+
+                        {/*
                             <br />
                             <div style={{ display: "flex", alignItems: "center" }}>RICOH Theta:&nbsp;
                                 <Switch isChecked={thetaEnabled == "true"} onChange={isChecked => onThetaEnabled(isChecked)} />
                             </div>
+                            */}
 
-                            <br />
-                            <div style={{ display: "flex", alignItems: "center" }}>Mac/PC mode:&nbsp;
-                                <Switch isChecked={webcamEnabled == "true"} onChange={isChecked => onWebcamEnabled(isChecked)} />
-                            </div>
-                        </div>
                     </div>
                 }
                 <br />

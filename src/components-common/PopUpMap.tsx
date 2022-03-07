@@ -15,7 +15,7 @@ export const PopUpMap: FC<PopUpMapProps> = ({ onPopUpClosed, latlon }) => {
         <div style={{color: "black"}}>
             <Modal isOpen={true} className="center">
                 <div>
-                    <MapContainer center={[latlon.latitude, latlon.longitude]} zoom={16} scrollWheelZoom={false} style={{
+                    <MapContainer center={[latlon.latitude, latlon.longitude]} zoom={16} scrollWheelZoom={true} style={{
                         width: "75vw", height: "75vh",
                         outline: "#888888 solid 3px"
                     }}>

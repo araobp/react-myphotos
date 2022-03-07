@@ -3,7 +3,7 @@ import '../App.css';
 
 import { RecordResponse } from "../api-myphotos/structure";
 import { apiGetRecords, apiGetThumbnails, apiGetRecordCount } from "../api-myphotos/myphotos";
-import { LIMIT } from "../util/manipulation";
+import { LIMIT } from "../util/constants";
 import { MapComp } from "./MapComp";
 
 export const MapPage: FC<{}> = _ => {
