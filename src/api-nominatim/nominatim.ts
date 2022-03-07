@@ -12,8 +12,9 @@ export const apiGetAddressByLocation = async (latitude: number, longitude: numbe
         if (res.status == 200) {
             const reversegeocode = await res.json();
             const displayName: string = reversegeocode.display_name;
-            const a = displayName.split(',').map(a => a.trim());
-            return `${a[2]}${a[1]}${a[0]}`;
+            const a = displayName.split(',').map(a => a.trim()).reverse();
+            const address = a.slice(2, a.length).join(' ');
+            return address;
         } else {
             throw new Error('GET records failed');
         }

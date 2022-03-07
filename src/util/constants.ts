@@ -6,7 +6,7 @@ export const POSTGRES_MAX_INTEGER_VALUE: number = 2147483647;  // 4bytes
 
 export const LIMIT: number = parseInt(localStorage.getItem("limit") || "10");
 
-export const RESOLUTION: number = parseInt(localStorage.getItem("limit") || "0.6");
+export const RESOLUTION: number = parseInt(localStorage.getItem("resolution") || "0.6");
 
 export const PANORAMA_FOV = 80;
 
