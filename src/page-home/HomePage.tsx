@@ -12,8 +12,6 @@ import { apiGetAddressByLocation } from "../api-nominatim/nominatim";
 import { FILE_INPUT_ENABLED, MOBILE_CAMERA_ENABLED, WEBCAM_EABLED } from "../util/constants";
 import { MobileCameraComp } from "./MobileCameraComp";
 import { FileInputComp } from "./FileInput";
-//import { takePicture } from "../api-osc/osc";
-//import { BlobToDataURI } from "../util/convert";
 
 export const HomePage: FC = () => {
 
@@ -34,16 +32,6 @@ export const HomePage: FC = () => {
     Modal.setAppElement("#root");
 
     const onCameraButtonClicked = () => setLaunchMobileCamera(true);
-
-    /*
-    const onThetaButtonClicked = async () => {
-        const blob = await takePicture();
-        const imageURL = BlobToDataURI(blob);
-        setPicLatlon(latlon);
-        setPicAddress(address);
-        setImageURL(imageURL);
-    }
-    */
 
     const clearInputFields = () => {
         setPlace("");
@@ -149,17 +137,6 @@ export const HomePage: FC = () => {
 
                         {FILE_INPUT_ENABLED && <FileInputComp onPicTaken={onPicTaken} />}
 
-                        {/*
-                        {THETA_ENABLED &&
-                            <div>
-                                <button
-                                    className="small-button"
-                                    type="submit"
-                                    onClick={() => onThetaButtonClicked()}>Theta
-                                </button>
-                            </div>
-                        }
-                    */}
                     </div>
 
                     <div className="footer">
