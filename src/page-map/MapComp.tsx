@@ -9,6 +9,7 @@ import { PhotoFooter } from "../components-common/PhotoFooter";
 import { apiGetPhotoAttribute } from "../api-myphotos/myphotos";
 import { CloseFooter } from "../components-common/CloseFooter";
 import { Panorama } from "../panolens/Panorama";
+import { toLocalTime } from "../util/convert";
 
 type MapCompProps = {
     records: Array<RecordResponse>;
@@ -83,6 +84,7 @@ export const MapComp: FC<MapCompProps> = ({ records, thumbnails, count, offset, 
                             <Popup minWidth={128}>
                                 <div>
                                     [{r.place}]<br />
+                                    {toLocalTime(r.datetime)}<br />
                                     {r.memo}<br />
                                     <img src={thumbnails.get(`id_${r.id}`)} onClick={e => onThumbnailClick(r)} />
                                 </div>
