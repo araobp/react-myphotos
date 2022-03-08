@@ -13,11 +13,10 @@ export type PopUpMapProps = {
 export const PopUpMap: FC<PopUpMapProps> = ({ onPopUpClosed, latlon }) => {
     return (
         <div style={{color: "black"}}>
-            <Modal isOpen={true} className="center">
+            <Modal isOpen={true} className="center" style={{content: {outline: '#888888 solid 3px'}}}>
                 <div>
                     <MapContainer center={[latlon.latitude, latlon.longitude]} zoom={16} scrollWheelZoom={true} style={{
-                        width: "75vw", height: "75vh",
-                        outline: "#888888 solid 3px"
+                        width: "80vw", height: "80vh"
                     }}>
                         <TileLayer
                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
