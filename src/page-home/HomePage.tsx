@@ -15,7 +15,7 @@ import { FileInputComp } from "./FileInput";
 //import { takePicture } from "../api-osc/osc";
 //import { BlobToDataURI } from "../util/convert";
 
-import NoSleep from 'NoSleep';
+import NoSleep from 'nosleep.js'
 
 export const HomePage: FC = () => {
 
