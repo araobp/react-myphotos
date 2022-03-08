@@ -15,8 +15,6 @@ import { FileInputComp } from "./FileInput";
 //import { takePicture } from "../api-osc/osc";
 //import { BlobToDataURI } from "../util/convert";
 
-import NoSleep from 'nosleep.js'
-
 export const HomePage: FC = () => {
 
     const [latlon, setLatLon] = useState<LatLon>({ latitude: 0.0, longitude: 0.0 });
@@ -32,7 +30,6 @@ export const HomePage: FC = () => {
     const [watchId, setWatchId] = useState<number | null>(null);
     const [showProgress, setShowProgress] = useState<boolean>(false);
     const [showReject, setShowReject] = useState<boolean>(false);
-    const [noSleep, setNoSleep] = useState<any>(null);
 
     Modal.setAppElement("#root");
 
@@ -88,12 +85,8 @@ export const HomePage: FC = () => {
         if ('geolocation' in navigator) {
             startWatchingLocation(false);
         }
-        const noSleep = new NoSleep();
-        noSleep.enable();
-
         return () => {
             stopWatchingLocation();
-            noSleep.disable();
         };
     }, []);
 
