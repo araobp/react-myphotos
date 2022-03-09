@@ -52,7 +52,7 @@ export const HomePage: FC = () => {
     }
 
     /*** Geo-location ***********************************************/
-    const startWatchingLocation = (gpsLoggingEnabled: boolean) => {
+    const startWatchingLocation = () => {
         const id = navigator.geolocation.watchPosition(position => {
             const { latitude, longitude } = position.coords;
             setLatLon({ latitude, longitude });
@@ -76,9 +76,17 @@ export const HomePage: FC = () => {
             .catch(e => console.log(e));
     }
 
+    const onHighAccuracyEnabled = (enabled: boolean) => {
+        setHighAccuracy(enabled);
+        stopWatchingLocation();
+        setTimeout(() => {
+            startWatchingLocation();
+        }, 1000);
+    }
+
     useEffect(() => {
         if ('geolocation' in navigator) {
-            startWatchingLocation(false);
+            startWatchingLocation();
         }
         return () => {
             stopWatchingLocation();
@@ -114,14 +122,14 @@ export const HomePage: FC = () => {
                                 <div className="latlon">Latitude: {latlon.latitude.toFixed(6)}, Longitude: {latlon.longitude.toFixed(6)}</div>
                                 <div className="latlon">{address}</div>
                                 <div style={{ display: "flex", alignItems: "center", marginTop: "8px", justifyContent: "center" }}>High accuracy:&nbsp;
-                                    <Switch isChecked={highAccuracy == true} onChange={isChecked => setHighAccuracy(isChecked)} />
+                                    <Switch isChecked={highAccuracy == true} onChange={isChecked => onHighAccuracyEnabled(isChecked)} />
                                 </div>
                             </>
                             || <div className="latlon">Positioning...</div>
                         }
 
                         <hr /> 
-                        
+
                         <RecordForm place={place} setPlace={setPlace} memo={memo} setMemo={setMemo} />
 
                         {/*  Show a captured image */}
