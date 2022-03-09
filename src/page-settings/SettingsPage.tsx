@@ -18,7 +18,6 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
     const [resolution, setResolution] = useState<string>(localStorage.getItem("resolution") || "");
     const [mobileCameraEnabled, setMobileCameraEnabled] = useState<string>(localStorage.getItem("mobileCameraEnabled") || "false");
     const [fileInputEnabled, setFileInputEnabled] = useState<string>(localStorage.getItem("fileInputEnabled") || "false");
-    const [thetaEnabled, setThetaEnabled] = useState<string>(localStorage.getItem("thetaEnabled") || "false");
     const [limit, setLimit] = useState<string>(localStorage.getItem("limit") || "");
     const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
     const [showProgress, setShowProgress] = useState<boolean>(false);
@@ -37,7 +36,6 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
         localStorage.setItem("resolution", resolution);
         localStorage.setItem("mobileCameraEnabled", mobileCameraEnabled);
         localStorage.setItem("fileInputEnabled", fileInputEnabled);
-        localStorage.setItem("thetaEnabled", thetaEnabled);
 
         setTimeout(() => setShowProgress(false), 1000);
         setShowProgress(true);
@@ -57,10 +55,6 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
 
     const onFileInputEnabled = (isChecked: boolean) => {
         isChecked ? setFileInputEnabled("true") : setFileInputEnabled("false");
-    }
-
-    const onThetaEnabled = (isChecked: boolean) => {
-        isChecked ? setThetaEnabled("true") : setThetaEnabled("false");
     }
 
     return (
@@ -134,12 +128,7 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
                             <Switch isChecked={fileInputEnabled == "true"} onChange={isChecked => onFileInputEnabled(isChecked)} />
                         </div>
 
-                        {/*
-                            <br />
-                            <div style={{ display: "flex", alignItems: "center" }}>RICOH Theta:&nbsp;
-                                <Switch isChecked={thetaEnabled == "true"} onChange={isChecked => onThetaEnabled(isChecked)} />
-                            </div>
-                            */}
+                        <hr/>
 
                     </div>
                 }
