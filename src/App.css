@@ -26,6 +26,20 @@
   padding-top: 1rem;
 }
 
+.default-modal {
+  text-align: center;
+  background: var(--default-background);
+  width: 100%;
+  height: calc(100% - var(--margin-navi) - var(--margin-footer));
+  overflow-x: hidden;
+  color: white;
+  margin: 0;
+  padding: 0;
+  font-size: var(--default-font-size);
+  margin-top: var(--margin-navi);
+  margin-bottom: var(--margin-footer);  
+}
+
 .footer {
   position: fixed;
   overflow: hidden;
@@ -139,6 +153,18 @@ button:active {
   color: white;
 }
 
+.tiny-button-record {
+  width: 3.2rem;
+  height: 2.4rem;
+  margin: 8px;
+  border: 2px solid #c8d3ec;
+  padding: 0.2rem;
+  font-size: 0.9rem;
+  border-radius: 5px;
+  background: #5a6783;
+  color: rgb(255, 255, 255);
+}
+
 .row {
   display: flex;
   flex-direction: row;
@@ -201,6 +227,10 @@ button:active {
   background-color: #FF5555;
   margin-left: auto;
   margin-right: auto;
+}
+
+.modal-content {
+  background-color: var(--default-background);
 }
 
 /*** Home page ***/

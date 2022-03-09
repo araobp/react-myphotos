@@ -2,6 +2,7 @@ import { FC, useEffect, useState } from "react";
 import Modal from "react-modal";
 import { apiGetImage } from "../api-myphotos/myphotos";
 import '../App.css';
+import { modalBackgroundStyle } from "./styles";
 
 export type PopUpImageProps = {
     onPopUpClosed: () => void;
@@ -29,7 +30,7 @@ export const PopUpImage: FC<PopUpImageProps> = ({ onPopUpClosed, id}) => {
 
     return (
         <>
-            <Modal isOpen={true} className="center-img">
+            <Modal isOpen={true} className="center-img" style={modalBackgroundStyle}>
                 {imageURL && <img src={imageURL} onClick={() => closePopUp()} style={{ width: "100vw", height: "100vh" }} />}
             </Modal>
         </>

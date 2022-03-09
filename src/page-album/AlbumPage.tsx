@@ -12,6 +12,7 @@ import { toLocalTime } from "../util/convert";
 import { PhotoFooter } from "../components-common/PhotoFooter";
 import { Panorama } from "../panolens/Panorama";
 import { CloseFooter } from "../components-common/CloseFooter";
+import { modalBackgroundStyle } from "../components-common/styles";
 
 export const AlbumPage: FC = () => {
 
@@ -130,7 +131,7 @@ export const AlbumPage: FC = () => {
 
                     {showPanorama && id && <Panorama id={id} />}
 
-                    <Modal isOpen={showInput} className="center">
+                    <Modal isOpen={showInput} className="center" style={modalBackgroundStyle}>
                         <div className="popup">
                             <RecordForm place={place} setPlace={setPlace} memo={memo} setMemo={setMemo} />
                             <div className="row">
@@ -178,8 +179,8 @@ export const AlbumPage: FC = () => {
                                                 <div>Memo: {r.memo}</div>
                                             </div>
                                             <div className="card-map">
-                                                <button className="tiny-button" onClick={e => openMap(r.latitude, r.longitude)}>Map</button>
-                                                <button className="tiny-button" style={{ marginTop: "10px" }} onClick={e => handleOnClick(r)}>Edit</button>
+                                                <button className="tiny-button-record" onClick={e => openMap(r.latitude, r.longitude)}>Map</button>
+                                                <button className="tiny-button-record" style={{ marginTop: "10px" }} onClick={e => handleOnClick(r)}>Edit</button>
                                             </div>
                                         </div>
                                     ))}

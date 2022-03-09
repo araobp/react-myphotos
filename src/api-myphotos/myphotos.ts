@@ -1,5 +1,5 @@
-import { authHeaders, baseURL } from "./myphotosAuth";
-import { GpsLogRequest, GpsLogResponse, PhotoAttribute, RecordResponse } from "./structure";
+import { baseURL } from "./myphotosAuth";
+import { PhotoAttribute, RecordEveryNthResponse, RecordResponse } from "./structure";
 
 import { dataURItoBlob } from "../util/convert";
 import { RecordRequest, LatLon } from "./structure";
@@ -160,5 +160,21 @@ export const apiGetRecordCount = async (): Promise<number> => {
         throw new Error(INTERNAL_ERROR);
     }
 }
+
+export const apiGetRecordsEveryNth = async (limit: number): Promise<Array<RecordEveryNthResponse>> => {
+    const headers = makeHeaders({ 'Accept': 'application/json' });
+    try {
+        const res = await fetch(`${baseURL}/management/record/everynth?limit=${limit}`, { method: "GET", headers: headers });
+        if (res.status == 200) {
+            const records = await res.json();
+            return records;
+        } else {
+            throw new Error('GET records every nth failed');
+        }
+    } catch (e) {
+        throw new Error('get records every nth failed');
+    }
+}
+
 
 

@@ -22,6 +22,12 @@ export type RecordResponse = {
     address: string;
 }
 
+export type RecordEveryNthResponse = {
+    id: number;
+    datetime: string;
+    place: string;
+}
+
 export type Id = {
     id: number
 }

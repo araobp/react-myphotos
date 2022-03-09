@@ -4,6 +4,7 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 //import "leaflet/dist/leaflet.css";
 
 import { LatLon } from "../api-myphotos/structure";
+import { modalBackgroundStyle, modalMapStyle } from "./styles";
 
 export type PopUpMapProps = {
     onPopUpClosed: () => void;
@@ -13,7 +14,7 @@ export type PopUpMapProps = {
 export const PopUpMap: FC<PopUpMapProps> = ({ onPopUpClosed, latlon }) => {
     return (
         <div style={{color: "black"}}>
-            <Modal isOpen={true} className="center" style={{content: {outline: '#888888 solid 3px'}}}>
+            <Modal isOpen={true} className="center" style={modalMapStyle}>
                 <div>
                     <MapContainer center={[latlon.latitude, latlon.longitude]} zoom={16} scrollWheelZoom={true} style={{
                         width: "80vw", height: "80vh"
