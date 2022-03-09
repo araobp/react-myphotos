@@ -46,7 +46,7 @@ export const PhotoFooter: FC<PhotoFooterProps> = ({ count, offset, setOffset }) 
                     {index.map((r, idx) => (
                         <div key={r.id} className="card">
                             <div style={{ width: "8%", color: "purple" }}>
-                                {idx}
+                                {idx + 1}
                             </div>
                             <div className="card-text">
                                 <div>Date: {toLocalTime(r.datetime)}</div>
