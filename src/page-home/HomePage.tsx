@@ -12,14 +12,12 @@ import { apiGetAddressByLocation } from "../api-nominatim/nominatim";
 import { FILE_INPUT_ENABLED, MOBILE_CAMERA_ENABLED, WEBCAM_EABLED } from "../util/constants";
 import { MobileCameraComp } from "./MobileCameraComp";
 import { FileInputComp } from "./FileInput";
-import { Switch } from "../components-common/Switch";
 
 export const HomePage: FC = () => {
 
     const [latlon, setLatLon] = useState<LatLon>({ latitude: 0.0, longitude: 0.0 });
     const [picLatlon, setPicLatlon] = useState<LatLon>({ latitude: 0.0, longitude: 0.0 });
     const [address, setAddress] = useState<string>("");
-    const [highAccuracy, setHighAccuracy] = useState<boolean>(false);
     const [picAddress, setPicAddress] = useState<string>("");
     const [place, setPlace] = useState<string>(localStorage.getItem("place") || "");
     const [memo, setMemo] = useState<string>(localStorage.getItem("memo") || "");
@@ -60,7 +58,7 @@ export const HomePage: FC = () => {
         },
             () => { console.log('Watching geolocation failed') },
             {
-                enableHighAccuracy: highAccuracy
+                enableHighAccuracy: true
             }
         );
         setWatchId(id);
@@ -74,14 +72,6 @@ export const HomePage: FC = () => {
         apiGetAddressByLocation(latitude, longitude)
             .then(address => setAddress(address))
             .catch(e => console.log(e));
-    }
-
-    const onHighAccuracyEnabled = (enabled: boolean) => {
-        setHighAccuracy(enabled);
-        stopWatchingLocation();
-        setTimeout(() => {
-            startWatchingLocation();
-        }, 1000);
     }
 
     useEffect(() => {
@@ -121,9 +111,6 @@ export const HomePage: FC = () => {
                             <>
                                 <div className="latlon">Latitude: {latlon.latitude.toFixed(6)}, Longitude: {latlon.longitude.toFixed(6)}</div>
                                 <div className="latlon">{address}</div>
-                                <div style={{ display: "flex", alignItems: "center", marginTop: "8px", justifyContent: "center" }}>High accuracy:&nbsp;
-                                    <Switch isChecked={highAccuracy == true} onChange={isChecked => onHighAccuracyEnabled(isChecked)} />
-                                </div>
                             </>
                             || <div className="latlon">Positioning...</div>
                         }
