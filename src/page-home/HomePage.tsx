@@ -17,6 +17,7 @@ export const HomePage: FC = () => {
 
     const [latlon, setLatLon] = useState<LatLon>({ latitude: 0.0, longitude: 0.0 });
     const [picLatlon, setPicLatlon] = useState<LatLon>({ latitude: 0.0, longitude: 0.0 });
+    const [heading, setHeading] = useState<number|null>(null);
     const [address, setAddress] = useState<string>("");
     const [picAddress, setPicAddress] = useState<string>("");
     const [place, setPlace] = useState<string>(localStorage.getItem("place") || "");
@@ -53,9 +54,17 @@ export const HomePage: FC = () => {
     const startWatchingLocation = (gpsLoggingEnabled: boolean) => {
         const id = navigator.geolocation.watchPosition(position => {
             const { latitude, longitude } = position.coords;
+            setHeading(position.coords.heading);
             setLatLon({ latitude, longitude });
             lookUpAddressByLocation(latitude, longitude);
-        });
+            },
+            () => {console.log('Watching geolocation failed')},
+            {
+                enableHighAccuracy: true,
+                maximumAge: 30000,
+                timeout: 27000
+            }
+        );
         setWatchId(id);
     };
 
@@ -105,6 +114,7 @@ export const HomePage: FC = () => {
                         {(latlon.latitude !== 0) && (latlon.longitude !== 0) &&
                             <>
                                 <div className="latlon">Latitude: {latlon.latitude.toFixed(6)}, Longitude: {latlon.longitude.toFixed(6)}</div>
+                                {heading && <div className="latlon">Heading: {heading}</div>}
                                 <div className="latlon">{address}</div>
                             </>
                             || <div className="latlon">Positioning...</div>
