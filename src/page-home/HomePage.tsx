@@ -11,7 +11,7 @@ import { apiPostRecord } from "../api-myphotos/myphotos";
 import { apiGetAddressByLocation } from "../api-nominatim/nominatim";
 import { FILE_INPUT_ENABLED, MOBILE_CAMERA_ENABLED, WEBCAM_EABLED } from "../util/constants";
 import { MobileCameraComp } from "./MobileCameraComp";
-import { FileInputComp } from "./FileInput";
+import { FileInputComp } from "./FileInputComp";
 
 export const HomePage: FC = () => {
 

@@ -1,8 +1,7 @@
 import React, { useState, FC } from "react";
-import { isCallChain } from "typescript";
 import '../App.css';
-import { PopUpMessage } from "../components-common/PopUpMessage";
 
+import { PopUpMessage } from "../components-common/PopUpMessage";
 import { Switch } from "../components-common/Switch";
 
 type SettingsPageProps = {
@@ -106,9 +105,11 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
                             per page
                         </label>
 
-                        <div style={{ display: "flex", alignItems: "center", marginTop: "8px" }}>WebCam:&nbsp;
-                            <Switch isChecked={webcamEnabled == "true"} onChange={isChecked => onWebcamEnabled(isChecked)} />
-                        </div>
+                        <Switch
+                            isChecked={webcamEnabled == "true"}
+                            label="WebCam:"
+                            onChange={isChecked => onWebcamEnabled(isChecked)}
+                        />
 
                         <label>Resolution:
                             <input
@@ -120,15 +121,19 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
                             />
                         </label>
 
-                        <div style={{ display: "flex", alignItems: "center", marginTop: "8px" }}>Camera:&nbsp;
-                            <Switch isChecked={mobileCameraEnabled == "true"} onChange={isChecked => onMobileCameraEnabled(isChecked)} />
-                        </div>
+                        <Switch
+                            isChecked={mobileCameraEnabled == "true"}
+                            label="Camera:"
+                            onChange={isChecked => onMobileCameraEnabled(isChecked)}
+                        />
 
-                        <div style={{ display: "flex", alignItems: "center", marginTop: "8px" }}>File:&nbsp;
-                            <Switch isChecked={fileInputEnabled == "true"} onChange={isChecked => onFileInputEnabled(isChecked)} />
-                        </div>
+                        <Switch
+                            isChecked={fileInputEnabled == "true"}
+                            label="File:"
+                            onChange={isChecked => onFileInputEnabled(isChecked)}
+                        />
 
-                        <hr/>
+                        <hr />
 
                     </div>
                 }
