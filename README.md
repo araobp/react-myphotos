@@ -3,7 +3,7 @@
 This project is a master project of my "learning by doing" projects on web app:
 
 - React (TypeScript): SPA and PWA
-- Spring Boot (Java): REST API server with Postgres SQL
+- Spring Boot (Java): REST API server with PostgreSQL
 
 ## SPA and PWA
 
@@ -22,7 +22,7 @@ Heroku PaaS builds and deploys these projects automatically at every commit to G
 
 ```
  react-myphotos                         spring-myphotos
-[React web page] --- REST API --- [Spring MVC]--[Spring Data]--Postgres SQL
+[React web page] --- REST API --- [Spring MVC]--[Spring Data]--PostgreSQL
 - - - - - - - - -                  - - - - - - - - - - - - - - - - - - - -
 Static web server                           REST API service
 hosted by Heroku                            hosted by Heroku
