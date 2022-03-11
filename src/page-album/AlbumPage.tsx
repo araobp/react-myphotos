@@ -173,7 +173,7 @@ export const AlbumPage: FC = () => {
                                             <input className="card-checkbox" type="checkbox" defaultChecked={r.id && (checkedRecords.indexOf(r.id) == -1) ? false : true} onChange={(e) => handleCheckedRecord(r.id, e.target.checked)} />
                                             <img className="card-img" src={thumbnails.get(`id_${r.id}`)} onClick={() => openPhotoViewer(r.id)} />
                                             <div className="card-text">
-                                                <div>Date: {toLocalTime(r.datetime)}</div>
+                                                <div>Date: {toLocalTime(r.timestamp)}</div>
                                                 <div>Address: {r.address}</div>
                                                 <div>Place: {r.place}</div>
                                                 <div>Memo: {r.memo}</div>

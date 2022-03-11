@@ -14,7 +14,7 @@ export type RecordRequest = {
 
 export type RecordResponse = {
     id: number;
-    datetime: string;
+    timestamp: string;
     place: string;
     memo: string;
     latitude: number;
@@ -24,7 +24,7 @@ export type RecordResponse = {
 
 export type RecordEveryNthResponse = {
     id: number;
-    datetime: string;
+    timestamp: string;
     place: string;
 }
 

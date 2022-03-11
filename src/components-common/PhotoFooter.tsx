@@ -49,7 +49,7 @@ export const PhotoFooter: FC<PhotoFooterProps> = ({ count, offset, setOffset }) 
                                 {idx + 1}
                             </div>
                             <div className="card-text">
-                                <div>Date: {toLocalTime(r.datetime)}</div>
+                                <div>Date: {toLocalTime(r.timestamp)}</div>
                                 <div>Place: {r.place}</div>
                             </div>
                             <div className="card-map">

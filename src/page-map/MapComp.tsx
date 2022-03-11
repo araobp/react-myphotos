@@ -84,7 +84,7 @@ export const MapComp: FC<MapCompProps> = ({ records, thumbnails, count, offset, 
                             <Popup minWidth={128}>
                                 <div>
                                     [{r.place}]<br />
-                                    {toLocalTime(r.datetime)}<br />
+                                    {toLocalTime(r.timestamp)}<br />
                                     {r.memo}<br />
                                     <img src={thumbnails.get(`id_${r.id}`)} onClick={e => onThumbnailClick(r)} />
                                 </div>
