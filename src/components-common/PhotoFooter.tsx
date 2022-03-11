@@ -1,10 +1,10 @@
 import { FC, useEffect, useState } from "react";
-import { LIMIT } from "../util/constants";
+import { LIMIT, ORDER_BY_DISTANCE } from "../util/constants";
 import Modal from "react-modal";
 import '../App.css';
 import { modalStyle } from "./styles";
-import { apiGetRecordsEveryNth } from "../api-myphotos/myphotos";
-import { RecordEveryNthResponse } from "../api-myphotos/structure";
+import { apiGetRecordsEveryNth, apiGetRecordsEveryNthOrderByDistance } from "../api-myphotos/myphotos";
+import { LatLon, RecordEveryNthResponse } from "../api-myphotos/structure";
 import { toLocalTime } from "../util/convert";
 
 const backward = (offset: number) => (offset >= LIMIT) ? offset - LIMIT : offset;
@@ -12,19 +12,32 @@ const backward = (offset: number) => (offset >= LIMIT) ? offset - LIMIT : offset
 const forward = (offset: number, count: number) => ((offset + LIMIT) >= count) ? offset : offset + LIMIT;
 
 export type PhotoFooterProps = {
+    latlon: LatLon | null
     count: number;
     offset: number;
     setOffset: (offset: number) => void;
 }
 
-export const PhotoFooter: FC<PhotoFooterProps> = ({ count, offset, setOffset }) => {
+export const PhotoFooter: FC<PhotoFooterProps> = ({ latlon, count, offset, setOffset }) => {
 
     const [showIndex, setShowIndex] = useState<boolean>(false);
     const [index, setIndex] = useState<Array<RecordEveryNthResponse>>([]);
 
     const getIndex = () => {
-        apiGetRecordsEveryNth(LIMIT)
-            .then(index => setIndex(index));
+        if (latlon == null) {
+            apiGetRecordsEveryNth(LIMIT)
+                .then(index => setIndex(index));
+        } else {
+            apiGetRecordsEveryNthOrderByDistance(latlon.latitude, latlon.longitude, LIMIT)
+                .then(index => setIndex(index));
+        }
+    }
+
+    const onShowIndex = () => {
+        if (latlon != null) {
+            getIndex();
+        }
+        setShowIndex(true);
     }
 
     const jump = (idx: number) => {
@@ -33,7 +46,9 @@ export const PhotoFooter: FC<PhotoFooterProps> = ({ count, offset, setOffset }) 
     }
 
     useEffect(() => {
-        getIndex();
+        if (!ORDER_BY_DISTANCE) {
+            getIndex();
+        }
     }, []);
 
     return (
@@ -65,7 +80,7 @@ export const PhotoFooter: FC<PhotoFooterProps> = ({ count, offset, setOffset }) 
 
             <div className="footer">
                 <button className="tiny-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={e => setOffset(backward(offset))}>&lt;</button>
-                <button className="small-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={e => setShowIndex(true)}>
+                <button className="small-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={e => onShowIndex()}>
                     {Math.floor(offset / LIMIT) + 1}/{Math.floor((count + LIMIT - 1) / LIMIT)}
                 </button>
                 <button className="tiny-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={e => setOffset(forward(offset, count))}>&gt;</button>

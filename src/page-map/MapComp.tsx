@@ -1,10 +1,10 @@
 import { LatLngExpression } from "leaflet";
 import { FC, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import { RecordResponse } from "../api-myphotos/structure";
+import { LatLon, RecordResponse } from "../api-myphotos/structure";
 import { PopUpImage } from "../components-common/PopUpImage";
 import { useMap } from "react-leaflet";
-import { DEFAULT_LOCATION } from "../util/constants";
+import { DEFAULT_LOCATION, ORDER_BY_DISTANCE } from "../util/constants";
 import { PhotoFooter } from "../components-common/PhotoFooter";
 import { apiGetPhotoAttribute } from "../api-myphotos/myphotos";
 import { CloseFooter } from "../components-common/CloseFooter";
@@ -18,9 +18,10 @@ type MapCompProps = {
     offset: number;
     setOffset: (offset: number) => void;
     zoom: number;
+    latlon: LatLon | null;
 }
 
-export const MapComp: FC<MapCompProps> = ({ records, thumbnails, count, offset, setOffset, zoom }) => {
+export const MapComp: FC<MapCompProps> = ({ records, thumbnails, latlon, count, offset, setOffset, zoom }) => {
 
     const [id, setId] = useState<number | null>(null);
     const [showImage, setShowImage] = useState<boolean>(false);
@@ -47,7 +48,6 @@ export const MapComp: FC<MapCompProps> = ({ records, thumbnails, count, offset, 
                 setShowImage(true);
             });
     }
-
 
     const MapRefresh = () => {
         const map = useMap();
@@ -94,7 +94,7 @@ export const MapComp: FC<MapCompProps> = ({ records, thumbnails, count, offset, 
                 </MapContainer>
             }
 
-            {!showPanorama && <PhotoFooter count={count} offset={offset} setOffset={setOffset} />}
+            {!showPanorama && <PhotoFooter latlon={latlon} count={count} offset={offset} setOffset={setOffset} />}
             {showPanorama && <CloseFooter onClose={onClosePanorama} />}
         </div>
     );

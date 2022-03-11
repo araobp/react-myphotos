@@ -78,6 +78,21 @@ export const apiGetRecords = async (limit: number, offset: number): Promise<Arra
     }
 }
 
+export const apiGetRecordsOrderByDistance = async (latitude: number, longitude: number, limit: number, offset: number): Promise<Array<RecordResponse>> => {
+    const headers = makeHeaders({ 'Accept': 'application/json' });
+    try {
+        const res = await fetch(`${baseURL}/record?latitude=${latitude}&longitude=${longitude}&limit=${limit}&offset=${offset}`, { method: "GET", headers: headers });
+        if (res.status == 200) {
+            const records = await res.json();
+            return records;
+        } else {
+            throw new Error('GET records failed');
+        }
+    } catch (e) {
+        throw new Error('get records failed');
+    }
+}
+
 export const apiGetPhotoAttribute = async (id: number): Promise<PhotoAttribute> => {
     try {
         const res = await fetch(`${baseURL}/photo/${id}/attribute`, { method: "GET", headers: ACCEPT_APPLICATION_JSON });
@@ -176,5 +191,19 @@ export const apiGetRecordsEveryNth = async (limit: number): Promise<Array<Record
     }
 }
 
+export const apiGetRecordsEveryNthOrderByDistance = async (latitude: number, longitude: number, limit: number): Promise<Array<RecordEveryNthResponse>> => {
+    const headers = makeHeaders({ 'Accept': 'application/json' });
+    try {
+        const res = await fetch(`${baseURL}/management/record/everynth?latitude=${latitude}&longitude=${longitude}&limit=${limit}`, { method: "GET", headers: headers });
+        if (res.status == 200) {
+            const records = await res.json();
+            return records;
+        } else {
+            throw new Error('GET records every nth failed');
+        }
+    } catch (e) {
+        throw new Error('get records every nth failed');
+    }
+}
 
 

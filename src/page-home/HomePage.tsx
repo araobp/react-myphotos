@@ -1,4 +1,4 @@
-import { useState, useEffect, FC } from "react";
+import { useState, FC } from "react";
 import '../App.css';
 import Modal from "react-modal";
 
@@ -8,24 +8,22 @@ import { WebcamComp } from './WebcamComp';
 import { PopUpMap } from '../components-common/PopUpMap';
 import { PopUpMessage } from "../components-common/PopUpMessage";
 import { apiPostRecord } from "../api-myphotos/myphotos";
-import { apiGetAddressByLocation } from "../api-nominatim/nominatim";
 import { FILE_INPUT_ENABLED, MOBILE_CAMERA_ENABLED, WEBCAM_EABLED } from "../util/constants";
 import { MobileCameraComp } from "./MobileCameraComp";
 import { FileInputComp } from "./FileInputComp";
+import { useGPS } from "../hooks-common/GPS";
 
 export const HomePage: FC = () => {
 
-    const [latlon, setLatLon] = useState<LatLon>({ latitude: 0.0, longitude: 0.0 });
     const [picLatlon, setPicLatlon] = useState<LatLon>({ latitude: 0.0, longitude: 0.0 });
-    const [address, setAddress] = useState<string>("");
     const [picAddress, setPicAddress] = useState<string>("");
+    const { latlon, address } = useGPS(true);
     const [place, setPlace] = useState<string>(localStorage.getItem("place") || "");
     const [memo, setMemo] = useState<string>(localStorage.getItem("memo") || "");
     const [launchMobileCamera, setLaunchMobileCamera] = useState<boolean>(false);
     const [launchWebcam, setLaunchWebcam] = useState<boolean>(false);
     const [imageURL, setImageURL] = useState<string | null>(null);
     const [showMap, setShowMap] = useState<boolean>(false);
-    const [watchId, setWatchId] = useState<number | null>(null);
     const [showProgress, setShowProgress] = useState<boolean>(false);
     const [showReject, setShowReject] = useState<boolean>(false);
 
@@ -40,48 +38,22 @@ export const HomePage: FC = () => {
     }
 
     const onPicTaken = (imageURL: string | null) => {
-        setPicLatlon(latlon);
-        setPicAddress(address);
+        if (latlon == null) {
+            setPicLatlon({ latitude: 0.0, longitude: 0.0 });
+        } else {
+            setPicLatlon(latlon);
+        }
+        if (address == null) {
+            setPicAddress("<unknown>")
+        } else {
+            setPicAddress(address);
+        }
         if (imageURL) {
             setImageURL(imageURL);
         }
         setLaunchWebcam(false);
         setLaunchMobileCamera(false);
     }
-
-    /*** Geo-location ***********************************************/
-    const startWatchingLocation = () => {
-        const id = navigator.geolocation.watchPosition(position => {
-            const { latitude, longitude } = position.coords;
-            setLatLon({ latitude, longitude });
-            lookUpAddressByLocation(latitude, longitude);
-        },
-            () => { console.log('Watching geolocation failed') },
-            {
-                enableHighAccuracy: true
-            }
-        );
-        setWatchId(id);
-    };
-
-    const stopWatchingLocation = () => {
-        watchId && navigator.geolocation.clearWatch(watchId);
-    };
-
-    const lookUpAddressByLocation = (latitude: number, longitude: number) => {
-        apiGetAddressByLocation(latitude, longitude)
-            .then(address => setAddress(address))
-            .catch(e => console.log(e));
-    }
-
-    useEffect(() => {
-        if ('geolocation' in navigator) {
-            startWatchingLocation();
-        }
-        return () => {
-            stopWatchingLocation();
-        };
-    }, []);
 
     /*** Upload a record ****************************************/
     const postRecord = async () => {
@@ -107,15 +79,15 @@ export const HomePage: FC = () => {
             {!launchWebcam &&
                 <>
                     <div className="default" style={{ padding: "1vw" }}>
-                        {(latlon.latitude !== 0) && (latlon.longitude !== 0) &&
+                        {(latlon?.latitude !== 0) && (latlon?.longitude !== 0) &&
                             <>
-                                <div className="latlon">Latitude: {latlon.latitude.toFixed(6)}, Longitude: {latlon.longitude.toFixed(6)}</div>
+                                <div className="latlon">Latitude: {latlon?.latitude.toFixed(6)}, Longitude: {latlon?.longitude.toFixed(6)}</div>
                                 <div className="latlon">{address}</div>
                             </>
                             || <div className="latlon">Positioning...</div>
                         }
 
-                        <hr /> 
+                        <hr />
 
                         <RecordForm place={place} setPlace={setPlace} memo={memo} setMemo={setMemo} />
 
@@ -156,7 +128,7 @@ export const HomePage: FC = () => {
 
             {launchWebcam && <WebcamComp onPicTaken={onPicTaken} />}
 
-            {showMap && <PopUpMap onPopUpClosed={() => setShowMap(false)} latlon={latlon} />}
+            {latlon && showMap && <PopUpMap onPopUpClosed={() => setShowMap(false)} latlon={latlon} />}
 
             {showProgress && <PopUpMessage message={'Uploading the record to the cloud...'} />}
 

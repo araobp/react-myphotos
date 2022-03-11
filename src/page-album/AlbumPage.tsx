@@ -6,13 +6,14 @@ import { PopUpConfirm } from "../components-common/PopUpMessage";
 import { PopUpMap } from "../components-common/PopUpMap";
 import { PopUpImage } from "../components-common/PopUpImage";
 import { RecordForm } from "../components-common/RecordForm";
-import { LIMIT } from "../util/constants";
-import { apiGetRecords, apiGetThumbnails, apiPutRecord, apiDeleteRecords, apiGetRecordCount, apiGetImage, apiGetPhotoAttribute } from "../api-myphotos/myphotos";
+import { LIMIT, ORDER_BY_DISTANCE } from "../util/constants";
+import { apiGetRecords, apiGetThumbnails, apiPutRecord, apiDeleteRecords, apiGetRecordCount, apiGetImage, apiGetPhotoAttribute, apiGetRecordsOrderByDistance } from "../api-myphotos/myphotos";
 import { toLocalTime } from "../util/convert";
 import { PhotoFooter } from "../components-common/PhotoFooter";
 import { Panorama } from "../panolens/Panorama";
 import { CloseFooter } from "../components-common/CloseFooter";
 import { modalBackgroundStyle } from "../components-common/styles";
+import { useGPS } from "../hooks-common/GPS";
 
 export const AlbumPage: FC = () => {
 
@@ -28,6 +29,7 @@ export const AlbumPage: FC = () => {
     const [place, setPlace] = useState<string>("");
     const [memo, setMemo] = useState<string>("");
     const [id, setId] = useState<number | null>(null);
+    const { latlon, isWatching } = useGPS(ORDER_BY_DISTANCE);
 
     const [offset, setOffset] = useState<number>(0);
     const [count, setCount] = useState<number>(0);
@@ -83,7 +85,11 @@ export const AlbumPage: FC = () => {
         apiGetRecordCount()
             .then(cnt => {
                 setCount(cnt);
-                return apiGetRecords(LIMIT, offset)
+                if (latlon == null) {
+                    return apiGetRecords(LIMIT, offset)
+                } else {
+                    return apiGetRecordsOrderByDistance(latlon.latitude, latlon.longitude, LIMIT, offset)
+                }
             })
             .then(r => {
                 setRecords(r);
@@ -97,11 +103,20 @@ export const AlbumPage: FC = () => {
 
     // Initialization
     useEffect(() => {
-        updateRecordTable();
+        if (!ORDER_BY_DISTANCE) {
+            updateRecordTable();
+        }
     }, []);
 
     useEffect(() => {
-        updateRecordTable();
+        if (isWatching) {
+            updateRecordTable();
+        }
+    }, [isWatching]);
+
+    useEffect(() => {
+        if (!ORDER_BY_DISTANCE || (ORDER_BY_DISTANCE && isWatching))
+            updateRecordTable();
     }, [offset]);
 
     /*** Edit ***/
@@ -176,6 +191,7 @@ export const AlbumPage: FC = () => {
                                                 <div>Date: {toLocalTime(r.timestamp)}</div>
                                                 <div>Address: {r.address}</div>
                                                 <div>Place: {r.place}</div>
+                                                {r.distance && <div>Distance: {r.distance.toFixed(2)} km</div>}
                                                 <div>Memo: {r.memo}</div>
                                             </div>
                                             <div className="card-map">
@@ -189,7 +205,7 @@ export const AlbumPage: FC = () => {
                     }
                 </div>
 
-                {!showPanorama && <PhotoFooter count={count} offset={offset} setOffset={setOffset} />}
+                {!showPanorama && <PhotoFooter latlon={latlon} count={count} offset={offset} setOffset={setOffset} />}
                 {showPanorama && <CloseFooter onClose={onClosePanorama} />}
             </div>
         </>

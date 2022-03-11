@@ -17,6 +17,7 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
     const [resolution, setResolution] = useState<string>(localStorage.getItem("resolution") || "");
     const [mobileCameraEnabled, setMobileCameraEnabled] = useState<string>(localStorage.getItem("mobileCameraEnabled") || "false");
     const [fileInputEnabled, setFileInputEnabled] = useState<string>(localStorage.getItem("fileInputEnabled") || "false");
+    const [orderByDistance, setOrderByDistance] = useState<string>(localStorage.getItem("orderByDistance") || "false");
     const [limit, setLimit] = useState<string>(localStorage.getItem("limit") || "");
     const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
     const [showProgress, setShowProgress] = useState<boolean>(false);
@@ -35,6 +36,7 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
         localStorage.setItem("resolution", resolution);
         localStorage.setItem("mobileCameraEnabled", mobileCameraEnabled);
         localStorage.setItem("fileInputEnabled", fileInputEnabled);
+        localStorage.setItem("orderByDistance", orderByDistance);
 
         setTimeout(() => setShowProgress(false), 1000);
         setShowProgress(true);
@@ -45,15 +47,19 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
     }
 
     const onWebcamEnabled = (isChecked: boolean) => {
-        isChecked ? setWebcamEnabled("true") : setWebcamEnabled("false");
+        setWebcamEnabled(isChecked.toString());
     }
 
     const onMobileCameraEnabled = (isChecked: boolean) => {
-        isChecked ? setMobileCameraEnabled("true") : setMobileCameraEnabled("false");
+        setMobileCameraEnabled(isChecked.toString());
     }
 
     const onFileInputEnabled = (isChecked: boolean) => {
-        isChecked ? setFileInputEnabled("true") : setFileInputEnabled("false");
+        setFileInputEnabled(isChecked.toString());
+    }
+
+    const onOrderByDistanceEnabled = (isChecked: boolean) => {
+        setOrderByDistance(isChecked.toString());
     }
 
     return (
@@ -83,7 +89,7 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
                         <hr />
 
                         <div>
-                            <label>baseURL:
+                            <label>BaseURL:
                                 <input
                                     style={{ width: "28rem" }}
                                     type="text"
@@ -134,6 +140,12 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
                         />
 
                         <hr />
+
+                        <Switch
+                            isChecked={orderByDistance == "true"}
+                            label="OrderByDistance:"
+                            onChange={isChecked => onOrderByDistanceEnabled(isChecked)}
+                        />
 
                     </div>
                 }

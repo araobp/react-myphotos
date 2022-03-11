@@ -16,6 +16,4 @@ export const MOBILE_CAMERA_ENABLED = (localStorage.getItem("mobileCameraEnabled"
 
 export const FILE_INPUT_ENABLED = (localStorage.getItem("fileInputEnabled") == "true") ? true : false;
 
-/*
-export const THETA_ENABLED = (localStorage.getItem("thetaEnabled") == "true") ? true : false;
-*/
+export const ORDER_BY_DISTANCE = (localStorage.getItem("orderByDistance") == "true") ? true : false;

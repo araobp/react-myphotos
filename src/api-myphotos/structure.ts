@@ -20,12 +20,14 @@ export type RecordResponse = {
     latitude: number;
     longitude: number;
     address: string;
+    distance: number;
 }
 
 export type RecordEveryNthResponse = {
     id: number;
     timestamp: string;
     place: string;
+    distance: number;
 }
 
 export type Id = {
