@@ -10,6 +10,7 @@ import { apiGetPhotoAttribute } from "../api-myphotos/myphotos";
 import { CloseFooter } from "../components-common/CloseFooter";
 import { Panorama } from "../panolens/Panorama";
 import { toLocalTime } from "../util/convert";
+import { greenIcon } from "../components-common/icons";
 
 type MapCompProps = {
     records: Array<RecordResponse>;
@@ -91,6 +92,13 @@ export const MapComp: FC<MapCompProps> = ({ records, thumbnails, latlon, count, 
                             </Popup>
                         </Marker>
                     ))}
+                    {latlon &&
+                        <Marker position={[latlon.latitude, latlon.longitude]} icon={greenIcon}>
+                            <Popup>
+                                {latlon.latitude}, {latlon.longitude}
+                            </Popup>
+                        </Marker>
+                    }
                 </MapContainer>
             }
 

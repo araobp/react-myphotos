@@ -128,7 +128,7 @@ export const HomePage: FC = () => {
 
             {launchWebcam && <WebcamComp onPicTaken={onPicTaken} />}
 
-            {latlon && showMap && <PopUpMap onPopUpClosed={() => setShowMap(false)} latlon={latlon} />}
+            {latlon && showMap && <PopUpMap onPopUpClosed={() => setShowMap(false)} latlon={latlon} isHome={true} />}
 
             {showProgress && <PopUpMessage message={'Uploading the record to the cloud...'} />}
 
