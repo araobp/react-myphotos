@@ -65,6 +65,7 @@ export const PhotoFooter: FC<PhotoFooterProps> = ({ latlon, count, offset, setOf
                             </div>
                             <div className="card-text">
                                 <div>Date: {toLocalTime(r.timestamp)}</div>
+                                {r.distance && <div>Date: {r.distance.toFixed(2)} km</div>}
                                 <div>Place: {r.place}</div>
                             </div>
                             <div className="card-map">
