@@ -32,9 +32,10 @@ export const apiPostRecord = async (place: string, memo: string, latlon: LatLon,
                 'Content-Type': 'application/octet-stream'
             }
         );
+        const blob = await dataURItoBlob(dataURI);
         const res2 = await fetch(
             `${baseURL}/photo/${id}`,
-            { method: "POST", headers: headers2, body: dataURItoBlob(dataURI) }
+            { method: "POST", headers: headers2, body: blob }
         )
         if (res2.status == 200) {
             return null;
