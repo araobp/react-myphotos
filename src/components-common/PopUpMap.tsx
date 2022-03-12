@@ -6,6 +6,7 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import { LatLon } from "../api-myphotos/structure";
 import { modalMapStyle } from "./styles";
 import { greenIcon } from "../util-leaflet/icons";
+import { Tiles } from "../util-leaflet/tiles";
 
 export type PopUpMapProps = {
     onPopUpClosed: () => void;
@@ -22,10 +23,7 @@ export const PopUpMap: FC<PopUpMapProps> = ({ onPopUpClosed, latlon, isHome = fa
                     <MapContainer center={[latlon.latitude, latlon.longitude]} zoom={16} scrollWheelZoom={true} style={{
                         width: "80vw", height: "80vh"
                     }}>
-                        <TileLayer
-                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        />
+                        <Tiles />
                         {isHome &&
                             <Marker position={[latlon.latitude, latlon.longitude]} icon={greenIcon} >
                                 <Popup>
