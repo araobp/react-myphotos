@@ -10,7 +10,8 @@ import { apiGetPhotoAttribute } from "../api-myphotos/myphotos";
 import { CloseFooter } from "../components-common/CloseFooter";
 import { Panorama } from "../panolens/Panorama";
 import { toLocalTime } from "../util/convert";
-import { greenIcon } from "../components-common/icons";
+import { greenIcon } from "../util-leaflet/icons";
+import { Tiles } from "../util-leaflet/tiles";
 
 type MapCompProps = {
     records: Array<RecordResponse>;
@@ -77,6 +78,8 @@ export const MapComp: FC<MapCompProps> = ({ records, thumbnails, latlon, count, 
             {!showPanorama &&
                 <MapContainer center={DEFAULT_LOCATION} zoom={zoom} scrollWheelZoom={true} tap={false} id="react-leaflet">
                     <MapRefresh />
+                    <Tiles />
+                    {/*
                     <TileLayer
                         // attribution='&copy; <a href="https://maps.gsi.go.jp/development/ichiran.html">国土地理院</a>'
                         // url="https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png"
@@ -85,13 +88,14 @@ export const MapComp: FC<MapCompProps> = ({ records, thumbnails, latlon, count, 
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
+                    */}
                     {records.map((r, _) => (
                         <Marker key={r.id} position={[r.latitude, r.longitude]} >
                             <Popup minWidth={128}>
                                 <div>
                                     [{r.place}]<br />
                                     {toLocalTime(r.timestamp)}<br />
-                                    {r.distance && <>{r.distance.toFixed(2)} km<br /></> }
+                                    {r.distance && <>{r.distance.toFixed(2)} km<br /></>}
                                     {r.memo}<br />
                                     <img src={thumbnails.get(`id_${r.id}`)} onClick={e => onThumbnailClick(r)} />
                                 </div>

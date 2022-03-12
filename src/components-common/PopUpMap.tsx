@@ -5,7 +5,7 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 
 import { LatLon } from "../api-myphotos/structure";
 import { modalMapStyle } from "./styles";
-import { greenIcon } from "./icons";
+import { greenIcon } from "../util-leaflet/icons";
 
 export type PopUpMapProps = {
     onPopUpClosed: () => void;
