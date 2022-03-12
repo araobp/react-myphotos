@@ -1,5 +1,5 @@
 import { LatLngExpression } from "leaflet";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { LatLon, RecordResponse } from "../api-myphotos/structure";
 import { PopUpImage } from "../components-common/PopUpImage";
@@ -54,8 +54,7 @@ export const MapComp: FC<MapCompProps> = ({ records, thumbnails, latlon, count, 
         const map = useMap();
         if (currentCenter) {
             map.flyTo(currentCenter)
-        } else if (records.length > 0) {
-            map.flyTo([records[0].latitude, records[0].longitude]);
+            setCurrentCenter(null);
         }
         return null;
     }
@@ -63,6 +62,12 @@ export const MapComp: FC<MapCompProps> = ({ records, thumbnails, latlon, count, 
     const onClosePanorama = () => {
         setShowPanorama(false);
     }
+
+    useEffect(() => {
+        if (records && records.length > 0) {
+            setCurrentCenter([records[0].latitude, records[0].longitude]);
+        }
+    }, [records])
 
     return (
         <div style={{ overflow: "hidden" }}>
@@ -86,6 +91,7 @@ export const MapComp: FC<MapCompProps> = ({ records, thumbnails, latlon, count, 
                                 <div>
                                     [{r.place}]<br />
                                     {toLocalTime(r.timestamp)}<br />
+                                    {r.distance && <>{r.distance.toFixed(2)} km<br /></> }
                                     {r.memo}<br />
                                     <img src={thumbnails.get(`id_${r.id}`)} onClick={e => onThumbnailClick(r)} />
                                 </div>
