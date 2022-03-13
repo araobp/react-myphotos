@@ -4,11 +4,7 @@ import '../App.css';
 import { PopUpMessage } from "../components-common/PopUpMessage";
 import { Switch } from "../components-common/Switch";
 
-type SettingsPageProps = {
-    setLoginName: React.Dispatch<React.SetStateAction<string>>;
-}
-
-export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
+export const SettingsPage: FC = () => {
 
     const [login, setLogin] = useState<string>(localStorage.getItem("login") || "");
     const [password, setPassword] = useState<string>(localStorage.getItem("password") || "");
@@ -27,7 +23,6 @@ export const SettingsPage: FC<SettingsPageProps> = ({ setLoginName }) => {
             localStorage.setItem("login", login);
             localStorage.setItem("password", password);
             localStorage.setItem("limit", limit);
-            setLoginName(login);
         }
         if (baseURL != "") {
             localStorage.setItem("baseURL", baseURL);

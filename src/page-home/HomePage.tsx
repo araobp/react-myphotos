@@ -8,10 +8,10 @@ import { WebcamComp } from './WebcamComp';
 import { PopUpMap } from '../components-common/PopUpMap';
 import { PopUpMessage } from "../components-common/PopUpMessage";
 import { apiPostRecord } from "../api-myphotos/myphotos";
-import { FILE_INPUT_ENABLED, MOBILE_CAMERA_ENABLED, WEBCAM_EABLED } from "../util/constants";
+import { FILE_INPUT_ENABLED, LOGIN_NAME, MOBILE_CAMERA_ENABLED, WEBCAM_EABLED } from "../util/constants";
 import { MobileCameraComp } from "./MobileCameraComp";
 import { FileInputComp } from "./FileInputComp";
-import { useGPS } from "../hooks-common/GPS";
+import { useGPS } from "../custom-hooks/GPS";
 
 export const HomePage: FC = () => {
 
@@ -75,6 +75,8 @@ export const HomePage: FC = () => {
     return (
         <>
             <MobileCameraComp launch={launchMobileCamera} onPicTaken={onPicTaken} />
+
+            <div id="navi-right">{LOGIN_NAME}</div>
 
             {!launchWebcam &&
                 <>

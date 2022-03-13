@@ -1,13 +1,11 @@
 import { LatLngExpression } from "leaflet";
 import { FC, useEffect, useState } from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, Marker, Popup } from "react-leaflet";
 import { LatLon, RecordResponse } from "../api-myphotos/structure";
 import { PopUpImage } from "../components-common/PopUpImage";
 import { useMap } from "react-leaflet";
-import { DEFAULT_LOCATION, ORDER_BY_DISTANCE } from "../util/constants";
-import { PhotoFooter } from "../components-common/PhotoFooter";
+import { DEFAULT_LOCATION } from "../util/constants";
 import { apiGetPhotoAttribute } from "../api-myphotos/myphotos";
-import { CloseFooter } from "../components-common/CloseFooter";
 import { Panorama } from "../panolens/Panorama";
 import { toLocalTime } from "../util/convert";
 import { greenIcon } from "../util-leaflet/icons";
@@ -16,14 +14,11 @@ import { Tiles } from "../util-leaflet/tiles";
 type MapCompProps = {
     records: Array<RecordResponse>;
     thumbnails: Map<string, string>;
-    count: number;
-    offset: number;
-    setOffset: (offset: number) => void;
     zoom: number;
     latlon: LatLon | null;
 }
 
-export const MapComp: FC<MapCompProps> = ({ records, thumbnails, latlon, count, offset, setOffset, zoom }) => {
+export const MapComp: FC<MapCompProps> = ({ records, thumbnails, latlon, zoom }) => {
 
     const [id, setId] = useState<number | null>(null);
     const [showImage, setShowImage] = useState<boolean>(false);
@@ -60,10 +55,6 @@ export const MapComp: FC<MapCompProps> = ({ records, thumbnails, latlon, count, 
         return null;
     }
 
-    const onClosePanorama = () => {
-        setShowPanorama(false);
-    }
-
     useEffect(() => {
         if (records && records.length > 0) {
             setCurrentCenter([records[0].latitude, records[0].longitude]);
@@ -93,7 +84,7 @@ export const MapComp: FC<MapCompProps> = ({ records, thumbnails, latlon, count, 
                         </Marker>
                     ))}
                     {latlon &&
-                        <Marker position={[latlon.latitude, latlon.longitude]} icon={greenIcon}>
+                        <Marker position={[latlon.latitude, latlon.longitude]} icon={greenIcon} zIndexOffset={10}>
                             <Popup>
                                 {latlon.latitude}, {latlon.longitude}
                             </Popup>
@@ -101,9 +92,6 @@ export const MapComp: FC<MapCompProps> = ({ records, thumbnails, latlon, count, 
                     }
                 </MapContainer>
             }
-
-            {!showPanorama && <PhotoFooter latlon={latlon} count={count} offset={offset} setOffset={setOffset} />}
-            {showPanorama && <CloseFooter onClose={onClosePanorama} />}
         </div>
     );
 }

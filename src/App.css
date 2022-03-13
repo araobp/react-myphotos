@@ -304,35 +304,27 @@ button:active {
 /*** navi ***/
 #navi {
   position: fixed;
-  display: flex;
   width: 100%;
-  justify-content: space-between;
   height: var(--margin-navi);
   color: white;
   background-color: var(--navi-footer-background-color);
-  align-items: center;
-}
-
-#navi-left {
-  width: 33%;
-  text-align: left;
-  font-size: 2.3rem;
-  padding-left: 0.8rem;
-  padding-top: 0.45rem;
-}
-
-#navi-center {
-  width: 34%;
   text-align: center;
-  font-size: 2.5rem;
+  font-size: 2.6rem;
   font-weight: bold;
 }
 
+#navi-left {
+  position: absolute;
+  left: 0.8rem;
+  top: 0.5rem;
+  font-size: 2.3rem;
+}
+
 #navi-right {
-  width: 33%;
-  text-align: right;
-  font-size: 1rem;
-  padding-right: 0.8rem;
+  position: fixed;
+  right: 0.8rem;
+  top: 0.8rem;
+  font-size: 1.2rem;
 }
 
 /*** navi menu ***/
