@@ -67,20 +67,21 @@ export const AlbumFooter: FC<AlbumFooterProps> = ({ latlon, gpsEnabled, isWatchi
     useEffect(() => {
         updateIndex();
     }, [isWatching]);
-    
+
     let selected: number = 1;
+    let page: number = 1;
 
     return (
         <>
+            {selected = selectedPage()}
             <Modal isOpen={showIndex} style={modalStyle}>
-                {selected = selectedPage()}
                 <div id="navi" style={{ position: "absolute", justifyContent: "center" }}>
                     <div id="navi-center">Index</div>
                 </div>
                 <div className="default-modal">
                     {index.map((r, idx) => (
                         <div key={r.id} className="card">
-                            {(selected == idx + 1)?
+                            {(selected == idx + 1) ?
                                 <div style={{ width: "8%", color: "purple", fontWeight: "bold" }}>{idx + 1}</div>
                                 :
                                 <div style={{ width: "8%", color: "gray" }}>{idx + 1}</div>
