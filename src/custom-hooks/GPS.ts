@@ -25,8 +25,11 @@ export const useGPS = (enabled: boolean) => {
     };
 
     const stopWatchingLocation = () => {
-        watchId && navigator.geolocation.clearWatch(watchId);
-        setIsWatching(false);
+        if ('geolocation' in navigator) {
+            watchId && navigator.geolocation.clearWatch(watchId);
+            setLatLon(null);
+            setIsWatching(false);
+        }
     };
 
     const lookUpAddressByLocation = (latitude: number, longitude: number) => {
@@ -35,16 +38,20 @@ export const useGPS = (enabled: boolean) => {
             .catch(e => console.log(e));
     }
 
-    useEffect(() => {
+    const startAndStop = () => {
         if (enabled) {
-            if ('geolocation' in navigator) {
-                startWatchingLocation();
-            }
-            return () => {
-                stopWatchingLocation();
-            };
+            startWatchingLocation();
+        } else {
+            stopWatchingLocation();
         }
-    }, []);
+        return () => {
+            stopWatchingLocation();
+        };
+    }
+
+    useEffect(startAndStop, []);
+
+    useEffect(startAndStop, [enabled]);
 
     return { latlon, address, isWatching };
 }

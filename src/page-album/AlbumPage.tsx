@@ -8,12 +8,11 @@ import { PhotoFooter } from "../components-common/PhotoFooter";
 import { Panorama } from "../panolens/Panorama";
 import { CloseFooter } from "../components-common/CloseFooter";
 import { useGPS } from "../custom-hooks/GPS";
-import { BiCard, BiMapAlt } from "react-icons/bi";
+import { BiCard, BiMapAlt, BiBullseye, BiSortDown } from "react-icons/bi";
 import { CardsComp } from "./CardsComp";
 import { MapComp } from "./MapComp";
 
 export const AlbumPage: FC = () => {
-
 
     const [records, setRecords] = useState<Array<RecordResponse>>([]);
     const [thumbnails, setThumbnails] = useState<Map<string, string>>(new Map<string, string>());
@@ -24,8 +23,9 @@ export const AlbumPage: FC = () => {
     const [count, setCount] = useState<number>(0);
 
     const [mapMode, setMapMode] = useState<boolean>(false);
+    const [orderByDistance, setOrderByDistance] = useState<boolean>(ORDER_BY_DISTANCE);
 
-    const { latlon, isWatching } = useGPS(ORDER_BY_DISTANCE);
+    const { latlon, isWatching } = useGPS(orderByDistance);
 
     const openPhotoViewer = (id: number) => {
         setId(id);
@@ -65,23 +65,23 @@ export const AlbumPage: FC = () => {
 
     // Initialization
     useEffect(() => {
-        if (!ORDER_BY_DISTANCE) {
+        if (!orderByDistance) {
             updateRecordTable();
         }
     }, []);
 
     useEffect(() => {
-        if (isWatching) {
             updateRecordTable();
-        }
     }, [isWatching]);
 
     useEffect(() => {
-        if (!ORDER_BY_DISTANCE || (ORDER_BY_DISTANCE && isWatching))
+        if (!orderByDistance || (orderByDistance && isWatching))
             updateRecordTable();
     }, [offset]);
 
     const toggleView = () => setMapMode(m => !m);
+
+    const toggleOrderByDistance = () => setOrderByDistance(o => !o);
 
     return (
         <>
@@ -89,8 +89,15 @@ export const AlbumPage: FC = () => {
                 id="navi-right"
                 onClick={toggleView}
                 style={{ fontSize: "2.2rem", top: "0.6rem" }}>
-                {!mapMode && <BiMapAlt />}
-                {mapMode && <BiCard />}
+                {!mapMode && <BiCard />}
+                {mapMode && <BiMapAlt />}
+            </div>
+            <div
+                id="navi-right2"
+                onClick={toggleOrderByDistance}
+                style={{ fontSize: "2.2rem", top: "0.6rem" }}>
+                {!orderByDistance && <BiSortDown />}
+                {orderByDistance && <BiBullseye />}
             </div>
 
             {showImage && id && <PopUpImage onPopUpClosed={() => setShowImage(false)} id={id} />}

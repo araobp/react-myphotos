@@ -311,7 +311,7 @@ button:active {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 2.6rem;
+  font-size: 2.3rem;
   font-weight: bold;
 }
 
@@ -325,6 +325,13 @@ button:active {
 #navi-right {
   position: fixed;
   right: 0.8rem;
+  top: 0.8rem;
+  font-size: 1.2rem;
+}
+
+#navi-right2 {
+  position: fixed;
+  right: 3.8rem;
   top: 0.8rem;
   font-size: 1.2rem;
 }
