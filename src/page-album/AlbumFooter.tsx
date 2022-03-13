@@ -1,29 +1,30 @@
 import { FC, useEffect, useState } from "react";
-import { LIMIT, ORDER_BY_DISTANCE } from "../util/constants";
+import { LIMIT } from "../util/constants";
 import Modal from "react-modal";
 import '../App.css';
-import { modalStyle } from "./styles";
+import { modalStyle } from "../components-common/styles";
 import { apiGetRecordsEveryNth, apiGetRecordsEveryNthOrderByDistance } from "../api-myphotos/myphotos";
 import { LatLon, RecordEveryNthResponse } from "../api-myphotos/structure";
 import { toLocalTime } from "../util/convert";
 
 const backward = (offset: number) => (offset >= LIMIT) ? offset - LIMIT : offset;
-
 const forward = (offset: number, count: number) => ((offset + LIMIT) >= count) ? offset : offset + LIMIT;
 
-export type PhotoFooterProps = {
-    latlon: LatLon | null
+export type AlbumFooterProps = {
+    latlon: LatLon | null;
+    gpsEnabled: boolean;
+    isWatching: boolean;
     count: number;
     offset: number;
     setOffset: (offset: number) => void;
 }
 
-export const PhotoFooter: FC<PhotoFooterProps> = ({ latlon, count, offset, setOffset }) => {
+export const AlbumFooter: FC<AlbumFooterProps> = ({ latlon, gpsEnabled, isWatching, count, offset, setOffset }) => {
 
     const [showIndex, setShowIndex] = useState<boolean>(false);
     const [index, setIndex] = useState<Array<RecordEveryNthResponse>>([]);
 
-    const getIndex = () => {
+    const updateIndex = () => {
         if (latlon == null) {
             apiGetRecordsEveryNth(LIMIT)
                 .then(index => setIndex(index));
@@ -35,7 +36,7 @@ export const PhotoFooter: FC<PhotoFooterProps> = ({ latlon, count, offset, setOf
 
     const onShowIndex = () => {
         if (latlon != null) {
-            getIndex();
+            updateIndex();
         }
         setShowIndex(true);
     }
@@ -45,24 +46,45 @@ export const PhotoFooter: FC<PhotoFooterProps> = ({ latlon, count, offset, setOf
         setShowIndex(false);
     }
 
+    const selectedPage = () => Math.floor(offset / LIMIT) + 1;
+    const totalPages = () => Math.floor((count + LIMIT - 1) / LIMIT);
+
+    const onBackwardButtonClicked = () => {
+        setOffset(backward(offset))
+    }
+
+    const onForwardButtonClicked = () => {
+        setOffset(forward(offset, count))
+    }
+
+    // Initialization
     useEffect(() => {
-        if (!ORDER_BY_DISTANCE) {
-            getIndex();
+        if (!gpsEnabled) {
+            updateIndex();
         }
     }, []);
+
+    useEffect(() => {
+        updateIndex();
+    }, [isWatching]);
+    
+    let selected: number = 1;
 
     return (
         <>
             <Modal isOpen={showIndex} style={modalStyle}>
+                {selected = selectedPage()}
                 <div id="navi" style={{ position: "absolute", justifyContent: "center" }}>
                     <div id="navi-center">Index</div>
                 </div>
                 <div className="default-modal">
                     {index.map((r, idx) => (
                         <div key={r.id} className="card">
-                            <div style={{ width: "8%", color: "purple" }}>
-                                {idx + 1}
-                            </div>
+                            {(selected == idx + 1)?
+                                <div style={{ width: "8%", color: "purple", fontWeight: "bold" }}>{idx + 1}</div>
+                                :
+                                <div style={{ width: "8%", color: "gray" }}>{idx + 1}</div>
+                            }
                             <div className="card-text">
                                 <div>Date: {toLocalTime(r.timestamp)}</div>
                                 {r.distance && <div>Date: {r.distance.toFixed(2)} km</div>}
@@ -80,11 +102,11 @@ export const PhotoFooter: FC<PhotoFooterProps> = ({ latlon, count, offset, setOf
             </Modal>
 
             <div className="footer">
-                <button className="tiny-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={e => setOffset(backward(offset))}>&lt;</button>
-                <button className="small-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={e => onShowIndex()}>
-                    {Math.floor(offset / LIMIT) + 1}/{Math.floor((count + LIMIT - 1) / LIMIT)}
+                <button className="tiny-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={onBackwardButtonClicked}>&lt;</button>
+                <button className="small-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={onShowIndex}>
+                    {selectedPage()}/{totalPages()}
                 </button>
-                <button className="tiny-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={e => setOffset(forward(offset, count))}>&gt;</button>
+                <button className="tiny-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={onForwardButtonClicked}>&gt;</button>
             </div>
         </>
     );

@@ -2,9 +2,9 @@ import { useState, useEffect, FC } from "react";
 
 import { RecordResponse } from "../api-myphotos/structure";
 import { PopUpImage } from "../components-common/PopUpImage";
-import { LIMIT, ORDER_BY_DISTANCE } from "../util/constants";
+import { LIMIT } from "../util/constants";
 import { apiGetRecords, apiGetThumbnails, apiGetRecordCount, apiGetPhotoAttribute, apiGetRecordsOrderByDistance } from "../api-myphotos/myphotos";
-import { PhotoFooter } from "../components-common/PhotoFooter";
+import { AlbumFooter } from "./AlbumFooter";
 import { Panorama } from "../panolens/Panorama";
 import { CloseFooter } from "../components-common/CloseFooter";
 import { useGPS } from "../custom-hooks/GPS";
@@ -23,9 +23,9 @@ export const AlbumPage: FC = () => {
     const [count, setCount] = useState<number>(0);
 
     const [mapMode, setMapMode] = useState<boolean>(false);
-    const [orderByDistance, setOrderByDistance] = useState<boolean>(ORDER_BY_DISTANCE);
+    const [gpsEnabled, setGpsEnabled] = useState<boolean>(false);  // GPS is disabled at first
 
-    const { latlon, isWatching } = useGPS(orderByDistance);
+    const { latlon, isWatching } = useGPS(gpsEnabled);
 
     const openPhotoViewer = (id: number) => {
         setId(id);
@@ -65,7 +65,7 @@ export const AlbumPage: FC = () => {
 
     // Initialization
     useEffect(() => {
-        if (!orderByDistance) {
+        if (!gpsEnabled) {
             updateRecordTable();
         }
     }, []);
@@ -75,13 +75,13 @@ export const AlbumPage: FC = () => {
     }, [isWatching]);
 
     useEffect(() => {
-        if (!orderByDistance || (orderByDistance && isWatching))
+        if (!gpsEnabled || (gpsEnabled && isWatching))
             updateRecordTable();
     }, [offset]);
 
     const toggleView = () => setMapMode(m => !m);
 
-    const toggleOrderByDistance = () => setOrderByDistance(o => !o);
+    const toggleOrderByDistance = () => setGpsEnabled(o => !o);
 
     return (
         <>
@@ -96,8 +96,8 @@ export const AlbumPage: FC = () => {
                 id="navi-right2"
                 onClick={toggleOrderByDistance}
                 style={{ fontSize: "2.2rem", top: "0.6rem" }}>
-                {!orderByDistance && <BiSortDown />}
-                {orderByDistance && <BiBullseye />}
+                {!gpsEnabled && <BiSortDown />}
+                {gpsEnabled && <BiBullseye />}
             </div>
 
             {showImage && id && <PopUpImage onPopUpClosed={() => setShowImage(false)} id={id} />}
@@ -120,7 +120,7 @@ export const AlbumPage: FC = () => {
                 />
             }
 
-            {!showPanorama && <PhotoFooter latlon={latlon} count={count} offset={offset} setOffset={setOffset} />}
+            {!showPanorama && <AlbumFooter latlon={latlon} gpsEnabled={gpsEnabled} isWatching={isWatching} count={count} offset={offset} setOffset={setOffset} />}
             {showPanorama && <CloseFooter onClose={onClosePanorama} />}
         </>
     );

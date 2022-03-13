@@ -1,4 +1,4 @@
-import React, { useState, FC } from "react";
+import { useState, FC } from "react";
 import '../App.css';
 
 import { PopUpMessage } from "../components-common/PopUpMessage";
@@ -13,7 +13,6 @@ export const SettingsPage: FC = () => {
     const [resolution, setResolution] = useState<string>(localStorage.getItem("resolution") || "");
     const [mobileCameraEnabled, setMobileCameraEnabled] = useState<string>(localStorage.getItem("mobileCameraEnabled") || "false");
     const [fileInputEnabled, setFileInputEnabled] = useState<string>(localStorage.getItem("fileInputEnabled") || "false");
-    const [orderByDistance, setOrderByDistance] = useState<string>(localStorage.getItem("orderByDistance") || "false");
     const [limit, setLimit] = useState<string>(localStorage.getItem("limit") || "");
     const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
     const [showProgress, setShowProgress] = useState<boolean>(false);
@@ -31,7 +30,6 @@ export const SettingsPage: FC = () => {
         localStorage.setItem("resolution", resolution);
         localStorage.setItem("mobileCameraEnabled", mobileCameraEnabled);
         localStorage.setItem("fileInputEnabled", fileInputEnabled);
-        localStorage.setItem("orderByDistance", orderByDistance);
 
         setTimeout(() => setShowProgress(false), 1000);
         setShowProgress(true);
@@ -51,10 +49,6 @@ export const SettingsPage: FC = () => {
 
     const onFileInputEnabled = (isChecked: boolean) => {
         setFileInputEnabled(isChecked.toString());
-    }
-
-    const onOrderByDistanceEnabled = (isChecked: boolean) => {
-        setOrderByDistance(isChecked.toString());
     }
 
     return (
@@ -132,14 +126,6 @@ export const SettingsPage: FC = () => {
                             isChecked={fileInputEnabled == "true"}
                             label="File:"
                             onChange={isChecked => onFileInputEnabled(isChecked)}
-                        />
-
-                        <hr />
-
-                        <Switch
-                            isChecked={orderByDistance == "true"}
-                            label="OrderByDistance:"
-                            onChange={isChecked => onOrderByDistanceEnabled(isChecked)}
                         />
 
                     </div>

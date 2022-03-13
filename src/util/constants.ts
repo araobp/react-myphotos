@@ -17,5 +17,3 @@ export const WEBCAM_EABLED = (localStorage.getItem("webcamEnabled") == "true") ?
 export const MOBILE_CAMERA_ENABLED = (localStorage.getItem("mobileCameraEnabled") == "true") ? true : false;
 
 export const FILE_INPUT_ENABLED = (localStorage.getItem("fileInputEnabled") == "true") ? true : false;
-
-export const ORDER_BY_DISTANCE = (localStorage.getItem("orderByDistance") == "true") ? true : false;
