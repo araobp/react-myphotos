@@ -14,7 +14,7 @@ export const useGPS = (enabled: boolean) => {
             const { latitude, longitude } = position.coords;
             setLatLon({ latitude, longitude });
             lookUpAddressByLocation(latitude, longitude);
-            if (!isWatching) setIsWatching(true);
+            setIsWatching(true);
         },
             () => { console.log('Watching geolocation failed') },
             {
@@ -28,6 +28,7 @@ export const useGPS = (enabled: boolean) => {
         if ('geolocation' in navigator) {
             watchId && navigator.geolocation.clearWatch(watchId);
             setLatLon(null);
+            setAddress(null);
             setIsWatching(false);
         }
     };
