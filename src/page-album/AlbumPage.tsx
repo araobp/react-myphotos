@@ -11,6 +11,7 @@ import { useGPS } from "../custom-hooks/GPS";
 import { BiCard, BiMapAlt, BiBullseye, BiSortDown } from "react-icons/bi";
 import { CardsComp } from "./CardsComp";
 import { MapComp } from "./MapComp";
+import { PopUpMessage } from "../components-common/PopUpMessage";
 
 export const AlbumPage: FC = () => {
 
@@ -27,6 +28,8 @@ export const AlbumPage: FC = () => {
     const [closestOrder, setClosestOrder] = useState<boolean>(false);
 
     const { latlon, isWatching } = useGPS(gpsEnabled);
+
+    const [showPopUp, setShowPopUp] = useState<boolean>(false);
 
     const openPhotoViewer = (id: number) => {
         setId(id);
@@ -45,6 +48,7 @@ export const AlbumPage: FC = () => {
     }
 
     const updateRecordTable = () => {
+        setShowPopUp(true);
         apiGetRecordCount()
             .then(cnt => {
                 setCount(cnt);
@@ -59,7 +63,8 @@ export const AlbumPage: FC = () => {
                 return apiGetThumbnails(r);
             })
             .then(t => setThumbnails(t))
-            .catch(e => console.trace(e));
+            .catch(e => console.trace(e))
+            .finally(()=>setShowPopUp(false));
     }
 
     const onClosePanorama = () => setShowPanorama(false);
@@ -107,6 +112,8 @@ export const AlbumPage: FC = () => {
 
     return (
         <>
+            {showPopUp && <PopUpMessage message="Downloading records..."/> }
+
             <div
                 id="navi-right"
                 onClick={toggleView}
