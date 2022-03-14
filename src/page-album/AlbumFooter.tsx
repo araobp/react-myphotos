@@ -46,9 +46,6 @@ export const AlbumFooter: FC<AlbumFooterProps> = ({ latlon, gpsEnabled, isWatchi
         setShowIndex(false);
     }
 
-    const selectedPage = () => Math.floor(offset / LIMIT) + 1;
-    const totalPages = () => Math.floor((count + LIMIT - 1) / LIMIT);
-
     const onBackwardButtonClicked = () => {
         setOffset(backward(offset))
     }
@@ -56,6 +53,9 @@ export const AlbumFooter: FC<AlbumFooterProps> = ({ latlon, gpsEnabled, isWatchi
     const onForwardButtonClicked = () => {
         setOffset(forward(offset, count))
     }
+
+    const selectedPage = Math.floor(offset / LIMIT) + 1;
+    const totalPages = Math.floor((count + LIMIT - 1) / LIMIT);
 
     // Initialization
     useEffect(() => {
@@ -68,12 +68,8 @@ export const AlbumFooter: FC<AlbumFooterProps> = ({ latlon, gpsEnabled, isWatchi
         updateIndex();
     }, [isWatching]);
 
-    let selected: number = 1;
-    let page: number = 1;
-
     return (
         <>
-            {selected = selectedPage()}
             <Modal isOpen={showIndex} style={modalStyle}>
                 <div id="navi" style={{ position: "absolute", justifyContent: "center" }}>
                     <div id="navi-center">Index</div>
@@ -81,7 +77,7 @@ export const AlbumFooter: FC<AlbumFooterProps> = ({ latlon, gpsEnabled, isWatchi
                 <div className="default-modal">
                     {index.map((r, idx) => (
                         <div key={r.id} className="card">
-                            {(selected == idx + 1) ?
+                            {(selectedPage == idx + 1) ?
                                 <div style={{ width: "8%", color: "purple", fontWeight: "bold" }}>{idx + 1}</div>
                                 :
                                 <div style={{ width: "8%", color: "gray" }}>{idx + 1}</div>
@@ -105,7 +101,7 @@ export const AlbumFooter: FC<AlbumFooterProps> = ({ latlon, gpsEnabled, isWatchi
             <div className="footer">
                 <button className="tiny-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={onBackwardButtonClicked}>&lt;</button>
                 <button className="small-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={onShowIndex}>
-                    {selectedPage()}/{totalPages()}
+                    {selectedPage}/{totalPages}
                 </button>
                 <button className="tiny-button" style={{ fontSize: "1.3rem" }} type="submit" onClick={onForwardButtonClicked}>&gt;</button>
             </div>
