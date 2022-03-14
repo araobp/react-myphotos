@@ -1,4 +1,4 @@
-import { useState, useEffect, FC } from "react";
+import { useState, useEffect, FC, useCallback } from "react";
 
 import { RecordResponse } from "../api-myphotos/structure";
 import { PopUpImage } from "../components-common/PopUpImage";
@@ -47,6 +47,7 @@ export const AlbumPage: FC = () => {
     }
 
     const updateRecordTable = () => {
+        console.log("[AlbumPage:updateRecord]");
         setShowProgress(true);
         apiGetRecordCount()
             .then(cnt => {
@@ -59,11 +60,14 @@ export const AlbumPage: FC = () => {
             })
             .then(r => {
                 setRecords(r);
+                setShowProgress(false)
                 return apiGetThumbnails(r);
             })
             .then(t => setThumbnails(t))
-            .catch(e => console.trace(e))
-            .finally(()=>setShowProgress(false));
+            .catch(e => {
+                console.trace(e)
+            })
+            .finally(() => setShowProgress(false));
     }
 
     const onClosePanorama = () => setShowPanorama(false);
@@ -76,29 +80,15 @@ export const AlbumPage: FC = () => {
         else {
             updateRecordTable();
         }
-    }, []);
-
-    useEffect(() => {
-        if (closestOrder) {
-            setGpsEnabled(true);
-        } else {
-            updateRecordTable();
-        }
-    }, [offset]);
+    }, [offset, closestOrder]);
 
     // GPS is disabled shortly after having fetched the first latlon data from GPS
     useEffect(() => {
-        updateRecordTable();
-        setGpsEnabled(false);
-    }, [isWatching]);
-
-    useEffect(() => {
-        if (closestOrder) {
-            setGpsEnabled(true);
-        } else {
+        if (isWatching) {
             updateRecordTable();
+            setGpsEnabled(false);
         }
-    }, [closestOrder]);
+    }, [isWatching]);
 
     const toggleView = () => setMapMode(m => !m);
 
@@ -111,7 +101,7 @@ export const AlbumPage: FC = () => {
 
     return (
         <>
-            {showProgress && <PopUpMessage message="Downloading records..."/> }
+            {showProgress && <PopUpMessage message="Downloading records..." />}
 
             <div
                 id="navi-right"

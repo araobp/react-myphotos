@@ -1,4 +1,4 @@
-import { FC, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { LIMIT } from "../util/constants";
 import Modal from "react-modal";
 import '../App.css';
@@ -64,16 +64,12 @@ export const AlbumFooter: FC<AlbumFooterProps> = ({ latlon, closestOrder, isWatc
     const selectedPage = Math.floor(offset / LIMIT) + 1;
     const totalPages = Math.floor((count + LIMIT - 1) / LIMIT);
 
-    // Initialization
     useEffect(() => {
-        if (!closestOrder) {
+        if ((!closestOrder || isWatching) && count > 0) {
             updateIndex();
+            console.log("[AlbumFooter]", closestOrder, isWatching, count)
         }
-    }, []);
-
-    useEffect(() => {
-        updateIndex();
-    }, [isWatching]);
+    }, [closestOrder, isWatching, count]);
 
     return (
         <>
@@ -114,4 +110,4 @@ export const AlbumFooter: FC<AlbumFooterProps> = ({ latlon, closestOrder, isWatc
             </div>
         </>
     );
-} 
+} ;

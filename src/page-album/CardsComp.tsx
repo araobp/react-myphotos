@@ -138,4 +138,4 @@ export const CardsComp: FC<CardsCompProps> = ({ records, thumbnails, updateRecor
             </div>
         </>
     );
-}
+};
