@@ -49,7 +49,6 @@ export const AlbumFooter: FC<AlbumFooterProps> = ({ latlon, gpsEnabled, isWatchi
     }
 
     const scrollInto = () => {
-        console.log("current:" + ref.current);
         const to = selectedPage <= 2 ? 0 : selectedPage - 2;
         ref.current[to]?.scrollIntoView()
     }

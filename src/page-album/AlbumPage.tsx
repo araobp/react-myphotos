@@ -117,6 +117,7 @@ export const AlbumPage: FC = () => {
                     thumbnails={thumbnails}
                     latlon={latlon}
                     zoom={11} 
+                    openPhotoViewer={id => openPhotoViewer(id)}
                 />
             }
 

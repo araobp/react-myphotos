@@ -6,7 +6,6 @@ import { PopUpMap } from "../components-common/PopUpMap";
 import { PopUpConfirm } from "../components-common/PopUpMessage";
 import { RecordForm } from "../components-common/RecordForm";
 import { modalBackgroundStyle } from "../components-common/styles";
-import { Panorama } from "../panolens/Panorama";
 import { toLocalTime } from "../util/convert";
 
 export type CardsCompProps = {
@@ -16,19 +15,18 @@ export type CardsCompProps = {
     openPhotoViewer: (id: number) => void;
 }
 
-export const CardsComp: FC<CardsCompProps> = ({records, thumbnails, updateRecordTable, openPhotoViewer}) => {
+export const CardsComp: FC<CardsCompProps> = ({ records, thumbnails, updateRecordTable, openPhotoViewer }) => {
 
     const [id, setId] = useState<number | null>(null);
     const [showMap, setShowMap] = useState<boolean>(false);
-    const [location, setLocation] = useState<LatLon>({latitude: 0.0, longitude: 0.0});
+    const [location, setLocation] = useState<LatLon>({ latitude: 0.0, longitude: 0.0 });
     const [checkedRecords, setCheckedRecords] = useState<Array<number>>([]);
     const [showConfirm, setShowConfirm] = useState<boolean>(false);
     const [showInput, setShowInput] = useState<boolean>(false);
     const [place, setPlace] = useState<string>("");
     const [memo, setMemo] = useState<string>("");
     const [keyword, setKeyword] = useState<string>("");
-    const [showPanorama, setShowPanorama] = useState<boolean>(false);
-    
+
     const openMap = (latitude: number, longitude: number) => {
         setLocation({ latitude: latitude, longitude: longitude });
         setShowMap(true);
@@ -58,30 +56,29 @@ export const CardsComp: FC<CardsCompProps> = ({records, thumbnails, updateRecord
         }
     }
 
-        /*** Edit ***/
+    /*** Edit ***/
 
-        const handleOnClick = (r: RecordResponse) => {
-            setId(r.id);
-            setPlace(r.place);
-            setMemo(r.memo);
-            setShowInput(true);
+    const handleOnClick = (r: RecordResponse) => {
+        setId(r.id);
+        setPlace(r.place);
+        setMemo(r.memo);
+        setShowInput(true);
+    }
+
+    const updateRecord = () => {
+        setShowInput(false);
+        if (id != null) {
+            setId(null);
+            apiPutRecord(id, place, memo)
+                .then(_ => updateRecordTable())
+                .catch(e => console.log(e));
         }
-    
-        const updateRecord = () => {
-            setShowInput(false);
-            if (id != null) {
-                setId(null);
-                apiPutRecord(id, place, memo)
-                    .then(_ => updateRecordTable())
-                    .catch(e => console.log(e));
-            }
-        }    
+    }
 
     return (
         <>
             <div className="default">
                 <div>
-                    {showPanorama && id && <Panorama id={id} />}
 
                     <Modal isOpen={showInput} className="center" style={modalBackgroundStyle}>
                         <div className="popup">
@@ -99,47 +96,44 @@ export const CardsComp: FC<CardsCompProps> = ({records, thumbnails, updateRecord
                         <PopUpConfirm message="Do you really want to delete these records?"
                             onConfirm={confirmed => deleteCheckedRecords(confirmed)} />
                     }
-
-                    {!showPanorama &&
-                        <>
-                            <div className="row-space-between">
-                                <div>
-                                    <input
-                                        type="text"
-                                        style={{ width: "50vw" }}
-                                        placeholder="Search key word..."
-                                        value={keyword}
-                                        onChange={e => setKeyword(e.target.value)}
-                                    />
-                                    <button className="tiny-button" type="submit" onClick={e => setKeyword("")}>Clear</button>
-                                </div>
-                                <div style={{ width: "1rem" }}></div>
-                                <button className="tiny-button" style={{ fontSize: "0.8rem" }} type="submit" onClick={e => setShowConfirm(true)}>Delete</button>
-                            </div>
-
+                    <>
+                        <div className="row-space-between">
                             <div>
-                                {records
-                                    .filter(r => r.place.includes(keyword) || r.memo.includes(keyword))
-                                    .map((r, _) => (
-                                        <div key={r.id} className="card">
-                                            <input className="card-checkbox" type="checkbox" defaultChecked={r.id && (checkedRecords.indexOf(r.id) == -1) ? false : true} onChange={(e) => handleCheckedRecord(r.id, e.target.checked)} />
-                                            <img className="card-img" src={thumbnails.get(`id_${r.id}`)} onClick={() => openPhotoViewer(r.id)} />
-                                            <div className="card-text">
-                                                <div>Date: {toLocalTime(r.timestamp)}</div>
-                                                <div>Address: {r.address}</div>
-                                                <div>Place: {r.place}</div>
-                                                {r.distance && <div>Distance: {r.distance.toFixed(2)} km</div>}
-                                                <div>Memo: {r.memo}</div>
-                                            </div>
-                                            <div className="card-map">
-                                                <button className="tiny-button-record" onClick={e => openMap(r.latitude, r.longitude)}>Map</button>
-                                                <button className="tiny-button-record" style={{ marginTop: "10px" }} onClick={e => handleOnClick(r)}>Edit</button>
-                                            </div>
-                                        </div>
-                                    ))}
+                                <input
+                                    type="text"
+                                    style={{ width: "50vw" }}
+                                    placeholder="Search key word..."
+                                    value={keyword}
+                                    onChange={e => setKeyword(e.target.value)}
+                                />
+                                <button className="tiny-button" type="submit" onClick={e => setKeyword("")}>Clear</button>
                             </div>
-                        </>
-                    }
+                            <div style={{ width: "1rem" }}></div>
+                            <button className="tiny-button" style={{ fontSize: "0.8rem" }} type="submit" onClick={e => setShowConfirm(true)}>Delete</button>
+                        </div>
+
+                        <div>
+                            {records
+                                .filter(r => r.place.includes(keyword) || r.memo.includes(keyword))
+                                .map((r, _) => (
+                                    <div key={r.id} className="card">
+                                        <input className="card-checkbox" type="checkbox" defaultChecked={r.id && (checkedRecords.indexOf(r.id) == -1) ? false : true} onChange={(e) => handleCheckedRecord(r.id, e.target.checked)} />
+                                        <img className="card-img" src={thumbnails.get(`id_${r.id}`)} onClick={() => openPhotoViewer(r.id)} />
+                                        <div className="card-text">
+                                            <div>Date: {toLocalTime(r.timestamp)}</div>
+                                            <div>Address: {r.address}</div>
+                                            <div>Place: {r.place}</div>
+                                            {r.distance && <div>Distance: {r.distance.toFixed(2)} km</div>}
+                                            <div>Memo: {r.memo}</div>
+                                        </div>
+                                        <div className="card-map">
+                                            <button className="tiny-button-record" onClick={e => openMap(r.latitude, r.longitude)}>Map</button>
+                                            <button className="tiny-button-record" style={{ marginTop: "10px" }} onClick={e => handleOnClick(r)}>Edit</button>
+                                        </div>
+                                    </div>
+                                ))}
+                        </div>
+                    </>
                 </div>
             </div>
         </>
