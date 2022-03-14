@@ -11,3 +11,8 @@ export const greenIcon = new L.Icon({
     popupAnchor: [1, -34],
     shadowSize: [41, 41]
 });
+
+export const centerIcon = L.icon({
+    iconUrl: require("./center.png"),
+    iconSize: [24, 24]
+});
