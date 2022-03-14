@@ -12,14 +12,14 @@ const forward = (offset: number, count: number) => ((offset + LIMIT) >= count) ?
 
 export type AlbumFooterProps = {
     latlon: LatLon | null;
-    gpsEnabled: boolean;
+    closestOrder: boolean;
     isWatching: boolean;
     count: number;
     offset: number;
     setOffset: (offset: number) => void;
 }
 
-export const AlbumFooter: FC<AlbumFooterProps> = ({ latlon, gpsEnabled, isWatching, count, offset, setOffset }) => {
+export const AlbumFooter: FC<AlbumFooterProps> = ({ latlon, closestOrder, isWatching, count, offset, setOffset }) => {
 
     const [showIndex, setShowIndex] = useState<boolean>(false);
     const [index, setIndex] = useState<Array<RecordEveryNthResponse>>([]);
@@ -66,7 +66,7 @@ export const AlbumFooter: FC<AlbumFooterProps> = ({ latlon, gpsEnabled, isWatchi
 
     // Initialization
     useEffect(() => {
-        if (!gpsEnabled) {
+        if (!closestOrder) {
             updateIndex();
         }
     }, []);

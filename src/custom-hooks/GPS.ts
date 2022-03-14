@@ -27,9 +27,8 @@ export const useGPS = (enabled: boolean) => {
     const stopWatchingLocation = () => {
         if ('geolocation' in navigator) {
             watchId && navigator.geolocation.clearWatch(watchId);
-            setLatLon(null);
-            setAddress(null);
             setIsWatching(false);
+            setWatchId(null);
         }
     };
 

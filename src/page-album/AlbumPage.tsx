@@ -24,6 +24,7 @@ export const AlbumPage: FC = () => {
 
     const [mapMode, setMapMode] = useState<boolean>(false);
     const [gpsEnabled, setGpsEnabled] = useState<boolean>(false);  // GPS is disabled at first
+    const [closestOrder, setClosestOrder] = useState<boolean>(false);
 
     const { latlon, isWatching } = useGPS(gpsEnabled);
 
@@ -47,10 +48,10 @@ export const AlbumPage: FC = () => {
         apiGetRecordCount()
             .then(cnt => {
                 setCount(cnt);
-                if (latlon == null) {
-                    return apiGetRecords(LIMIT, offset)
-                } else {
+                if (closestOrder && latlon) {
                     return apiGetRecordsOrderByDistance(latlon.latitude, latlon.longitude, LIMIT, offset)
+                } else {
+                    return apiGetRecords(LIMIT, offset)
                 }
             })
             .then(r => {
@@ -65,23 +66,44 @@ export const AlbumPage: FC = () => {
 
     // Initialization
     useEffect(() => {
-        if (!gpsEnabled) {
+        if (closestOrder) {
+            setGpsEnabled(true);
+        }
+        else {
             updateRecordTable();
         }
     }, []);
 
     useEffect(() => {
+        if (closestOrder) {
+            setGpsEnabled(true);
+        } else {
             updateRecordTable();
+        }
+    }, [offset]);
+
+    // GPS is disabled shortly after having fetched the first latlon data from GPS
+    useEffect(() => {
+        updateRecordTable();
+        setGpsEnabled(false);
     }, [isWatching]);
 
     useEffect(() => {
-        if (!gpsEnabled || (gpsEnabled && isWatching))
+        if (closestOrder) {
+            setGpsEnabled(true);
+        } else {
             updateRecordTable();
-    }, [offset]);
+        }
+    }, [closestOrder]);
 
     const toggleView = () => setMapMode(m => !m);
 
-    const toggleOrderByDistance = () => setGpsEnabled(o => !o);
+    const toggleClosestOrder = () => {
+        setClosestOrder(o => {
+            if (!o) setGpsEnabled(true);
+            return !o
+        });
+    }
 
     return (
         <>
@@ -89,15 +111,15 @@ export const AlbumPage: FC = () => {
                 id="navi-right"
                 onClick={toggleView}
                 style={{ fontSize: "2.2rem", top: "0.6rem" }}>
-                {!mapMode && <BiCard />}
-                {mapMode && <BiMapAlt />}
+                {!closestOrder && <BiCard />}
+                {closestOrder && <BiMapAlt />}
             </div>
             <div
                 id="navi-right2"
-                onClick={toggleOrderByDistance}
+                onClick={toggleClosestOrder}
                 style={{ fontSize: "2.2rem", top: "0.6rem" }}>
-                {!gpsEnabled && <BiSortDown />}
-                {gpsEnabled && <BiBullseye />}
+                {!closestOrder && <BiSortDown />}
+                {closestOrder && <BiBullseye />}
             </div>
 
             {showImage && id && <PopUpImage onPopUpClosed={() => setShowImage(false)} id={id} />}
@@ -108,7 +130,7 @@ export const AlbumPage: FC = () => {
                     records={records}
                     thumbnails={thumbnails}
                     updateRecordTable={updateRecordTable}
-                    openPhotoViewer={id => openPhotoViewer(id)} 
+                    openPhotoViewer={id => openPhotoViewer(id)}
                 />
             }
             {mapMode &&
@@ -116,12 +138,12 @@ export const AlbumPage: FC = () => {
                     records={records}
                     thumbnails={thumbnails}
                     latlon={latlon}
-                    zoom={11} 
+                    zoom={11}
                     openPhotoViewer={id => openPhotoViewer(id)}
                 />
             }
 
-            {!showPanorama && <AlbumFooter latlon={latlon} gpsEnabled={gpsEnabled} isWatching={isWatching} count={count} offset={offset} setOffset={setOffset} />}
+            {!showPanorama && <AlbumFooter latlon={latlon} closestOrder={closestOrder} isWatching={isWatching} count={count} offset={offset} setOffset={setOffset} />}
             {showPanorama && <CloseFooter onClose={onClosePanorama} />}
         </>
     );
