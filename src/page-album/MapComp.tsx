@@ -1,11 +1,10 @@
 import { LatLng, LatLngBounds, LatLngExpression } from "leaflet";
 import { FC, useEffect, useState } from "react";
-import { MapContainer, Marker, Popup } from "react-leaflet";
+import { icon } from "leaflet";
+import { MapContainer, Marker, Popup, useMap } from "react-leaflet";
 import { LatLon, RecordResponse } from "../api-myphotos/structure";
-import { useMap } from "react-leaflet";
 import { DEFAULT_LOCATION } from "../util/constants";
 import { toLocalTime } from "../util/convert";
-import { greenIcon } from "../util-leaflet/icons";
 import { Tiles } from "../util-leaflet/tiles";
 
 type MapCompProps = {
@@ -15,6 +14,11 @@ type MapCompProps = {
     latlon: LatLon | null;
     openPhotoViewer: (id: number) => void;
 }
+
+const centerIcon = icon({
+    iconUrl: require("./center.png"),
+    iconSize: [24, 24]
+});
 
 export const MapComp: FC<MapCompProps> = ({ records, thumbnails, latlon, zoom, openPhotoViewer }) => {
 
@@ -77,7 +81,7 @@ export const MapComp: FC<MapCompProps> = ({ records, thumbnails, latlon, zoom, o
                     </Marker>
                 ))}
                 {latlon &&
-                    <Marker position={[latlon.latitude, latlon.longitude]} icon={greenIcon} zIndexOffset={10}>
+                    <Marker position={[latlon.latitude, latlon.longitude]} icon={centerIcon} zIndexOffset={50}>
                         <Popup>
                             {latlon.latitude}, {latlon.longitude}
                         </Popup>
