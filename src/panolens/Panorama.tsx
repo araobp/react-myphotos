@@ -32,7 +32,7 @@ export const Panorama: FC<PanoramaProps> = ({ id }) => {
 
     return (
         <>
-            {showProgress && <PopUpMessage isAlert={false} message={'Downloading the image from the cloud...'} />}
+            {showProgress && <PopUpMessage isAlert={false} message={'Downloading image...'} />}
             <div id="panorama" style={{zIndex: 100}}/>
         </>
     );

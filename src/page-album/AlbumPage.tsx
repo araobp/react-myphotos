@@ -29,13 +29,12 @@ export const AlbumPage: FC = () => {
 
     const { latlon, isWatching } = useGPS(gpsEnabled);
 
-    const [showPopUp, setShowPopUp] = useState<boolean>(false);
+    const [showProgress, setShowProgress] = useState<boolean>(false);
 
     const openPhotoViewer = (id: number) => {
         setId(id);
         apiGetPhotoAttribute(id)
             .then(photoAttribute => {
-                console.log(photoAttribute);
                 if (photoAttribute.equirectangular) {
                     setShowPanorama(true);
                 } else {
@@ -48,7 +47,7 @@ export const AlbumPage: FC = () => {
     }
 
     const updateRecordTable = () => {
-        setShowPopUp(true);
+        setShowProgress(true);
         apiGetRecordCount()
             .then(cnt => {
                 setCount(cnt);
@@ -64,7 +63,7 @@ export const AlbumPage: FC = () => {
             })
             .then(t => setThumbnails(t))
             .catch(e => console.trace(e))
-            .finally(()=>setShowPopUp(false));
+            .finally(()=>setShowProgress(false));
     }
 
     const onClosePanorama = () => setShowPanorama(false);
@@ -112,7 +111,7 @@ export const AlbumPage: FC = () => {
 
     return (
         <>
-            {showPopUp && <PopUpMessage message="Downloading records..."/> }
+            {showProgress && <PopUpMessage message="Downloading records..."/> }
 
             <div
                 id="navi-right"
