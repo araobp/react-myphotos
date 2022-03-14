@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { LIMIT } from "../util/constants";
 import Modal from "react-modal";
 import '../App.css';
@@ -24,6 +24,8 @@ export const AlbumFooter: FC<AlbumFooterProps> = ({ latlon, gpsEnabled, isWatchi
     const [showIndex, setShowIndex] = useState<boolean>(false);
     const [index, setIndex] = useState<Array<RecordEveryNthResponse>>([]);
 
+    const ref = useRef<Array<HTMLDivElement | null>>([]);
+
     const updateIndex = () => {
         if (latlon == null) {
             apiGetRecordsEveryNth(LIMIT)
@@ -44,6 +46,12 @@ export const AlbumFooter: FC<AlbumFooterProps> = ({ latlon, gpsEnabled, isWatchi
     const jump = (idx: number) => {
         setOffset(idx * LIMIT);
         setShowIndex(false);
+    }
+
+    const scrollInto = () => {
+        console.log("current:" + ref.current);
+        const to = selectedPage <= 2 ? 0 : selectedPage - 2;
+        ref.current[to]?.scrollIntoView()
     }
 
     const onBackwardButtonClicked = () => {
@@ -74,9 +82,9 @@ export const AlbumFooter: FC<AlbumFooterProps> = ({ latlon, gpsEnabled, isWatchi
                 <div id="navi" style={{ position: "absolute", justifyContent: "center" }}>
                     <div id="navi-center">Index</div>
                 </div>
-                <div className="default-modal">
+                <div className="default-modal" onClick={e => scrollInto()}>
                     {index.map((r, idx) => (
-                        <div key={r.id} className="card">
+                        <div key={r.id} ref={el => ref.current[idx] = el} className="card">
                             {(selectedPage == idx + 1) ?
                                 <div style={{ width: "8%", color: "purple", fontWeight: "bold" }}>{idx + 1}</div>
                                 :
