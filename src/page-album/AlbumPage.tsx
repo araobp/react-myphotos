@@ -47,7 +47,7 @@ export const AlbumPage: FC = () => {
     }
 
     const updateRecordTable = () => {
-        console.log("[AlbumPage:updateRecord]");
+        //console.log("[AlbumPage:updateRecord]");
         setShowProgress(true);
         apiGetRecordCount()
             .then(cnt => {

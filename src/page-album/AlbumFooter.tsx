@@ -50,7 +50,7 @@ export const AlbumFooter: FC<AlbumFooterProps> = ({ latlon, closestOrder, isWatc
 
     const scrollInto = () => {
         const to = selectedPage <= 2 ? 0 : selectedPage - 2;
-        ref.current[to]?.scrollIntoView()
+        ref.current[to]?.scrollIntoView({ behavior: "smooth" })
     }
 
     const onBackwardButtonClicked = () => {
@@ -67,7 +67,7 @@ export const AlbumFooter: FC<AlbumFooterProps> = ({ latlon, closestOrder, isWatc
     useEffect(() => {
         if ((!closestOrder || isWatching) && count > 0) {
             updateIndex();
-            console.log("[AlbumFooter]", closestOrder, isWatching, count)
+            //console.log("[AlbumFooter]", closestOrder, isWatching, count)
         }
     }, [closestOrder, isWatching, count]);
 
@@ -110,4 +110,4 @@ export const AlbumFooter: FC<AlbumFooterProps> = ({ latlon, closestOrder, isWatc
             </div>
         </>
     );
-} ;
+};

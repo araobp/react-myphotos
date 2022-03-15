@@ -49,8 +49,6 @@ export const useGPS = (enabled: boolean) => {
         };
     }
 
-    useEffect(startAndStop, []);
-
     useEffect(startAndStop, [enabled]);
 
     return { latlon, address, isWatching };
