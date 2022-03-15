@@ -25,7 +25,7 @@ export const AlbumPage: FC = () => {
 
     const [mapMode, setMapMode] = useState<boolean>(false);
     const [gpsEnabled, setGpsEnabled] = useState<boolean>(false);  // GPS is disabled at first
-    const [closestOrder, setClosestOrder] = useState<boolean>(false);
+    const [closestOrder, setClosestOrder] = useState<boolean>(true);
 
     const { latlon, isWatching } = useGPS(gpsEnabled);
 
