@@ -1,6 +1,6 @@
 # MY PHOTOS ON REACT (SPA and PWA)
 
-This project is a master project of my "learning by doing" projects on web app:
+This "learning web app development by doing" project was created on Jan 17, 2022.
 
 - React (TypeScript): SPA and PWA
 - Spring Boot (Java): REST API server with PostgreSQL
