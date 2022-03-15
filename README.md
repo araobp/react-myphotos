@@ -2,8 +2,8 @@
 
 This "learning web app development by doing" project was created on Jan 17, 2022.
 
-- React (TypeScript): SPA and PWA
-- Spring Boot (Java): REST API server with PostgreSQL
+- [Frontend] I use React with TypeScript for developing SPA/PWA
+- [Backend] I use Spring Boot for developing REST API server with PostgreSQL
 
 ## SPA and PWA
 
