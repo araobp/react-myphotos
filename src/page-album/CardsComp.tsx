@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import Modal from 'react-modal';
-import { apiDeleteRecords, apiPutRecord } from "../api-myphotos/myphotos";
+import { apiDeleteRecords, apiPatchRecord } from "../api-myphotos/myphotos";
 import { LatLon, RecordResponse } from "../api-myphotos/structure";
 import { PopUpMap } from "../components-common/PopUpMap";
 import { PopUpConfirm } from "../components-common/PopUpMessage";
@@ -69,7 +69,7 @@ export const CardsComp: FC<CardsCompProps> = ({ records, thumbnails, updateRecor
         setShowInput(false);
         if (id != null) {
             setId(null);
-            apiPutRecord(id, place, memo)
+            apiPatchRecord(id, place, memo)
                 .then(_ => updateRecordTable())
                 .catch(e => console.log(e));
         }

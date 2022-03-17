@@ -48,7 +48,7 @@ export const apiPostRecord = async (place: string, memo: string, latlon: LatLon,
     }
 }
 
-export const apiPutRecord = async (id: number, place: string, memo: string): Promise<null> => {
+export const apiPatchRecord = async (id: number, place: string, memo: string): Promise<null> => {
     try {
         const headers = makeHeaders({ 'Content-Type': 'application/json' });
         const body = JSON.stringify({ place: place, memo: memo });
