@@ -66,6 +66,7 @@ export const CardsComp: FC<CardsCompProps> = ({ records, thumbnails, updateRecor
     }
 
     const updateRecord = () => {
+        console.log("PATCH")
         setShowInput(false);
         if (id != null) {
             setId(null);

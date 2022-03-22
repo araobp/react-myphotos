@@ -52,12 +52,12 @@ export const apiPatchRecord = async (id: number, place: string, memo: string): P
     try {
         const headers = makeHeaders({ 'Content-Type': 'application/json' });
         const body = JSON.stringify({ place: place, memo: memo });
-        const res = await fetch(`${baseURL}/record/${id}`, { method: "PUT", headers: headers, body: body });
+        const res = await fetch(`${baseURL}/record/${id}`, { method: "PATCH", headers: headers, body: body });
         if (res.status == 200) {
             return null;
         }
         else {
-            throw new Error('PUT record failed');
+            throw new Error('PATCH record failed');
         }
     } catch (e) {
         throw new Error(INTERNAL_ERROR);
