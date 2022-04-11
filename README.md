@@ -2,6 +2,7 @@
 
 This "learning web app development by doing" project was created on Jan 17, 2022.
 
+Basically, this is a street-view-like app based on React and Spring:
 - [Frontend] I use React with TypeScript for developing SPA/PWA
 - [Backend] I use Spring Boot for developing REST API server with PostgreSQL
 
