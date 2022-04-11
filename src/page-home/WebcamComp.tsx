@@ -34,18 +34,21 @@ export const WebcamComp: FC<WebcamCompProps> = ({ onPicTaken }) => {
         setTemporaryDataURI("");
         onPicTaken("");
     }
-    
+
     const closeImagePopUp = () => setImagePopUpIsOpen(false);
 
     return (
         <>
             {!imagePopUpIsOpen &&
-                <div className="center-img">
-                    <Camera isMaxResolution sizeFactor={RESOLUTION} onTakePhoto={(uri: any) => { handleTakePhoto(uri) }} imageType={IMAGE_TYPES.JPG}
-                        idealFacingMode={FACING_MODES.ENVIRONMENT} isImageMirror={false} />
-                </div>
+                <Camera isMaxResolution sizeFactor={RESOLUTION}
+                    onTakePhoto={(uri: any) => { handleTakePhoto(uri) }}
+                    imageType={IMAGE_TYPES.JPG}
+                    idealFacingMode={FACING_MODES.ENVIRONMENT}
+                    isImageMirror={false}
+                    isFullscreen={true}
+                />
             }
-            
+
             <Modal isOpen={imagePopUpIsOpen} className="center-img">
                 <div>
                     <img src={temporaryDataURI} style={{ width: "100vw", height: "80vh" }} />
