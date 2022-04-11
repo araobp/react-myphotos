@@ -20,6 +20,13 @@ This "learning web app development by doing" project was created on Jan 17, 2022
 
 <img src="./doc/home.png" width=200px>
 
+## Features
+
+- Camera: HTML5 webcam, mobile native camera and image file uploader
+- Photo album: closest order and datetime order
+- Location markers on Leaflet-based map 
+- 360 photo viewer supporting equirectangular images
+
 ## Architecture
 
 I have connected Heroku PaaS to both [react-myphotos](https://github.com/araobp/react-myphotos) and [spring-myphotos](https://github.com/araobp/spring-myphotos).
