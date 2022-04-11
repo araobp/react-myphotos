@@ -26,6 +26,7 @@ This "learning web app development by doing" project was created on Jan 17, 2022
 - Photo album: closest order and datetime order
 - Location markers on Leaflet-based map 
 - 360 photo viewer supporting equirectangular images
+- Extraction of datetime and location from JPEG EXIF (performed by the backend)
 
 ## Architecture
 
