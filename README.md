@@ -10,9 +10,15 @@ This "learning web app development by doing" project was created on Jan 17, 2022
 - This app runs on Windows, MacOS, Android and iOS.
 - This app is dependent on a REST API server in my other project [spring-myphotos](https://github.com/araobp/spring-myphotos).
 
-## Rough sketch of the app UI
+## UI design
 
-<img src="./doc/rough_sketch.jpg" width=300px>
+### Rough sketch of home screen
+
+<img src="./doc/rough_sketch.jpg" width=200px>
+
+### Implementation of the sketch
+
+<img src="./doc/home.png" width=200px>
 
 ## Architecture
 
