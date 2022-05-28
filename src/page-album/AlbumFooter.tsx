@@ -27,17 +27,17 @@ export const AlbumFooter: FC<AlbumFooterProps> = ({ latlon, closestOrder, isWatc
     const ref = useRef<Array<HTMLDivElement | null>>([]);
 
     const updateIndex = () => {
-        if (latlon == null) {
-            apiGetRecordsEveryNth(LIMIT)
+        if (closestOrder && latlon != null) {
+            apiGetRecordsEveryNthOrderByDistance(latlon.latitude, latlon.longitude, LIMIT)
                 .then(index => setIndex(index));
         } else {
-            apiGetRecordsEveryNthOrderByDistance(latlon.latitude, latlon.longitude, LIMIT)
+            apiGetRecordsEveryNth(LIMIT)
                 .then(index => setIndex(index));
         }
     }
 
     const onShowIndex = () => {
-        if (latlon != null) {
+        if (closestOrder && latlon != null) {
             updateIndex();
         }
         setShowIndex(true);
