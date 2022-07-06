@@ -9,7 +9,7 @@ const headers = {
 export const apiGetAddressByLocation = async (latitude: number, longitude: number) => {
     try {
         const res = await fetch(`${baseURL}/reverse?lat=${latitude}&lon=${longitude}&format=json`, { method: "GET", headers: headers });
-        if (res.status == 200) {
+        if (res.status === 200) {
             const reversegeocode = await res.json();
             const displayName: string = reversegeocode.display_name;
             const a = displayName.split(',').map(a => a.trim()).reverse();

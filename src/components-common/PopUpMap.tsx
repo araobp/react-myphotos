@@ -1,6 +1,6 @@
 import { FC } from "react";
 import Modal from "react-modal";
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import { MapContainer, Marker, Popup } from 'react-leaflet'
 //import "leaflet/dist/leaflet.css";
 
 import { LatLon } from "../api-myphotos/structure";

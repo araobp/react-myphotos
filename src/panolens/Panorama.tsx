@@ -5,18 +5,18 @@ import { PopUpMessage } from "../components-common/PopUpMessage";
 import { PANORAMA_FOV } from "../util/constants";
 
 export type PanoramaProps = {
-    id: number;
+    uuid: string;
 }
 
 // This function uses Panolens from https://pchen66.github.io/Panolens/
-export const Panorama: FC<PanoramaProps> = ({ id }) => {
+export const Panorama: FC<PanoramaProps> = ({ uuid }) => {
 
     const [showProgress, setShowProgress] = useState<boolean>(false);
     
     useEffect(() => {
         setShowProgress(true);
 
-        apiGetImage(id)
+        apiGetImage(uuid)
         .then(imageURL => {
             const panorama = new PANOLENS.ImagePanorama(imageURL);
             const viewer = new PANOLENS.Viewer({
@@ -28,7 +28,7 @@ export const Panorama: FC<PanoramaProps> = ({ id }) => {
         .catch(e => console.log(e))
         .finally(() => setShowProgress(false));
 
-    }, [id]);
+    }, [uuid]);
 
     return (
         <>

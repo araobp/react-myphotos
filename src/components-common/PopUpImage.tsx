@@ -7,17 +7,17 @@ import { modalBackgroundStyle } from "./styles";
 
 export type PopUpImageProps = {
     onPopUpClosed: () => void;
-    id: number
+    uuid: string
 }
 
-export const PopUpImage: FC<PopUpImageProps> = ({ onPopUpClosed, id}) => {
+export const PopUpImage: FC<PopUpImageProps> = ({ onPopUpClosed, uuid}) => {
 
     const [imageURL, setImageURL] = useState<string>();
     const [showProgress, setShowProgress] = useState<boolean>(false);
 
-    const getImage = (id: number) => {
+    const getImage = (uuid: string) => {
         setShowProgress(true);
-        apiGetImage(id)
+        apiGetImage(uuid)
             .then(objectURL => setImageURL(objectURL))
             .catch(e => console.log(e))
             .finally(() => setShowProgress(false));
@@ -29,14 +29,14 @@ export const PopUpImage: FC<PopUpImageProps> = ({ onPopUpClosed, id}) => {
 
     useEffect(() => {
         setImageURL("");
-        getImage(id);
-    }, [id]);
+        getImage(uuid);
+    }, [uuid]);
 
     return (
         <>
             {showProgress && <PopUpMessage message="Downloading image..." /> } 
             <Modal isOpen={true} className="center-img" style={modalBackgroundStyle}>
-                {imageURL && <img src={imageURL} onClick={() => closePopUp()} style={{ width: "100vw", height: "100vh" }} />}
+                {imageURL && <img alt="pop up" src={imageURL} onClick={() => closePopUp()} style={{ width: "100vw", height: "100vh" }} />}
             </Modal>
         </>
     );

@@ -12,7 +12,7 @@ type MapCompProps = {
     thumbnails: Map<string, string>;
     zoom: number;
     latlon: LatLon | null;
-    openPhotoViewer: (id: number) => void;
+    openPhotoViewer: (uuid: string) => void;
 }
 
 export const MapComp: FC<MapCompProps> = ({ records, thumbnails, latlon, zoom, openPhotoViewer }) => {
@@ -20,8 +20,8 @@ export const MapComp: FC<MapCompProps> = ({ records, thumbnails, latlon, zoom, o
     const [currentCenter, setCurrentCenter] = useState<LatLngExpression | null>(null);
 
     const onThumbnailClick = (r: RecordResponse) => {
-        setCurrentCenter([r.latitude, r.longitude]);
-        openPhotoViewer(r.id);
+        setCurrentCenter([r.geolocation__latitude__s, r.geolocation__longitude__s]);
+        openPhotoViewer(r.uuid);
     }
 
     const MapRefresh = () => {
@@ -42,8 +42,8 @@ export const MapComp: FC<MapCompProps> = ({ records, thumbnails, latlon, zoom, o
         let neLon = -180;
 
         records.forEach(r => {
-            const lat = r.latitude;
-            const lon = r.longitude;
+            const lat = r.geolocation__latitude__s;
+            const lon = r.geolocation__longitude__s;
             if (lat > neLat) neLat = lat;
             if (lon > neLon) neLon = lon;
             if (lat < swLat) swLat = lat;
@@ -63,14 +63,14 @@ export const MapComp: FC<MapCompProps> = ({ records, thumbnails, latlon, zoom, o
                 <MapRefresh />
                 <Tiles />
                 {records.map((r, _) => (
-                    <Marker key={r.id} position={[r.latitude, r.longitude]} >
+                    <Marker key={r.uuid} position={[r.geolocation__latitude__s, r.geolocation__longitude__s]} >
                         <Popup minWidth={128}>
                             <div>
-                                [{r.place}]<br />
-                                {toLocalTime(r.timestamp)}<br />
+                                [{r.name}]<br />
+                                {toLocalTime(r.timestamp__c)}<br />
                                 {r.distance && <>{r.distance.toFixed(2)} km<br /></>}
-                                {r.memo}<br />
-                                <img src={thumbnails.get(`id_${r.id}`)} onClick={e => onThumbnailClick(r)} />
+                                {r.memo__c}<br />
+                                <img alt="thumbnail" src={thumbnails.get(`uuid_${r.uuid}`)} onClick={e => onThumbnailClick(r)} />
                             </div>
                         </Popup>
                     </Marker>

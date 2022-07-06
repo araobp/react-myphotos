@@ -79,16 +79,16 @@ export const AlbumFooter: FC<AlbumFooterProps> = ({ latlon, closestOrder, isWatc
                 </div>
                 <div className="default-modal" onClick={e => scrollInto()}>
                     {index.map((r, idx) => (
-                        <div key={r.id} ref={el => ref.current[idx] = el} className="card">
-                            {(selectedPage == idx + 1) ?
+                        <div key={r.uuid} ref={el => ref.current[idx] = el} className="card">
+                            {(selectedPage === idx + 1) ?
                                 <div style={{ width: "8%", color: "purple", fontWeight: "bold" }}>{idx + 1}</div>
                                 :
                                 <div style={{ width: "8%", color: "gray" }}>{idx + 1}</div>
                             }
                             <div className="card-text">
-                                <div>Date: {toLocalTime(r.timestamp)}</div>
+                                <div>Date: {toLocalTime(r.timestamp__c)}</div>
                                 {r.distance && <div>Date: {r.distance.toFixed(2)} km</div>}
-                                <div>Place: {r.place}</div>
+                                <div>Place: {r.name}</div>
                             </div>
                             <div className="card-map">
                                 <button className="tiny-button-record" onClick={e => jump(idx)}>Jump</button>

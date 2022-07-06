@@ -1,4 +1,4 @@
-import { useState, useEffect, FC, useCallback } from "react";
+import { useState, useEffect, FC } from "react";
 
 import { RecordResponse } from "../api-myphotos/structure";
 import { PopUpImage } from "../components-common/PopUpImage";
@@ -19,7 +19,7 @@ export const AlbumPage: FC = () => {
     const [thumbnails, setThumbnails] = useState<Map<string, string>>(new Map<string, string>());
     const [showImage, setShowImage] = useState<boolean>(false);
     const [showPanorama, setShowPanorama] = useState<boolean>(false);
-    const [id, setId] = useState<number | null>(null);
+    const [uuid, setUuid] = useState<string | null>(null);
     const [offset, setOffset] = useState<number>(0);
     const [count, setCount] = useState<number>(0);
 
@@ -31,9 +31,9 @@ export const AlbumPage: FC = () => {
 
     const [showProgress, setShowProgress] = useState<boolean>(false);
 
-    const openPhotoViewer = (id: number) => {
-        setId(id);
-        apiGetPhotoAttribute(id)
+    const openPhotoViewer = (uuid: string) => {
+        setUuid(uuid);
+        apiGetPhotoAttribute(uuid)
             .then(photoAttribute => {
                 if (photoAttribute.equirectangular) {
                     setShowPanorama(true);
@@ -118,15 +118,15 @@ export const AlbumPage: FC = () => {
                 {closestOrder && <BiBullseye />}
             </div>
 
-            {showImage && id && <PopUpImage onPopUpClosed={() => setShowImage(false)} id={id} />}
-            {showPanorama && id && <Panorama id={id} />}
+            {showImage && uuid && <PopUpImage onPopUpClosed={() => setShowImage(false)} uuid={uuid} />}
+            {showPanorama && uuid && <Panorama uuid={uuid} />}
 
             {!mapMode &&
                 <CardsComp
                     records={records}
                     thumbnails={thumbnails}
                     updateRecordTable={updateRecordTable}
-                    openPhotoViewer={id => openPhotoViewer(id)}
+                    openPhotoViewer={uuid => openPhotoViewer(uuid)}
                 />
             }
             {mapMode &&
@@ -135,7 +135,7 @@ export const AlbumPage: FC = () => {
                     thumbnails={thumbnails}
                     latlon={latlon}
                     zoom={11}
-                    openPhotoViewer={id => openPhotoViewer(id)}
+                    openPhotoViewer={uuid => openPhotoViewer(uuid)}
                 />
             }
 

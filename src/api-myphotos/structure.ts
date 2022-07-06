@@ -5,47 +5,33 @@ export type LatLon = {
 
 /***  Data structures for the REST API ***/
 export type RecordRequest = {
-    place: string;
-    memo: string;
-    latitude: number;
-    longitude: number;
-    address: string;
+    name: string;
+    memo__c: string;
+    geolocation__latitude__s: number;
+    geolocation__longitude__s: number;
+    address__c: string;
 }
 
 export type RecordResponse = {
-    id: number;
-    timestamp: string;
-    place: string;
-    memo: string;
-    latitude: number;
-    longitude: number;
-    address: string;
+    uuid: string;
+    timestamp__c: string;
+    name: string;
+    memo__c: string;
+    geolocation__latitude__s: number;
+    geolocation__longitude__s: number;
+    address__c: string;
     distance: number;
 }
 
 export type RecordEveryNthResponse = {
-    id: number;
-    timestamp: string;
-    place: string;
+    uuid: string;
+    timestamp__c: string;
+    name: string;
     distance: number;
 }
 
-export type Id = {
-    id: number
-}
-
-export type GpsLogRequest = {
-    latitude: number;
-    longitude: number;
-    session: number | null;
-}
-
-export type GpsLogResponse = {
-    id: number;
-    datetime: string;
-    latitude: number;
-    longitude: number;
-    session: number
+export type Uuid = {
+    uuid: string
 }
 
 export type PhotoAttribute = {

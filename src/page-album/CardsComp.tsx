@@ -12,18 +12,18 @@ export type CardsCompProps = {
     records: Array<RecordResponse>;
     thumbnails: Map<string, string>;
     updateRecordTable: () => void;
-    openPhotoViewer: (id: number) => void;
+    openPhotoViewer: (uuid: string) => void;
 }
 
 export const CardsComp: FC<CardsCompProps> = ({ records, thumbnails, updateRecordTable, openPhotoViewer }) => {
 
-    const [id, setId] = useState<number | null>(null);
+    const [uuid, setUuid] = useState<string | null>(null);
     const [showMap, setShowMap] = useState<boolean>(false);
     const [location, setLocation] = useState<LatLon>({ latitude: 0.0, longitude: 0.0 });
-    const [checkedRecords, setCheckedRecords] = useState<Array<number>>([]);
+    const [checkedRecords, setCheckedRecords] = useState<Array<string>>([]);
     const [showConfirm, setShowConfirm] = useState<boolean>(false);
     const [showInput, setShowInput] = useState<boolean>(false);
-    const [place, setPlace] = useState<string>("");
+    const [name, setName] = useState<string>("");
     const [memo, setMemo] = useState<string>("");
     const [keyword, setKeyword] = useState<string>("");
 
@@ -32,10 +32,10 @@ export const CardsComp: FC<CardsCompProps> = ({ records, thumbnails, updateRecor
         setShowMap(true);
     }
 
-    const handleCheckedRecord = (id: number, isChecked: boolean) => {
-        const index = checkedRecords.indexOf(id);
-        if (index == -1 && isChecked) {
-            checkedRecords.push(id);
+    const handleCheckedRecord = (uuid: string, isChecked: boolean) => {
+        const index = checkedRecords.indexOf(uuid);
+        if (index === -1 && isChecked) {
+            checkedRecords.push(uuid);
         } else if (index !== -1 && !isChecked) {
             checkedRecords.splice(index, 1);
         }
@@ -59,18 +59,18 @@ export const CardsComp: FC<CardsCompProps> = ({ records, thumbnails, updateRecor
     /*** Edit ***/
 
     const handleOnClick = (r: RecordResponse) => {
-        setId(r.id);
-        setPlace(r.place);
-        setMemo(r.memo);
+        setUuid(r.uuid);
+        setName(r.name);
+        setMemo(r.memo__c);
         setShowInput(true);
     }
 
     const updateRecord = () => {
         console.log("PATCH")
         setShowInput(false);
-        if (id != null) {
-            setId(null);
-            apiPatchRecord(id, place, memo)
+        if (uuid != null) {
+            setUuid(null);
+            apiPatchRecord(uuid, name, memo)
                 .then(_ => updateRecordTable())
                 .catch(e => console.log(e));
         }
@@ -83,7 +83,7 @@ export const CardsComp: FC<CardsCompProps> = ({ records, thumbnails, updateRecor
 
                     <Modal isOpen={showInput} className="center" style={modalBackgroundStyle}>
                         <div className="popup">
-                            <RecordForm place={place} setPlace={setPlace} memo={memo} setMemo={setMemo} />
+                            <RecordForm place={name} setName={setName} memo={memo} setMemo={setMemo} />
                             <div className="row">
                                 <button className="small-button" onClick={e => updateRecord()}>Done</button>
                                 <button className="small-button-cancel" onClick={e => setShowInput(false)}>Cancel</button>
@@ -115,20 +115,20 @@ export const CardsComp: FC<CardsCompProps> = ({ records, thumbnails, updateRecor
 
                         <div>
                             {records
-                                .filter(r => r.place.includes(keyword) || r.memo.includes(keyword))
+                                .filter(r => r.name.includes(keyword) || r.memo__c.includes(keyword))
                                 .map((r, _) => (
-                                    <div key={r.id} className="card">
-                                        <input className="card-checkbox" type="checkbox" defaultChecked={r.id && (checkedRecords.indexOf(r.id) == -1) ? false : true} onChange={(e) => handleCheckedRecord(r.id, e.target.checked)} />
-                                        <img className="card-img" src={thumbnails.get(`id_${r.id}`)} onClick={() => openPhotoViewer(r.id)} />
+                                    <div key={r.uuid} className="card">
+                                        <input className="card-checkbox" type="checkbox" defaultChecked={r.uuid && (checkedRecords.indexOf(r.uuid) === -1) ? false : true} onChange={(e) => handleCheckedRecord(r.uuid, e.target.checked)} />
+                                        <img alt="thumbnail" className="card-img" src={thumbnails.get(`id_${r.uuid}`)} onClick={() => openPhotoViewer(r.uuid)} />
                                         <div className="card-text">
-                                            <div>Date: {toLocalTime(r.timestamp)}</div>
-                                            <div>Address: {r.address}</div>
-                                            <div>Place: {r.place}</div>
+                                            <div>Date: {toLocalTime(r.timestamp__c)}</div>
+                                            <div>Address: {r.address__c}</div>
+                                            <div>Place: {r.name}</div>
                                             {r.distance && <div>Distance: {r.distance.toFixed(2)} km</div>}
-                                            <div>Memo: {r.memo}</div>
+                                            <div>Memo: {r.memo__c}</div>
                                         </div>
                                         <div className="card-map">
-                                            <button className="tiny-button-record" onClick={e => openMap(r.latitude, r.longitude)}>Map</button>
+                                            <button className="tiny-button-record" onClick={e => openMap(r.geolocation__latitude__s, r.geolocation__longitude__s)}>Map</button>
                                             <button className="tiny-button-record" style={{ marginTop: "10px" }} onClick={e => handleOnClick(r)}>Edit</button>
                                         </div>
                                     </div>

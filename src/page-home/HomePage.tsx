@@ -91,7 +91,7 @@ export const HomePage: FC = () => {
 
                         <hr />
 
-                        <RecordForm place={place} setPlace={setPlace} memo={memo} setMemo={setMemo} />
+                        <RecordForm place={place} setName={setPlace} memo={memo} setMemo={setMemo} />
 
                         {/*  Show a captured image */}
                         <div>

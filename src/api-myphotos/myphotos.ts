@@ -12,7 +12,7 @@ export enum FetchDirection {
 
 export const apiPostRecord = async (place: string, memo: string, latlon: LatLon, address: string, dataURI: string): Promise<null> => {
     try {
-        const record: RecordRequest = { place: place, memo: memo, latitude: latlon.latitude, longitude: latlon.longitude, address: address };
+        const record: RecordRequest = { name: place, memo__c: memo, geolocation__latitude__s: latlon.latitude, geolocation__longitude__s: latlon.longitude, address__c: address };
         const body = JSON.stringify(record);
         console.log(body);
         const headers = makeHeaders(
@@ -22,10 +22,10 @@ export const apiPostRecord = async (place: string, memo: string, latlon: LatLon,
             }
         );
         const res = await fetch(`${baseURL}/record`, { method: "POST", headers: headers, body: body })
-        if (res.status != 200) throw { success: false, reason: 'POST /record failed' };
+        if (res.status !== 200) throw { success: false, reason: 'POST /record failed' };
 
         const data = await res.json();
-        const id = data.id;
+        const uuid = data.uuid;
         const headers2 = makeHeaders(
             {
                 'Accept': 'application/json',
@@ -34,10 +34,10 @@ export const apiPostRecord = async (place: string, memo: string, latlon: LatLon,
         );
         const blob = await dataURItoBlob(dataURI);
         const res2 = await fetch(
-            `${baseURL}/photo/${id}`,
+            `${baseURL}/photo/${uuid}`,
             { method: "POST", headers: headers2, body: blob }
         )
-        if (res2.status == 200) {
+        if (res2.status === 200) {
             return null;
         }
         else {
@@ -48,12 +48,12 @@ export const apiPostRecord = async (place: string, memo: string, latlon: LatLon,
     }
 }
 
-export const apiPatchRecord = async (id: number, place: string, memo: string): Promise<null> => {
+export const apiPatchRecord = async (uuid: string, place: string, memo: string): Promise<null> => {
     try {
         const headers = makeHeaders({ 'Content-Type': 'application/json' });
         const body = JSON.stringify({ place: place, memo: memo });
-        const res = await fetch(`${baseURL}/record/${id}`, { method: "PATCH", headers: headers, body: body });
-        if (res.status == 200) {
+        const res = await fetch(`${baseURL}/record/${uuid}`, { method: "PATCH", headers: headers, body: body });
+        if (res.status === 200) {
             return null;
         }
         else {
@@ -68,7 +68,7 @@ export const apiGetRecords = async (limit: number, offset: number): Promise<Arra
     const headers = makeHeaders({ 'Accept': 'application/json' });
     try {
         const res = await fetch(`${baseURL}/record?limit=${limit}&offset=${offset}`, { method: "GET", headers: headers });
-        if (res.status == 200) {
+        if (res.status === 200) {
             const records = await res.json();
             return records;
         } else {
@@ -83,7 +83,7 @@ export const apiGetRecordsOrderByDistance = async (latitude: number, longitude: 
     const headers = makeHeaders({ 'Accept': 'application/json' });
     try {
         const res = await fetch(`${baseURL}/record?latitude=${latitude}&longitude=${longitude}&limit=${limit}&offset=${offset}`, { method: "GET", headers: headers });
-        if (res.status == 200) {
+        if (res.status === 200) {
             const records = await res.json();
             return records;
         } else {
@@ -94,10 +94,10 @@ export const apiGetRecordsOrderByDistance = async (latitude: number, longitude: 
     }
 }
 
-export const apiGetPhotoAttribute = async (id: number): Promise<PhotoAttribute> => {
+export const apiGetPhotoAttribute = async (uuid: string): Promise<PhotoAttribute> => {
     try {
-        const res = await fetch(`${baseURL}/photo/${id}/attribute`, { method: "GET", headers: ACCEPT_APPLICATION_JSON });
-        if (res.status == 200) {
+        const res = await fetch(`${baseURL}/photo/${uuid}/attribute`, { method: "GET", headers: ACCEPT_APPLICATION_JSON });
+        if (res.status === 200) {
             return await res.json();
         } else {
             throw new Error('GET photo attribute failed');
@@ -112,11 +112,11 @@ export const apiGetThumbnails = async (rec: Array<RecordResponse>): Promise<Map<
         const thumbnails = new Map<string, string>();
         let success: boolean = false;
         await Promise.all(rec.map(async (r: RecordResponse) => {
-            if (r.id) {
-                const res = await fetch(`${baseURL}/photo/${r.id}/thumbnail`, { method: "GET", headers: ACCEPT_OCTET_STREAM });
+            if (r.uuid) {
+                const res = await fetch(`${baseURL}/photo/${r.uuid}/thumbnail`, { method: "GET", headers: ACCEPT_OCTET_STREAM });
                 const data = await res.blob();
-                thumbnails.set(`id_${r.id}`, URL.createObjectURL(data));
-                success = (res.status == 200);
+                thumbnails.set(`uuid_${r.uuid}`, URL.createObjectURL(data));
+                success = (res.status === 200);
             }
         }));
         if (success) {
@@ -130,10 +130,10 @@ export const apiGetThumbnails = async (rec: Array<RecordResponse>): Promise<Map<
     }
 }
 
-export const apiGetImage = async (id: number): Promise<string> => {
+export const apiGetImage = async (uuid: string): Promise<string> => {
     try {
-        const res = await fetch(`${baseURL}/photo/${id}/image`, { method: "GET", headers: ACCEPT_OCTET_STREAM });
-        if (res.status == 200) {
+        const res = await fetch(`${baseURL}/photo/${uuid}/image`, { method: "GET", headers: ACCEPT_OCTET_STREAM });
+        if (res.status === 200) {
             const data = await res.blob();
             const objectURL = URL.createObjectURL(data);
             return objectURL;
@@ -145,13 +145,13 @@ export const apiGetImage = async (id: number): Promise<string> => {
     }
 }
 
-export const apiDeleteRecords = async (checkedRecords: number[]): Promise<null> => {
+export const apiDeleteRecords = async (checkedRecords: string[]): Promise<null> => {
     let success = true;
     try {
-        await Promise.all(checkedRecords.map(async id => {
-            const res = await fetch(`${baseURL}/record/${id}`, { method: "DELETE", headers: ACCEPT_APPLICATION_JSON });
+        await Promise.all(checkedRecords.map(async uuid => {
+            const res = await fetch(`${baseURL}/record/${uuid}`, { method: "DELETE", headers: ACCEPT_APPLICATION_JSON });
             console.log(`status: ${res.status}`);
-            if (res.status != 200) success = false;
+            if (res.status !== 200) success = false;
         }));
         if (success) {
             return null;
@@ -166,7 +166,7 @@ export const apiDeleteRecords = async (checkedRecords: number[]): Promise<null> 
 export const apiGetRecordCount = async (): Promise<number> => {
     try {
         const res = await fetch(`${baseURL}/management/record/count`, { method: "GET", headers: ACCEPT_APPLICATION_JSON });
-        if (res.status == 200) {
+        if (res.status === 200) {
             const data = await res.json();
             return data.count;
         } else {
@@ -181,7 +181,7 @@ export const apiGetRecordsEveryNth = async (limit: number): Promise<Array<Record
     const headers = makeHeaders({ 'Accept': 'application/json' });
     try {
         const res = await fetch(`${baseURL}/management/record/everynth?limit=${limit}`, { method: "GET", headers: headers });
-        if (res.status == 200) {
+        if (res.status === 200) {
             const records = await res.json();
             return records;
         } else {
@@ -196,7 +196,7 @@ export const apiGetRecordsEveryNthOrderByDistance = async (latitude: number, lon
     const headers = makeHeaders({ 'Accept': 'application/json' });
     try {
         const res = await fetch(`${baseURL}/management/record/everynth?latitude=${latitude}&longitude=${longitude}&limit=${limit}`, { method: "GET", headers: headers });
-        if (res.status == 200) {
+        if (res.status === 200) {
             const records = await res.json();
             return records;
         } else {

@@ -3,12 +3,12 @@ import './recordform.css';
 
 type FormProps = {
     place: string;
-    setPlace: (place: string) => void;
+    setName: (place: string) => void;
     memo: string;
     setMemo: (memo: string) => void;
 }
 
-export const RecordForm: FC<FormProps> = ({ place, setPlace, memo, setMemo }) => {
+export const RecordForm: FC<FormProps> = ({ place, setName: setPlace, memo, setMemo }) => {
     return (
         <>
             <div id="place">
