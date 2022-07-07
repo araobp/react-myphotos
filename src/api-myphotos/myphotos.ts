@@ -1,7 +1,7 @@
 import { baseURL } from "./myphotosAuth";
 import { PhotoAttribute, RecordEveryNthResponse, RecordResponse } from "./structure";
 
-import { dataURItoBlob } from "../util/convert";
+import { dataURItoBlob, TIMEZONE_OFFSET } from "../util/convert";
 import { RecordRequest, LatLon } from "./structure";
 import { ACCEPT_APPLICATION_JSON, ACCEPT_OCTET_STREAM, INTERNAL_ERROR, makeHeaders } from "./common";
 
@@ -21,7 +21,7 @@ export const apiPostRecord = async (place: string, memo: string, latlon: LatLon,
                 'Content-Type': 'application/json'
             }
         );
-        const res = await fetch(`${baseURL}/record`, { method: "POST", headers: headers, body: body })
+        const res = await fetch(`${baseURL}/record?timezone=${TIMEZONE_OFFSET}`, { method: "POST", headers: headers, body: body })
         if (res.status !== 200) throw { success: false, reason: 'POST /record failed' };
 
         const data = await res.json();
@@ -34,7 +34,7 @@ export const apiPostRecord = async (place: string, memo: string, latlon: LatLon,
         );
         const blob = await dataURItoBlob(dataURI);
         const res2 = await fetch(
-            `${baseURL}/photo/${uuid}`,
+            `${baseURL}/photo/${uuid}?timezone=${TIMEZONE_OFFSET}`,
             { method: "POST", headers: headers2, body: blob }
         )
         if (res2.status === 200) {

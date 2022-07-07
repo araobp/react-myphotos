@@ -4,5 +4,11 @@ export const dataURItoBlob = async (dataURI: string) => {
 
 export const BlobToDataURI = (blob: Blob) => URL.createObjectURL(blob);
 
-// Convert UTC to Japan local time
-export const toLocalTime = (utc: string) => new Date(utc).toLocaleString('ja-JP');
+export const LOCALE = 'ja-JP';
+export const TIMEZONE_OFFSET = new Date().getTimezoneOffset()/60;
+
+export const toLocalTime = (utcWithoutTZ: string) => {
+    const date = new Date(utcWithoutTZ);
+    date.setHours(date.getHours() - TIMEZONE_OFFSET);
+    return date.toLocaleString(LOCALE);
+}
