@@ -1,5 +1,5 @@
 import { baseURL } from "./myphotosAuth";
-import { PhotoAttribute, RecordEveryNthResponse, RecordResponse } from "./structure";
+import { PhotoAttribute, RecordEveryNthResponse, RecordPatchRequest, RecordResponse } from "./structure";
 
 import { dataURItoBlob, TIMEZONE_OFFSET } from "../util/convert";
 import { RecordRequest, LatLon } from "./structure";
@@ -10,9 +10,9 @@ export enum FetchDirection {
     NEXT = "next"
 }
 
-export const apiPostRecord = async (place: string, memo: string, latlon: LatLon, address: string, dataURI: string): Promise<null> => {
+export const apiPostRecord = async (name: string, memo: string, latlon: LatLon, address: string, dataURI: string): Promise<null> => {
     try {
-        const record: RecordRequest = { name: place, memo__c: memo, geolocation__latitude__s: latlon.latitude, geolocation__longitude__s: latlon.longitude, address__c: address };
+        const record: RecordRequest = { name: name, memo__c: memo, geolocation__latitude__s: latlon.latitude, geolocation__longitude__s: latlon.longitude, address__c: address };
         const body = JSON.stringify(record);
         console.log(body);
         const headers = makeHeaders(
@@ -48,10 +48,11 @@ export const apiPostRecord = async (place: string, memo: string, latlon: LatLon,
     }
 }
 
-export const apiPatchRecord = async (uuid: string, place: string, memo: string): Promise<null> => {
+export const apiPatchRecord = async (uuid: string, name: string, memo: string): Promise<null> => {
     try {
         const headers = makeHeaders({ 'Content-Type': 'application/json' });
-        const body = JSON.stringify({ place: place, memo: memo });
+        const req: RecordPatchRequest = { name: name, memo__c: memo };
+        const body = JSON.stringify(req);
         const res = await fetch(`${baseURL}/record/${uuid}`, { method: "PATCH", headers: headers, body: body });
         if (res.status === 200) {
             return null;
@@ -112,10 +113,10 @@ export const apiGetThumbnails = async (rec: Array<RecordResponse>): Promise<Map<
         const thumbnails = new Map<string, string>();
         let success: boolean = false;
         await Promise.all(rec.map(async (r: RecordResponse) => {
-            if (r.uuid) {
-                const res = await fetch(`${baseURL}/photo/${r.uuid}/thumbnail`, { method: "GET", headers: ACCEPT_OCTET_STREAM });
+            if (r.uuid__c) {
+                const res = await fetch(`${baseURL}/photo/${r.uuid__c}/thumbnail`, { method: "GET", headers: ACCEPT_OCTET_STREAM });
                 const data = await res.blob();
-                thumbnails.set(`uuid_${r.uuid}`, URL.createObjectURL(data));
+                thumbnails.set(`uuid_${r.uuid__c}`, URL.createObjectURL(data));
                 success = (res.status === 200);
             }
         }));

@@ -21,7 +21,7 @@ export const MapComp: FC<MapCompProps> = ({ records, thumbnails, latlon, zoom, o
 
     const onThumbnailClick = (r: RecordResponse) => {
         setCurrentCenter([r.geolocation__latitude__s, r.geolocation__longitude__s]);
-        openPhotoViewer(r.uuid);
+        openPhotoViewer(r.uuid__c);
     }
 
     const MapRefresh = () => {
@@ -63,14 +63,14 @@ export const MapComp: FC<MapCompProps> = ({ records, thumbnails, latlon, zoom, o
                 <MapRefresh />
                 <Tiles />
                 {records.map((r, _) => (
-                    <Marker key={r.uuid} position={[r.geolocation__latitude__s, r.geolocation__longitude__s]} >
+                    <Marker key={r.uuid__c} position={[r.geolocation__latitude__s, r.geolocation__longitude__s]} >
                         <Popup minWidth={128}>
                             <div>
                                 [{r.name}]<br />
                                 {toLocalTime(r.timestamp__c)}<br />
                                 {r.distance && <>{r.distance.toFixed(2)} km<br /></>}
                                 {r.memo__c}<br />
-                                <img alt="thumbnail" src={thumbnails.get(`uuid_${r.uuid}`)} onClick={e => onThumbnailClick(r)} />
+                                <img alt="thumbnail" src={thumbnails.get(`uuid_${r.uuid__c}`)} onClick={e => onThumbnailClick(r)} />
                             </div>
                         </Popup>
                     </Marker>

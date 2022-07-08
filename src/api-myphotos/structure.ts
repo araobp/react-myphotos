@@ -13,7 +13,7 @@ export type RecordRequest = {
 }
 
 export type RecordResponse = {
-    uuid: string;
+    uuid__c: string;
     timestamp__c: string;
     name: string;
     memo__c: string;
@@ -21,6 +21,11 @@ export type RecordResponse = {
     geolocation__longitude__s: number;
     address__c: string;
     distance: number;
+}
+
+export type RecordPatchRequest = {
+    name: string,
+    memo__c: string
 }
 
 export type RecordEveryNthResponse = {

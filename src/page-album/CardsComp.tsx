@@ -59,20 +59,20 @@ export const CardsComp: FC<CardsCompProps> = ({ records, thumbnails, updateRecor
     /*** Edit ***/
 
     const handleOnClick = (r: RecordResponse) => {
-        setUuid(r.uuid);
+        setUuid(r.uuid__c);
         setName(r.name);
         setMemo(r.memo__c);
         setShowInput(true);
     }
 
     const updateRecord = () => {
-        console.log("PATCH")
+        //console.log("PATCH")
         setShowInput(false);
         if (uuid != null) {
-            setUuid(null);
             apiPatchRecord(uuid, name, memo)
                 .then(_ => updateRecordTable())
-                .catch(e => console.log(e));
+                .catch(e => console.log(e))
+                .finally(()=>setUuid(null));
         }
     }
 
@@ -83,7 +83,7 @@ export const CardsComp: FC<CardsCompProps> = ({ records, thumbnails, updateRecor
 
                     <Modal isOpen={showInput} className="center" style={modalBackgroundStyle}>
                         <div className="popup">
-                            <RecordForm place={name} setName={setName} memo={memo} setMemo={setMemo} />
+                            <RecordForm name={name} setName={setName} memo={memo} setMemo={setMemo} />
                             <div className="row">
                                 <button className="small-button" onClick={e => updateRecord()}>Done</button>
                                 <button className="small-button-cancel" onClick={e => setShowInput(false)}>Cancel</button>
@@ -117,13 +117,13 @@ export const CardsComp: FC<CardsCompProps> = ({ records, thumbnails, updateRecor
                             {records
                                 .filter(r => r.name.includes(keyword) || r.memo__c.includes(keyword))
                                 .map((r, _) => (
-                                    <div key={r.uuid} className="card">
-                                        <input className="card-checkbox" type="checkbox" defaultChecked={r.uuid && (checkedRecords.indexOf(r.uuid) === -1) ? false : true} onChange={(e) => handleCheckedRecord(r.uuid, e.target.checked)} />
-                                        <img alt="thumbnail" className="card-img" src={thumbnails.get(`id_${r.uuid}`)} onClick={() => openPhotoViewer(r.uuid)} />
+                                    <div key={r.uuid__c} className="card">
+                                        <input className="card-checkbox" type="checkbox" defaultChecked={r.uuid__c && (checkedRecords.indexOf(r.uuid__c) === -1) ? false : true} onChange={(e) => handleCheckedRecord(r.uuid__c, e.target.checked)} />
+                                        <img alt="thumbnail" className="card-img" src={thumbnails.get(`id_${r.uuid__c}`)} onClick={() => openPhotoViewer(r.uuid__c)} />
                                         <div className="card-text">
                                             <div>Date: {toLocalTime(r.timestamp__c)}</div>
                                             <div>Address: {r.address__c}</div>
-                                            <div>Place: {r.name}</div>
+                                            <div>Name: {r.name}</div>
                                             {r.distance && <div>Distance: {r.distance.toFixed(2)} km</div>}
                                             <div>Memo: {r.memo__c}</div>
                                         </div>

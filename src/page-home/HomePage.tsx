@@ -18,7 +18,7 @@ export const HomePage: FC = () => {
     const [picLatlon, setPicLatlon] = useState<LatLon>({ latitude: 0.0, longitude: 0.0 });
     const [picAddress, setPicAddress] = useState<string>("");
     const { latlon, address } = useGPS(true);
-    const [place, setPlace] = useState<string>(localStorage.getItem("place") || "");
+    const [name, setName] = useState<string>(localStorage.getItem("name") || "");
     const [memo, setMemo] = useState<string>(localStorage.getItem("memo") || "");
     const [launchMobileCamera, setLaunchMobileCamera] = useState<boolean>(false);
     const [launchWebcam, setLaunchWebcam] = useState<boolean>(false);
@@ -32,7 +32,7 @@ export const HomePage: FC = () => {
     const onCameraButtonClicked = () => setLaunchMobileCamera(true);
 
     const clearInputFields = () => {
-        setPlace("");
+        setName("");
         setMemo("");
         setImageURL(null);
     }
@@ -61,10 +61,10 @@ export const HomePage: FC = () => {
             setShowProgress(true);
 
             // Save parameters
-            localStorage.setItem("place", place);
+            localStorage.setItem("name", name);
             localStorage.setItem("memo", memo);
 
-            await apiPostRecord(place, memo, picLatlon, picAddress, imageURL);
+            await apiPostRecord(name, memo, picLatlon, picAddress, imageURL);
             setShowProgress(false);
         } else {
             setShowReject(true);
@@ -91,7 +91,7 @@ export const HomePage: FC = () => {
 
                         <hr />
 
-                        <RecordForm place={place} setName={setPlace} memo={memo} setMemo={setMemo} />
+                        <RecordForm name={name} setName={setName} memo={memo} setMemo={setMemo} />
 
                         {/*  Show a captured image */}
                         <div>

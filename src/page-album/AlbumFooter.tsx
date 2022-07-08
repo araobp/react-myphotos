@@ -88,7 +88,7 @@ export const AlbumFooter: FC<AlbumFooterProps> = ({ latlon, closestOrder, isWatc
                             <div className="card-text">
                                 <div>Date: {toLocalTime(r.timestamp__c)}</div>
                                 {r.distance && <div>Date: {r.distance.toFixed(2)} km</div>}
-                                <div>Place: {r.name}</div>
+                                <div>Name: {r.name}</div>
                             </div>
                             <div className="card-map">
                                 <button className="tiny-button-record" onClick={e => jump(idx)}>Jump</button>

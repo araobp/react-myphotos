@@ -2,23 +2,23 @@ import { FC } from "react";
 import './recordform.css';
 
 type FormProps = {
-    place: string;
-    setName: (place: string) => void;
+    name: string;
+    setName: (name: string) => void;
     memo: string;
     setMemo: (memo: string) => void;
 }
 
-export const RecordForm: FC<FormProps> = ({ place, setName: setPlace, memo, setMemo }) => {
+export const RecordForm: FC<FormProps> = ({ name, setName, memo, setMemo }) => {
     return (
         <>
-            <div id="place">
-                <div>Place:</div>
+            <div id="name">
+                <div>Name:</div>
                     <input
-                        id="place-input"
+                        id="name-input"
                         type="text"
-                        name="place"
-                        value={place}
-                        onChange={e => setPlace(e.target.value)}
+                        name="name"
+                        value={name}
+                        onChange={e => setName(e.target.value)}
                     />
                 
             </div>
