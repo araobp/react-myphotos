@@ -66,7 +66,6 @@ export const CardsComp: FC<CardsCompProps> = ({ records, thumbnails, updateRecor
     }
 
     const updateRecord = () => {
-        //console.log("PATCH")
         setShowInput(false);
         if (uuid != null) {
             apiPatchRecord(uuid, name, memo)
@@ -119,7 +118,7 @@ export const CardsComp: FC<CardsCompProps> = ({ records, thumbnails, updateRecor
                                 .map((r, _) => (
                                     <div key={r.uuid__c} className="card">
                                         <input className="card-checkbox" type="checkbox" defaultChecked={r.uuid__c && (checkedRecords.indexOf(r.uuid__c) === -1) ? false : true} onChange={(e) => handleCheckedRecord(r.uuid__c, e.target.checked)} />
-                                        <img alt="thumbnail" className="card-img" src={thumbnails.get(`id_${r.uuid__c}`)} onClick={() => openPhotoViewer(r.uuid__c)} />
+                                        <img alt="thumbnail" className="card-img" src={thumbnails.get(`uuid_${r.uuid__c}`)} onClick={() => openPhotoViewer(r.uuid__c)} />
                                         <div className="card-text">
                                             <div>Date: {toLocalTime(r.timestamp__c)}</div>
                                             <div>Address: {r.address__c}</div>
